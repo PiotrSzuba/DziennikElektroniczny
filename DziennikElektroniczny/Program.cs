@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DziennikElektroniczny.Constants;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DziennikElektroniczny
 {
@@ -13,7 +15,37 @@ namespace DziennikElektroniczny
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                try
+                {
+                    DefaultPersonalInfo.Initialize(services);
+                    DefaultPersons.Initialize(services);
+                    DefaultNotes.Initialize(services);
+                    DefaultMessageContents.Initialize(services);
+                    DefaultMessages.Initialize(services);
+                    DefaultClassrooms.Initialize(services);
+                    DefaultSubjectInfos.Initialize(services);
+                    DefaultStudentGroups.Initialize(services);
+                    DefaultSubjects.Initialize(services);
+                    DefaultGrades.Initialize(services);
+                    DefaultLessons.Initialize(services);
+                    DefaultAttendances.Initialize(services);
+                    DefaultEvents.Initialize(services);
+                    DefaultParents.Initialize(services);
+                    logger.LogInformation("Finished Seeding Default Data");
+                    logger.LogInformation("Application Starting");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred seeding the DB.");
+                }
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

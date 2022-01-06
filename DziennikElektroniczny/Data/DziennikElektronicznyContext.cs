@@ -64,9 +64,21 @@ namespace DziennikElektroniczny.Data
                 .WithMany(x => x.GradeTeacherPersons)
                 .HasForeignKey(x => x.TeacherPersonId)
                 .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+
+            modelBuilder.Entity<StudentsGroup>()
+               .HasMany(x => x.Students)
+               .WithMany(x => x.StudentsGroups);
+
+            modelBuilder.Entity<StudentsGroup>()
+                .HasOne(x => x.TeacherPerson)
+                .WithOne(x => x.GroupTeacher); 
+
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.StudentsGroups)
+                .WithMany(x => x.Students);
         }
         public DbSet<Event> Event { get; set; }
-        public DbSet<EventParticipator> EventParticipator { get; set; }
+        //public DbSet<EventParticipator> EventParticipator { get; set; }
         public DbSet<Person> Person { get; set; }
         public DbSet<PersonalInfo> PersonalInfo { get; set; }
         public DbSet<Parent> Parent { get; set; }
@@ -79,6 +91,7 @@ namespace DziennikElektroniczny.Data
         public DbSet<Lesson> Lesson { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<StudentsGroup> StudentsGroup { get; set; }
-        public DbSet<StudentsGroupMember> StudentsGroupMember { get; set; }
+        //public DbSet<StudentsGroupMember> StudentsGroupMember { get; set; }
+        public DbSet<Note> Note { get; set; }
     }
 }

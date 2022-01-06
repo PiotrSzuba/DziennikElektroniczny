@@ -13,8 +13,8 @@ namespace DziennikElektroniczny.Models
         public int PersonId { get; set; }
            
         [Required]
-        [Column(TypeName = "varchar(10)")]
-        public string Role { get; set; }
+        [Range(1, 1000000000)]
+        public int Role { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(255)")]
@@ -27,7 +27,9 @@ namespace DziennikElektroniczny.Models
         public int PersonalInfoId { get; set; } 
         public PersonalInfo PersonalInfo { get; set; }
 
-        public virtual ICollection<EventParticipator> EventParticipators { get; set; }
+        public virtual StudentsGroup GroupTeacher { get; set; }
+        //public virtual ICollection<EventParticipator> EventParticipators { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Parent> ParentPersons { get; set; }
         public virtual ICollection<Parent> StudentPersons { get; set; }
         public virtual ICollection<Note> NoteTeacherPersons { get; set; }
@@ -38,6 +40,7 @@ namespace DziennikElektroniczny.Models
         public virtual ICollection<Grade> GradeTeacherPersons { get; set; }
         public virtual ICollection<Subject> SubjectTeacherPersons { get; set; }
         public virtual ICollection<Attendance> AttendanceStudentPersons { get; set; }
-        public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
+        //public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
+        public virtual ICollection<StudentsGroup> StudentsGroups { get; set; }
     }
 }

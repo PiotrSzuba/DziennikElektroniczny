@@ -4,14 +4,16 @@ using DziennikElektroniczny.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikElektroniczny.Migrations
 {
     [DbContext(typeof(DziennikElektronicznyContext))]
-    partial class DziennikElektronicznyContextModelSnapshot : ModelSnapshot
+    [Migration("20220106201635_fixManyToManyV1")]
+    partial class fixManyToManyV1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,11 +354,31 @@ namespace DziennikElektroniczny.Migrations
 
                     b.HasKey("StudentsGroupId");
 
-                    b.HasIndex("TeacherPersonId")
-                        .IsUnique()
-                        .HasFilter("[TeacherPersonId] IS NOT NULL");
+                    b.HasIndex("TeacherPersonId");
 
                     b.ToTable("StudentsGroup");
+                });
+
+            modelBuilder.Entity("DziennikElektroniczny.Models.StudentsGroupMember", b =>
+                {
+                    b.Property<int>("StudentsGroupMemberId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("StudentPersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentsGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentsGroupMemberId");
+
+                    b.HasIndex("StudentPersonId");
+
+                    b.HasIndex("StudentsGroupId");
+
+                    b.ToTable("StudentsGroupMember");
                 });
 
             modelBuilder.Entity("DziennikElektroniczny.Models.Subject", b =>
@@ -424,21 +446,6 @@ namespace DziennikElektroniczny.Migrations
                     b.HasIndex("PersonsPersonId");
 
                     b.ToTable("EventPerson");
-                });
-
-            modelBuilder.Entity("PersonStudentsGroup", b =>
-                {
-                    b.Property<int>("StudentsGroupsStudentsGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsPersonId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentsGroupsStudentsGroupId", "StudentsPersonId");
-
-                    b.HasIndex("StudentsPersonId");
-
-                    b.ToTable("PersonStudentsGroup");
                 });
 
             modelBuilder.Entity("DziennikElektroniczny.Models.Attendance", b =>
@@ -569,10 +576,25 @@ namespace DziennikElektroniczny.Migrations
             modelBuilder.Entity("DziennikElektroniczny.Models.StudentsGroup", b =>
                 {
                     b.HasOne("DziennikElektroniczny.Models.Person", "TeacherPerson")
-                        .WithOne("GroupTeacher")
-                        .HasForeignKey("DziennikElektroniczny.Models.StudentsGroup", "TeacherPersonId");
+                        .WithMany()
+                        .HasForeignKey("TeacherPersonId");
 
                     b.Navigation("TeacherPerson");
+                });
+
+            modelBuilder.Entity("DziennikElektroniczny.Models.StudentsGroupMember", b =>
+                {
+                    b.HasOne("DziennikElektroniczny.Models.Person", "StudentPerson")
+                        .WithMany("StudentsGroupMembers")
+                        .HasForeignKey("StudentPersonId");
+
+                    b.HasOne("DziennikElektroniczny.Models.StudentsGroup", "StudentsGroup")
+                        .WithMany("StudentsGroupMembers")
+                        .HasForeignKey("StudentsGroupId");
+
+                    b.Navigation("StudentPerson");
+
+                    b.Navigation("StudentsGroup");
                 });
 
             modelBuilder.Entity("DziennikElektroniczny.Models.Subject", b =>
@@ -621,21 +643,6 @@ namespace DziennikElektroniczny.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PersonStudentsGroup", b =>
-                {
-                    b.HasOne("DziennikElektroniczny.Models.StudentsGroup", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsGroupsStudentsGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DziennikElektroniczny.Models.Person", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsPersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DziennikElektroniczny.Models.ClassRoom", b =>
                 {
                     b.Navigation("Subjects");
@@ -661,8 +668,6 @@ namespace DziennikElektroniczny.Migrations
 
                     b.Navigation("GradeTeacherPersons");
 
-                    b.Navigation("GroupTeacher");
-
                     b.Navigation("NoteStudentPersons");
 
                     b.Navigation("NoteTeacherPersons");
@@ -670,6 +675,8 @@ namespace DziennikElektroniczny.Migrations
                     b.Navigation("ParentPersons");
 
                     b.Navigation("StudentPersons");
+
+                    b.Navigation("StudentsGroupMembers");
 
                     b.Navigation("SubjectTeacherPersons");
 
@@ -683,6 +690,8 @@ namespace DziennikElektroniczny.Migrations
 
             modelBuilder.Entity("DziennikElektroniczny.Models.StudentsGroup", b =>
                 {
+                    b.Navigation("StudentsGroupMembers");
+
                     b.Navigation("Subjects");
                 });
 

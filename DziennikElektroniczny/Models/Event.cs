@@ -29,6 +29,8 @@ namespace DziennikElektroniczny.Models
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
-        public virtual ICollection<EventParticipator> EventParticipators { get; set; }
+        //public virtual ICollection<EventParticipator> EventParticipators { get; set; }
+        public virtual ICollection<Person> Persons { get; set; }
+
     }
 }

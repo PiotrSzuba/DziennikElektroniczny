@@ -28,6 +28,7 @@ namespace DziennikElektroniczny.Models
         [Range(1, 1000000000)]
         public int YearOfStudy { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
-        public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
+        //public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
+        public virtual ICollection<Person> Students { get; set; }
     }
 }
