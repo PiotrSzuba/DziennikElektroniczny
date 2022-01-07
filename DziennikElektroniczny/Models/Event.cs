@@ -23,7 +23,7 @@ namespace DziennikElektroniczny.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

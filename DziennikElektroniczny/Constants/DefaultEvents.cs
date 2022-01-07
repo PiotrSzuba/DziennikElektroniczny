@@ -28,21 +28,21 @@ namespace DziennikElektroniczny.Constants
                         Title = "Zakończenie roku",
                         Description = "Rozdanie dyplomów",
                         StartDate = DateTime.Now,
-                        DndDate = DateTime.Now
+                        EndDate = DateTime.Now
                     },
                     new Event
                     {
                         Title = "Wycieczka",
                         Description = "Wycieczka do więzienia w sztumie",
                         StartDate = DateTime.Now,
-                        DndDate = DateTime.Now
+                        EndDate = DateTime.Now
                     },
                     new Event
                     {
                         Title = "Rozpoczęcie roku",
                         Description = "Przywitanie nowych uczniów",
                         StartDate = DateTime.Now,
-                        DndDate = DateTime.Now
+                        EndDate = DateTime.Now
                     }
                     );
                 context.SaveChanges();
