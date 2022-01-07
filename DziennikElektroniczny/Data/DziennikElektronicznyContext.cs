@@ -21,64 +21,52 @@ namespace DziennikElektroniczny.Data
                 .HasOne(x => x.ParentPerson)
                 .WithMany(x => x.ParentPersons)
                 .HasForeignKey(x => x.ParentPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Parent>()
                 .HasOne(x => x.StudentPerson)
                 .WithMany(x => x.StudentPersons)
                 .HasForeignKey(x => x.StudentPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Note>()
                 .HasOne(x => x.TeacherPerson)
                 .WithMany(x => x.NoteTeacherPersons)
                 .HasForeignKey(x => x.TeacherPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Note>()
                 .HasOne(x => x.StudentPerson)
                 .WithMany(x => x.NoteStudentPersons)
                 .HasForeignKey(x => x.StudentPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.FromPerson)
                 .WithMany(x => x.FromPersons)
                 .HasForeignKey(x => x.FromPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.ToPerson)
                 .WithMany(x => x.ToPersons)
                 .HasForeignKey(x => x.ToPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Grade>()
                 .HasOne(x => x.StudentPerson)
                 .WithMany(x => x.GradeStudentPersons)
                 .HasForeignKey(x => x.StudentPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Grade>()
                 .HasOne(x => x.TeacherPerson)
                 .WithMany(x => x.GradeTeacherPersons)
                 .HasForeignKey(x => x.TeacherPersonId)
-                .OnDelete(DeleteBehavior.Restrict); //brak usuwania kaskadowego moga wystapic problemy
-
-            modelBuilder.Entity<StudentsGroup>()
-               .HasMany(x => x.Students)
-               .WithMany(x => x.StudentsGroups);
-
-            modelBuilder.Entity<StudentsGroup>()
-                .HasOne(x => x.TeacherPerson)
-                .WithOne(x => x.GroupTeacher); 
-
-            modelBuilder.Entity<Person>()
-                .HasMany(x => x.StudentsGroups)
-                .WithMany(x => x.Students);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
         public DbSet<Event> Event { get; set; }
-        //public DbSet<EventParticipator> EventParticipator { get; set; }
+        public DbSet<EventParticipator> EventParticipator { get; set; }
         public DbSet<Person> Person { get; set; }
         public DbSet<PersonalInfo> PersonalInfo { get; set; }
         public DbSet<Parent> Parent { get; set; }
@@ -91,7 +79,7 @@ namespace DziennikElektroniczny.Data
         public DbSet<Lesson> Lesson { get; set; }
         public DbSet<Attendance> Attendance { get; set; }
         public DbSet<StudentsGroup> StudentsGroup { get; set; }
-        //public DbSet<StudentsGroupMember> StudentsGroupMember { get; set; }
+        public DbSet<StudentsGroupMember> StudentsGroupMember { get; set; }
         public DbSet<Note> Note { get; set; }
     }
 }

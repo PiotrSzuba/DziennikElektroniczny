@@ -12,34 +12,6 @@ namespace DziennikElektroniczny.Constants
 {
     public class DefaultEvents
     {
-        static Person p1 = new Person
-        {
-            PersonalInfoId = 2,
-            Role = 1,
-            Login = "Login2",
-            HashedPassword = "1234"
-        };
-        static Person p2 = new Person
-        {
-            PersonalInfoId = 3,
-            Role = 1,
-            Login = "Login3",
-            HashedPassword = "1234"
-        };
-        static Person p3 = new Person
-        {
-            PersonalInfoId = 4,
-            Role = 1,
-            Login = "Login4",
-            HashedPassword = "1234"
-        };
-        static Person p4 = new Person
-        {
-            PersonalInfoId = 5,
-            Role = 1,
-            Login = "Login5",
-            HashedPassword = "1234"
-        };
         public static void Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new DziennikElektronicznyContext(
@@ -55,7 +27,6 @@ namespace DziennikElektroniczny.Constants
                     {
                         Title = "Zakończenie roku",
                         Description = "Rozdanie dyplomów",
-                        Persons = new List<Person> { p1, p2, p3, p4 },
                         StartDate = DateTime.Now,
                         DndDate = DateTime.Now
                     },
@@ -63,7 +34,13 @@ namespace DziennikElektroniczny.Constants
                     {
                         Title = "Wycieczka",
                         Description = "Wycieczka do więzienia w sztumie",
-                        Persons = new List<Person> { p1, p2, p3, p4 },
+                        StartDate = DateTime.Now,
+                        DndDate = DateTime.Now
+                    },
+                    new Event
+                    {
+                        Title = "Rozpoczęcie roku",
+                        Description = "Przywitanie nowych uczniów",
                         StartDate = DateTime.Now,
                         DndDate = DateTime.Now
                     }
