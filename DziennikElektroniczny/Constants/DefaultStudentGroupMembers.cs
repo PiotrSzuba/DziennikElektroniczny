@@ -23,7 +23,26 @@ namespace DziennikElektroniczny.Constants
                     return;
                 }
                 context.StudentsGroupMember.AddRange(
-
+                    new StudentsGroupMember
+                    {
+                        StudentsGroupId = 2,
+                        StudentPersonId = 2,
+                    },
+                    new StudentsGroupMember
+                    {
+                        StudentsGroupId = 2,
+                        StudentPersonId = 3,
+                    },
+                    new StudentsGroupMember
+                    {
+                        StudentsGroupId = 2,
+                        StudentPersonId = 4,
+                    },
+                    new StudentsGroupMember
+                    {
+                        StudentsGroupId = 2,
+                        StudentPersonId = 5,
+                    }
                     );
                 context.SaveChanges();
             }

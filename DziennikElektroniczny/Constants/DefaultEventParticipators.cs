@@ -25,7 +25,78 @@ namespace DziennikElektroniczny.Constants
                 context.EventParticipator.AddRange(
                     new EventParticipator
                     {
-
+                        EventId = 3,
+                        PersonId = 1
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 3,
+                        PersonId = 2
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 3,
+                        PersonId = 3
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 3,
+                        PersonId = 4
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 3,
+                        PersonId = 5
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 4,
+                        PersonId = 1
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 4,
+                        PersonId = 2
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 4,
+                        PersonId = 3
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 4,
+                        PersonId = 4
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 4,
+                        PersonId = 5
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 5,
+                        PersonId = 1
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 5,
+                        PersonId = 2
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 5,
+                        PersonId = 3
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 5,
+                        PersonId = 4
+                    },
+                    new EventParticipator
+                    {
+                        EventId = 5,
+                        PersonId = 5
                     }
                     );
                 context.SaveChanges();

@@ -25,18 +25,20 @@ namespace DziennikElektroniczny
                 {
                     DefaultPersonalInfo.Initialize(services);
                     DefaultPersons.Initialize(services);
+                    DefaultParents.Initialize(services);
                     DefaultNotes.Initialize(services);
                     DefaultMessageContents.Initialize(services);
                     DefaultMessages.Initialize(services);
                     DefaultClassrooms.Initialize(services);
                     DefaultSubjectInfos.Initialize(services);
                     DefaultStudentGroups.Initialize(services);
+                    DefaultStudentGroupMembers.Initialize(services);
                     DefaultSubjects.Initialize(services);
                     DefaultGrades.Initialize(services);
                     DefaultLessons.Initialize(services);
                     DefaultAttendances.Initialize(services);
                     DefaultEvents.Initialize(services);
-                    DefaultParents.Initialize(services);
+                    DefaultEventParticipators.Initialize(services);
                     logger.LogInformation("Finished Seeding Default Data");
                     logger.LogInformation("Application Starting");
                 }
