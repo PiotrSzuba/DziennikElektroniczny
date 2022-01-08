@@ -4,14 +4,16 @@ using DziennikElektroniczny.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikElektroniczny.Migrations
 {
     [DbContext(typeof(DziennikElektronicznyContext))]
-    partial class DziennikElektronicznyContextModelSnapshot : ModelSnapshot
+    [Migration("20220108184348_TryToFixDoubleFKFromOneTableV9")]
+    partial class TryToFixDoubleFKFromOneTableV9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -535,7 +537,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "FromPerson")
                         .WithMany("FromPersons")
                         .HasForeignKey("FromPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("DziennikElektroniczny.Models.MessageContent", "MessageContent")
                         .WithMany("Messages")
@@ -545,7 +547,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "ToPerson")
                         .WithMany("ToPersons")
                         .HasForeignKey("ToPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("FromPerson");
 

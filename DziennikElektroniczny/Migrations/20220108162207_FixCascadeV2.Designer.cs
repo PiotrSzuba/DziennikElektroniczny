@@ -4,14 +4,16 @@ using DziennikElektroniczny.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikElektroniczny.Migrations
 {
     [DbContext(typeof(DziennikElektronicznyContext))]
-    partial class DziennikElektronicznyContextModelSnapshot : ModelSnapshot
+    [Migration("20220108162207_FixCascadeV2")]
+    partial class FixCascadeV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -475,8 +477,7 @@ namespace DziennikElektroniczny.Migrations
                 {
                     b.HasOne("DziennikElektroniczny.Models.Event", "Event")
                         .WithMany("EventParticipators")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventId");
 
                     b.HasOne("DziennikElektroniczny.Models.Person", "Person")
                         .WithMany("EventParticipators")
@@ -493,7 +494,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "StudentPerson")
                         .WithMany("GradeStudentPersons")
                         .HasForeignKey("StudentPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("DziennikElektroniczny.Models.Subject", "Subject")
                         .WithMany("Grades")
@@ -504,7 +505,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "TeacherPerson")
                         .WithMany("GradeTeacherPersons")
                         .HasForeignKey("TeacherPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("StudentPerson");
 
@@ -535,17 +536,16 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "FromPerson")
                         .WithMany("FromPersons")
                         .HasForeignKey("FromPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("DziennikElektroniczny.Models.MessageContent", "MessageContent")
                         .WithMany("Messages")
-                        .HasForeignKey("MessageContentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MessageContentId");
 
                     b.HasOne("DziennikElektroniczny.Models.Person", "ToPerson")
                         .WithMany("ToPersons")
                         .HasForeignKey("ToPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("FromPerson");
 
@@ -617,8 +617,7 @@ namespace DziennikElektroniczny.Migrations
 
                     b.HasOne("DziennikElektroniczny.Models.StudentsGroup", "StudentsGroup")
                         .WithMany("StudentsGroupMembers")
-                        .HasForeignKey("StudentsGroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StudentsGroupId");
 
                     b.Navigation("StudentPerson");
 
@@ -641,8 +640,7 @@ namespace DziennikElektroniczny.Migrations
 
                     b.HasOne("DziennikElektroniczny.Models.SubjectInfo", "SubjectInfo")
                         .WithMany("Subjects")
-                        .HasForeignKey("SubjectInfoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SubjectInfoId");
 
                     b.HasOne("DziennikElektroniczny.Models.Person", "TeacherPerson")
                         .WithMany("SubjectTeacherPersons")

@@ -25,77 +25,77 @@ namespace DziennikElektroniczny.Constants
                 context.EventParticipator.AddRange(
                     new EventParticipator
                     {
-                        EventId = 3,
+                        EventId = 6,
                         PersonId = 1
                     },
                     new EventParticipator
                     {
-                        EventId = 3,
+                        EventId = 6,
                         PersonId = 2
                     },
                     new EventParticipator
                     {
-                        EventId = 3,
+                        EventId = 6,
                         PersonId = 3
                     },
                     new EventParticipator
                     {
-                        EventId = 3,
+                        EventId = 6,
                         PersonId = 4
                     },
                     new EventParticipator
                     {
-                        EventId = 3,
+                        EventId = 6,
                         PersonId = 5
                     },
                     new EventParticipator
                     {
-                        EventId = 4,
+                        EventId = 7,
                         PersonId = 1
                     },
                     new EventParticipator
                     {
-                        EventId = 4,
+                        EventId = 7,
                         PersonId = 2
                     },
                     new EventParticipator
                     {
-                        EventId = 4,
+                        EventId = 7,
                         PersonId = 3
                     },
                     new EventParticipator
                     {
-                        EventId = 4,
+                        EventId = 7,
                         PersonId = 4
                     },
                     new EventParticipator
                     {
-                        EventId = 4,
+                        EventId = 7,
                         PersonId = 5
                     },
                     new EventParticipator
                     {
-                        EventId = 5,
+                        EventId = 8,
                         PersonId = 1
                     },
                     new EventParticipator
                     {
-                        EventId = 5,
+                        EventId = 8,
                         PersonId = 2
                     },
                     new EventParticipator
                     {
-                        EventId = 5,
+                        EventId = 8,
                         PersonId = 3
                     },
                     new EventParticipator
                     {
-                        EventId = 5,
+                        EventId = 8,
                         PersonId = 4
                     },
                     new EventParticipator
                     {
-                        EventId = 5,
+                        EventId = 8,
                         PersonId = 5
                     }
                     );

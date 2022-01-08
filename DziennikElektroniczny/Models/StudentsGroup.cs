@@ -22,13 +22,12 @@ namespace DziennikElektroniczny.Models
         public string Title { get; set; }
 
         [Column(TypeName = "varchar(2000)")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [Required]
         [Range(1, 1000000000)]
         public int YearOfStudy { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
-        //public virtual ICollection<Person> Students { get; set; }
     }
 }

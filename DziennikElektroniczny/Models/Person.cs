@@ -29,7 +29,6 @@ namespace DziennikElektroniczny.Models
 
         public virtual StudentsGroup GroupTeacher { get; set; }
         public virtual ICollection<EventParticipator> EventParticipators { get; set; }
-        //public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Parent> ParentPersons { get; set; }
         public virtual ICollection<Parent> StudentPersons { get; set; }
         public virtual ICollection<Note> NoteTeacherPersons { get; set; }
@@ -41,6 +40,5 @@ namespace DziennikElektroniczny.Models
         public virtual ICollection<Subject> SubjectTeacherPersons { get; set; }
         public virtual ICollection<Attendance> AttendanceStudentPersons { get; set; }
         public virtual ICollection<StudentsGroupMember> StudentsGroupMembers { get; set; }
-        //public virtual ICollection<StudentsGroup> StudentsGroups { get; set; }
     }
 }

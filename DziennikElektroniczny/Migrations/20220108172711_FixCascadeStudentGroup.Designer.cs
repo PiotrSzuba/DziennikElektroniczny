@@ -4,14 +4,16 @@ using DziennikElektroniczny.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikElektroniczny.Migrations
 {
     [DbContext(typeof(DziennikElektronicznyContext))]
-    partial class DziennikElektronicznyContextModelSnapshot : ModelSnapshot
+    [Migration("20220108172711_FixCascadeStudentGroup")]
+    partial class FixCascadeStudentGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -493,7 +495,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "StudentPerson")
                         .WithMany("GradeStudentPersons")
                         .HasForeignKey("StudentPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("DziennikElektroniczny.Models.Subject", "Subject")
                         .WithMany("Grades")
@@ -504,7 +506,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "TeacherPerson")
                         .WithMany("GradeTeacherPersons")
                         .HasForeignKey("TeacherPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("StudentPerson");
 
@@ -535,7 +537,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "FromPerson")
                         .WithMany("FromPersons")
                         .HasForeignKey("FromPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DziennikElektroniczny.Models.MessageContent", "MessageContent")
                         .WithMany("Messages")
@@ -545,7 +547,7 @@ namespace DziennikElektroniczny.Migrations
                     b.HasOne("DziennikElektroniczny.Models.Person", "ToPerson")
                         .WithMany("ToPersons")
                         .HasForeignKey("ToPersonId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("FromPerson");
 
