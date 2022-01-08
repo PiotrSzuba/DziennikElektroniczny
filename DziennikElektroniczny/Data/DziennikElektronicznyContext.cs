@@ -75,7 +75,7 @@ namespace DziennikElektroniczny.Data
             //    .HasMany(x => x.FromPersons)
             //    .WithOne(x => x.FromPerson)
             //    .OnDelete(DeleteBehavior.Cascade);
-/
+
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.ToPerson)
                 .WithMany(x => x.ToPersons)
