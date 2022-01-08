@@ -7,30 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonalInfoesController : ControllerBase
+    public class PersonalInfosController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
 
-        public PersonalInfoesController(DziennikElektronicznyContext context)
+        public PersonalInfosController(DziennikElektronicznyContext context)
         {
             _context = context;
         }
 
-        // GET: api/PersonalInfoes
+        // GET: api/PersonalInfos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonalInfo>>> GetPersonalInfo()
+        public async Task<ActionResult<IEnumerable<PersonalInfoView>>> GetPersonalInfo()
         {
-            return await _context.PersonalInfo.ToListAsync();
+            return await _context.PersonalInfo.Select(x => new PersonalInfoView(x)).ToListAsync();
         }
 
-        // GET: api/PersonalInfoes/5
+        // GET: api/PersonalInfos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PersonalInfo>> GetPersonalInfo(int id)
+        public async Task<ActionResult<PersonalInfoView>> GetPersonalInfo(int id)
         {
             var personalInfo = await _context.PersonalInfo.FindAsync(id);
 
@@ -39,10 +40,10 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return personalInfo;
+            return new PersonalInfoView(personalInfo);
         }
 
-        // PUT: api/PersonalInfoes/5
+        // PUT: api/PersonalInfos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPersonalInfo(int id, PersonalInfo personalInfo)
@@ -73,7 +74,7 @@ namespace DziennikElektroniczny.Controllers
             return NoContent();
         }
 
-        // POST: api/PersonalInfoes
+        // POST: api/PersonalInfos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PersonalInfo>> PostPersonalInfo(PersonalInfo personalInfo)
@@ -84,7 +85,7 @@ namespace DziennikElektroniczny.Controllers
             return CreatedAtAction("GetPersonalInfo", new { id = personalInfo.PersonalInfoId }, personalInfo);
         }
 
-        // DELETE: api/PersonalInfoes/5
+        // DELETE: api/PersonalInfos/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePersonalInfo(int id)
         {

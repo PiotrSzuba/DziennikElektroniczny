@@ -7,30 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubjectInfoesController : ControllerBase
+    public class SubjectInfosController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
 
-        public SubjectInfoesController(DziennikElektronicznyContext context)
+        public SubjectInfosController(DziennikElektronicznyContext context)
         {
             _context = context;
         }
 
         // GET: api/SubjectInfoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubjectInfo>>> GetSubjectInfo()
+        public async Task<ActionResult<IEnumerable<SubjectInfoView>>> GetSubjectInfo()
         {
-            return await _context.SubjectInfo.ToListAsync();
+            return await _context.SubjectInfo.Select(x => new SubjectInfoView(x)).ToListAsync();
         }
 
         // GET: api/SubjectInfoes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectInfo>> GetSubjectInfo(int id)
+        public async Task<ActionResult<SubjectInfoView>> GetSubjectInfo(int id)
         {
             var subjectInfo = await _context.SubjectInfo.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return subjectInfo;
+            return new SubjectInfoView(subjectInfo);
         }
 
         // PUT: api/SubjectInfoes/5

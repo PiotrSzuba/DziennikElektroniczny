@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+
 namespace DziennikElektroniczny.Controllers
 {
     [Route("api/[controller]")]
@@ -21,50 +22,25 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        private async Task<EventsView> CreateEventsView(Event @event)
-        {
-            var participants = await _context.EventParticipator.Where(x => x.EventId == @event.EventId).Select(x => x.PersonId).ToListAsync();
-            List<string> fullNames = new();
-            foreach (var participant in participants)
-            {
-                var person = await _context.Person.FindAsync(participant);
-                var personInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
-                fullNames.Add(personInfo.Name + personInfo.Surname);
-            }
-            if (@event == null)
-            {
-                return null;
-            }
-
-            return new EventsView
-            {
-                Title = @event.Title,
-                Description = @event.Description,
-                StartDate = @event.StartDate,
-                EndDate = @event.EndDate,
-                Participators = fullNames
-            };
-        }
-
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventsView>>> GetEvent()
+        public async Task<ActionResult<IEnumerable<EventView>>> GetEvent()
         {
-            var events = await _context.Event.ToListAsync();
-            List<EventsView> EventsViews = new();
-            foreach (var @event in events)
-            {
-                EventsViews.Add(await CreateEventsView(@event));
-            }
-            return EventsViews;
+            return await _context.Event.Select(x => new EventView(x)).ToListAsync();
         }
 
         // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EventsView>> GetEvent(int id)
+        public async Task<ActionResult<EventView>> GetEvent(int id)
         {
             var @event = await _context.Event.FindAsync(id);
-            return await CreateEventsView(@event);
+
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            return new EventView(@event);
         }
 
         // PUT: api/Events/5

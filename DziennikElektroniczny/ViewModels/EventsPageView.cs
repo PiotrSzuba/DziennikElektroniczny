@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DziennikElektroniczny.ViewModels
 {
-    public class EventsView
+    public class EventsPageView
     {
         public string Title { get; set; }
         public string Description { get; set; }

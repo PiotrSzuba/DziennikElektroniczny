@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -23,14 +24,14 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/EventParticipators
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventParticipator>>> GetEventParticipator()
+        public async Task<ActionResult<IEnumerable<EventParticipatorView>>> GetEventParticipator()
         {
-            return await _context.EventParticipator.ToListAsync();
+            return await _context.EventParticipator.Select(x => new EventParticipatorView(x)).ToListAsync();
         }
 
         // GET: api/EventParticipators/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EventParticipator>> GetEventParticipator(int id)
+        public async Task<ActionResult<EventParticipatorView>> GetEventParticipator(int id)
         {
             var eventParticipator = await _context.EventParticipator.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return eventParticipator;
+            return new EventParticipatorView(eventParticipator);
         }
 
         // PUT: api/EventParticipators/5

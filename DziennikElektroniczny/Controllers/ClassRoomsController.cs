@@ -7,30 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClassRoomsController : ControllerBase
+    public class ClassroomsController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
 
-        public ClassRoomsController(DziennikElektronicznyContext context)
+        public ClassroomsController(DziennikElektronicznyContext context)
         {
             _context = context;
         }
 
-        // GET: api/ClassRooms
+        // GET: api/Classrooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClassRoom>>> GetClassRoom()
+        public async Task<ActionResult<IEnumerable<ClassroomsView>>> GetClassRoom()
         {
-            return await _context.ClassRoom.ToListAsync();
+            return await _context.ClassRoom.Select(x => new ClassroomsView(x)).ToArrayAsync();
         }
 
-        // GET: api/ClassRooms/5
+        // GET: api/Classrooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClassRoom>> GetClassRoom(int id)
+        public async Task<ActionResult<ClassroomsView>> GetClassRoom(int id)
         {
             var classRoom = await _context.ClassRoom.FindAsync(id);
 
@@ -39,10 +40,10 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return classRoom;
+            return await Task.FromResult(new ClassroomsView(classRoom));
         }
 
-        // PUT: api/ClassRooms/5
+        // PUT: api/Classrooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClassRoom(int id, ClassRoom classRoom)
@@ -73,7 +74,7 @@ namespace DziennikElektroniczny.Controllers
             return NoContent();
         }
 
-        // POST: api/ClassRooms
+        // POST: api/Classrooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ClassRoom>> PostClassRoom(ClassRoom classRoom)
@@ -84,7 +85,7 @@ namespace DziennikElektroniczny.Controllers
             return CreatedAtAction("GetClassRoom", new { id = classRoom.ClassRoomId }, classRoom);
         }
 
-        // DELETE: api/ClassRooms/5
+        // DELETE: api/Classrooms/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClassRoom(int id)
         {

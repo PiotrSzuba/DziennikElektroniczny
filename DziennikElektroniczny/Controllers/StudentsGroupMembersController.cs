@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -23,14 +24,14 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/StudentsGroupMembers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentsGroupMember>>> GetStudentsGroupMember()
+        public async Task<ActionResult<IEnumerable<StudentsGroupMemberView>>> GetStudentsGroupMember()
         {
-            return await _context.StudentsGroupMember.ToListAsync();
+            return await _context.StudentsGroupMember.Select(x => new StudentsGroupMemberView(x)).ToListAsync();
         }
 
         // GET: api/StudentsGroupMembers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<StudentsGroupMember>> GetStudentsGroupMember(int id)
+        public async Task<ActionResult<StudentsGroupMemberView>> GetStudentsGroupMember(int id)
         {
             var studentsGroupMember = await _context.StudentsGroupMember.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return studentsGroupMember;
+            return new StudentsGroupMemberView(studentsGroupMember);
         }
 
         // PUT: api/StudentsGroupMembers/5

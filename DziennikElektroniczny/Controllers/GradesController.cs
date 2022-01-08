@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -23,14 +24,14 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Grades
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Grade>>> GetGrade()
+        public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade()
         {
-            return await _context.Grade.ToListAsync();
+            return await _context.Grade.Select(x => new GradeView(x)).ToListAsync();
         }
 
         // GET: api/Grades/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Grade>> GetGrade(int id)
+        public async Task<ActionResult<GradeView>> GetGrade(int id)
         {
             var grade = await _context.Grade.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return grade;
+            return new GradeView(grade);
         }
 
         // PUT: api/Grades/5

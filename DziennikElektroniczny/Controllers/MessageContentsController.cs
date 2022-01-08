@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -23,14 +24,14 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/MessageContents
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MessageContent>>> GetMessageContent()
+        public async Task<ActionResult<IEnumerable<MessageContentView>>> GetMessageContent()
         {
-            return await _context.MessageContent.ToListAsync();
+            return await _context.MessageContent.Select(x => new MessageContentView(x)).ToListAsync();
         }
 
         // GET: api/MessageContents/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MessageContent>> GetMessageContent(int id)
+        public async Task<ActionResult<MessageContentView>> GetMessageContent(int id)
         {
             var messageContent = await _context.MessageContent.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return messageContent;
+            return new MessageContentView(messageContent);
         }
 
         // PUT: api/MessageContents/5

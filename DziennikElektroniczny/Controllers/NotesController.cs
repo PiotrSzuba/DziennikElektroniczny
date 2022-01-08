@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.ViewModels;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -23,14 +24,14 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Notes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Note>>> GetNote()
+        public async Task<ActionResult<IEnumerable<NoteView>>> GetNote()
         {
-            return await _context.Note.ToListAsync();
+            return await _context.Note.Select(x => new NoteView(x)).ToListAsync();
         }
 
         // GET: api/Notes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Note>> GetNote(int id)
+        public async Task<ActionResult<NoteView>> GetNote(int id)
         {
             var note = await _context.Note.FindAsync(id);
 
@@ -39,7 +40,7 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            return note;
+            return new NoteView(note);
         }
 
         // PUT: api/Notes/5
