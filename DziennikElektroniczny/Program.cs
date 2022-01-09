@@ -16,6 +16,18 @@ namespace DziennikElektroniczny
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+            SeedDatabase(host);
+            host.Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+        public static void SeedDatabase(IHost host)
+        {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -47,14 +59,6 @@ namespace DziennikElektroniczny
                     logger.LogError(ex, "An error occurred seeding the DB.");
                 }
             }
-            host.Run();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

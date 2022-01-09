@@ -8,14 +8,14 @@ namespace DziennikElektroniczny.ViewModels
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
-        public int? TeacherId { get; set; }
-        public int? StudentId { get; set; }
+        public int? TeacherPersonId { get; set; }
+        public int? StudentPersonId { get; set; }
         public NoteView(Note note)
         {
             Id = note.NoteId;
             Description = note.Description;
-            TeacherId = note.TeacherPersonId;
-            StudentId = note.StudentPersonId;
+            TeacherPersonId = note.TeacherPersonId;
+            StudentPersonId = note.StudentPersonId;
             Description = note.Description;
             Date = note.Date;
         }

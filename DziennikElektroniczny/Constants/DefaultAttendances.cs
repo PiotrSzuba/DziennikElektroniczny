@@ -26,84 +26,84 @@ namespace DziennikElektroniczny.Constants
                     new Attendance
                     {
                         StudentPersonId = 2,
-                        LessonId = 2,
+                        LessonId = 14,
                         WasPresent = 1,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 2,
-                        LessonId = 3,
+                        LessonId = 15,
                         WasPresent = 1,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 2,
-                        LessonId = 4,
+                        LessonId = 16,
                         WasPresent = 0,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 2,
-                        LessonId = 5,
+                        LessonId = 17,
                         WasPresent = 0,
                         AbsenceNote = "Bolał go brzuch."
                     },
                     new Attendance
                     {
                         StudentPersonId = 3,
-                        LessonId = 2,
+                        LessonId = 14,
                         WasPresent = 1,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 3,
-                        LessonId = 3,
+                        LessonId = 15,
                         WasPresent = 0,
                         AbsenceNote = "Problemy zdrowotne"
                     },
                     new Attendance
                     {
                         StudentPersonId = 3,
-                        LessonId = 4,
+                        LessonId = 16,
                         WasPresent = 1,
                         AbsenceNote = "Ciekawe czy sie zbuguje bo WasPresent = 1 "
                     },
                     new Attendance
                     {
                         StudentPersonId = 3,
-                        LessonId = 5,
+                        LessonId = 17,
                         WasPresent = 0,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 4,
-                        LessonId = 6,
+                        LessonId = 18,
                         WasPresent = 1,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 4,
-                        LessonId = 2,
+                        LessonId = 14,
                         WasPresent = 0,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 4,
-                        LessonId = 3,
+                        LessonId = 15,
                         WasPresent = 1,
                         AbsenceNote = null
                     },
                     new Attendance
                     {
                         StudentPersonId = 4,
-                        LessonId = 4,
+                        LessonId = 16,
                         WasPresent = 0,
                         AbsenceNote = "Uspriewiedliwienie"
                     }

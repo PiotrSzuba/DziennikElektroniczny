@@ -37,11 +37,6 @@ namespace DziennikElektroniczny.Data
                 .WithOne(x => x.TeacherPerson)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Person>()
-                .HasMany(x => x.StudentsGroupMembers)
-                .WithOne(x => x.StudentPerson)
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Parent>()
                 .HasOne(x => x.ParentPerson)
                 .WithMany(x => x.ParentPersons)
@@ -66,16 +61,6 @@ namespace DziennikElektroniczny.Data
                 .HasForeignKey(x => x.StudentPersonId)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
-            //modelBuilder.Entity<Person>()
-            //    .HasMany(x => x.ToPersons)
-            //    .WithOne(x => x.ToPerson)
-            //    .OnDelete(DeleteBehavior.Restrict);
-            //
-            //modelBuilder.Entity<Person>()
-            //    .HasMany(x => x.FromPersons)
-            //    .WithOne(x => x.FromPerson)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.ToPerson)
                 .WithMany(x => x.ToPersons)
@@ -87,7 +72,7 @@ namespace DziennikElektroniczny.Data
                 .WithMany(x => x.FromPersons)
                 .HasForeignKey(x => x.FromPersonId)
                 .OnDelete(DeleteBehavior.Restrict);
-////////////////////////////////////////////////////////////////////
+
             modelBuilder.Entity<Message>()
                 .HasOne(x => x.MessageContent)
                 .WithMany(x => x.Messages)
@@ -103,16 +88,6 @@ namespace DziennikElektroniczny.Data
                 .WithOne(x => x.Event)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           // modelBuilder.Entity<Person>()
-           //     .HasMany(x => x.GradeStudentPersons)
-           //     .WithOne(x => x.StudentPerson)
-           //     .OnDelete(DeleteBehavior.Restrict);
-           //
-           // modelBuilder.Entity<Person>()
-           //     .HasMany(x => x.GradeTeacherPersons)
-           //     .WithOne(x => x.TeacherPerson)
-           //     .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Grade>()
                 .HasOne(x => x.StudentPerson)
                 .WithMany(x => x.GradeStudentPersons)
@@ -124,7 +99,7 @@ namespace DziennikElektroniczny.Data
                 .WithMany(x => x.GradeTeacherPersons)
                 .HasForeignKey(x => x.TeacherPersonId)
                 .OnDelete(DeleteBehavior.Restrict);
-/////////////////////////////////////////////////////////////////////
+
             modelBuilder.Entity<Lesson>()
                 .HasMany(x => x.Attendances)
                 .WithOne(x => x.Lesson)
@@ -135,12 +110,21 @@ namespace DziennikElektroniczny.Data
                 .WithOne(x => x.SubjectInfo)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.GroupTeacher)
+                .WithOne(x => x.TeacherPerson)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Person>()
+                .HasMany(x => x.StudentsGroupMembers)
+                .WithOne(x => x.StudentPerson)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<StudentsGroup>()
                 .HasMany(x => x.StudentsGroupMembers)
                 .WithOne(x => x.StudentsGroup)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            
         }
         public DbSet<Event> Event { get; set; }
         public DbSet<EventParticipator> EventParticipator { get; set; }

@@ -6,13 +6,13 @@ namespace DziennikElektroniczny.ViewModels
     public class ParentView
     {
         public int Id { get; set; }
-        public int? PersonId { get; set; }
-        public int? StudentId { get; set; }
+        public int? ParentPersonId { get; set; }
+        public int? StudentPersonId { get; set; }
         public ParentView(Parent parent)
         {
             Id = parent.ParentId;
-            PersonId = parent.ParentPersonId;
-            StudentId = parent.StudentPersonId;
+            ParentPersonId = parent.ParentPersonId;
+            StudentPersonId = parent.StudentPersonId;
         }
     }
 }

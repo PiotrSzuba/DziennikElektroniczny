@@ -26,42 +26,42 @@ namespace DziennikElektroniczny.Constants
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 3,
+                        SubjectId = 16,
                         Topic = "Dodawanie",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 4,
+                        SubjectId = 17,
                         Topic = "Całki",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 5,
+                        SubjectId = 18,
                         Topic = "Podwójne całki",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 6,
+                        SubjectId = 19,
                         Topic = "Wektory",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 4,
+                        SubjectId = 17,
                         Topic = "Odejmowanie",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 5,
+                        SubjectId = 18,
                         Topic = "Całki część dalsza",
                         Date = DateTime.Now
                     }

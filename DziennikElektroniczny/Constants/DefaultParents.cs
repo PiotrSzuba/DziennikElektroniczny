@@ -30,8 +30,8 @@ namespace DziennikElektroniczny.Constants
                     },
                     new Parent
                     {
-                        ParentPersonId = 7,
-                        StudentPersonId = 3
+                        ParentPersonId = 16,
+                        StudentPersonId = 2
                     }
                     );
                 context.SaveChanges();

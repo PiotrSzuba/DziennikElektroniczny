@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -16,10 +17,12 @@ namespace DziennikElektroniczny.Controllers
     public class ParentsController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
+        private readonly ILogger _logger;
 
-        public ParentsController(DziennikElektronicznyContext context)
+        public ParentsController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Parents

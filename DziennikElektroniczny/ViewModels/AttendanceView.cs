@@ -9,14 +9,14 @@ namespace DziennikElektroniczny.ViewModels
     public class AttendanceView
     {
         public int Id { get; set; }
-        public int? StudentId { get; set; }
+        public int? StudentPersonId { get; set; }
         public int? LessonId { get; set; }
         public int WasPresent { get; set; }
         public string AbsenceNote { get; set; }
         public AttendanceView(Attendance attendance)
         {
             Id = attendance.AttendanceId;
-            StudentId = attendance.StudentPersonId;
+            StudentPersonId = attendance.StudentPersonId;
             LessonId = attendance.LessonId;
             WasPresent = attendance.WasPresent;
             AbsenceNote = attendance.AbsenceNote;

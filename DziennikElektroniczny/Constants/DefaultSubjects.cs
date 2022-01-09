@@ -27,29 +27,29 @@ namespace DziennikElektroniczny.Constants
                     {
                         SubjectInfoId = 1,
                         TeacherPersonId = 1,
-                        StudentsGroupId = 2,
+                        StudentsGroupId = 25,
                         ClassRoomId = 1
                     },
                     new Subject
                     {
-                        SubjectInfoId = 6,
+                        SubjectInfoId = 4,
                         TeacherPersonId = 1,
-                        StudentsGroupId = 2,
+                        StudentsGroupId = 25,
                         ClassRoomId = 2
                     },
                     new Subject
                     {
                         SubjectInfoId = 7,
                         TeacherPersonId = 1,
-                        StudentsGroupId = 2,
-                        ClassRoomId = 3
+                        StudentsGroupId = 25,
+                        ClassRoomId = 1
                     },
                     new Subject
                     {
                         SubjectInfoId = 5,
                         TeacherPersonId = 1,
-                        StudentsGroupId = 2,
-                        ClassRoomId = 1
+                        StudentsGroupId = 25,
+                        ClassRoomId = 4
                     }
                     );
                 context.SaveChanges();

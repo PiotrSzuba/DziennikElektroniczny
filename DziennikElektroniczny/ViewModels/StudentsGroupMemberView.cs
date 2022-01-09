@@ -6,13 +6,13 @@ namespace DziennikElektroniczny.ViewModels
     public class StudentsGroupMemberView
     {
         public int Id { get; set; }
-        public int? StudentGroupId { get; set; }
-        public int? StudentId { get; set; }
+        public int? StudentsGroupId { get; set; }
+        public int? StudentPersonId { get; set; }
         public StudentsGroupMemberView(StudentsGroupMember studentsGroupMember)
         {
             Id = studentsGroupMember.StudentsGroupMemberId;
-            StudentGroupId = studentsGroupMember.StudentsGroupId;
-            StudentId = studentsGroupMember.StudentPersonId;
+            StudentsGroupId = studentsGroupMember.StudentsGroupId;
+            StudentPersonId = studentsGroupMember.StudentPersonId;
         }
     }
 }

@@ -95,7 +95,26 @@ namespace DziennikElektroniczny.Controllers
                 return NotFound();
             }
 
-            _context.Person.Remove(person);
+            var toMsgs = await _context.Message.Where(x => x.ToPersonId == id).ToListAsync();
+            var fromMsgs = await _context.Message.Where(x => x.FromPersonId == id).ToListAsync();
+            var allMsgs = await Task.FromResult(toMsgs.Concat(fromMsgs));
+
+            var studGrades = await _context.Grade.Where(x => x.StudentPersonId == id).ToListAsync();
+            var teacherGrades = await _context.Grade.Where(x => x.TeacherPersonId == id).ToListAsync();
+            var allGrades = await Task.FromResult(studGrades.Concat(teacherGrades));
+
+            await _context.StudentsGroup.Where(x => x.TeacherPersonId == id).ForEachAsync(x => x.TeacherPersonId = null);
+
+            if (allMsgs == null && allGrades == null)
+            {
+                _context.Person.Remove(person);
+            }
+            else
+            {
+                _context.Message.RemoveRange(allMsgs);
+                _context.Grade.RemoveRange(allGrades);
+                _context.Person.Remove(person);
+            }
             await _context.SaveChangesAsync();
 
             return NoContent();

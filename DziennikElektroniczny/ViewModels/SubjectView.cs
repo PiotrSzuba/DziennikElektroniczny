@@ -7,14 +7,14 @@ namespace DziennikElektroniczny.ViewModels
     {
         public int Id { get; set; }
         public int? SubjectInfoId { get; set; }
-        public int? TeacherId { get; set; }
+        public int? TeacherPersonId { get; set; }
         public int StudentsGroupId { get; set; }
         public int ClassRoomId { get; set; }
         public SubjectView(Subject subject)
         {
             Id = subject.SubjectId;
             SubjectInfoId = subject.SubjectInfoId;
-            TeacherId = subject.TeacherPersonId;
+            TeacherPersonId = subject.TeacherPersonId;
             StudentsGroupId = subject.StudentsGroupId;
             ClassRoomId = subject.ClassRoomId;
         }

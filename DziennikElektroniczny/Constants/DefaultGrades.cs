@@ -27,7 +27,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 2,
                         TeacherPersonId = 1,
-                        SubjectId = 3,
+                        SubjectId = 16,
                         Value = "5+",
                         Date = DateTime.Now
                     },
@@ -35,7 +35,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 2,
                         TeacherPersonId = 1,
-                        SubjectId = 4,
+                        SubjectId = 17,
                         Value = "4-",
                         Date = DateTime.Now
                     },
@@ -43,7 +43,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 2,
                         TeacherPersonId = 1,
-                        SubjectId = 5,
+                        SubjectId = 18,
                         Value = "3",
                         Date = DateTime.Now
                     },
@@ -51,7 +51,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 2,
                         TeacherPersonId = 1,
-                        SubjectId = 6,
+                        SubjectId = 19,
                         Value = "2",
                         Date = DateTime.Now
                     },
@@ -59,7 +59,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 3,
                         TeacherPersonId = 1,
-                        SubjectId = 3,
+                        SubjectId = 16,
                         Value = "3-",
                         Date = DateTime.Now
                     },
@@ -67,7 +67,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 3,
                         TeacherPersonId = 1,
-                        SubjectId = 4,
+                        SubjectId = 17,
                         Value = "5+",
                         Date = DateTime.Now
                     },
@@ -75,7 +75,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 3,
                         TeacherPersonId = 1,
-                        SubjectId = 5,
+                        SubjectId = 18,
                         Value = "5--",
                         Date = DateTime.Now
                     },
@@ -83,7 +83,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 3,
                         TeacherPersonId = 1,
-                        SubjectId = 6,
+                        SubjectId = 19,
                         Value = "5+",
                         Date = DateTime.Now
                     },
@@ -91,7 +91,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 4,
                         TeacherPersonId = 1,
-                        SubjectId = 3,
+                        SubjectId = 16,
                         Value = "6-",
                         Date = DateTime.Now
                     },
@@ -99,7 +99,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 4,
                         TeacherPersonId = 1,
-                        SubjectId = 4,
+                        SubjectId = 17,
                         Value = "1",
                         Date = DateTime.Now
                     },
@@ -107,7 +107,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 4,
                         TeacherPersonId = 1,
-                        SubjectId = 5,
+                        SubjectId = 18,
                         Value = "5+",
                         Date = DateTime.Now
                     },
@@ -115,7 +115,7 @@ namespace DziennikElektroniczny.Constants
                     {
                         StudentPersonId = 4,
                         TeacherPersonId = 1,
-                        SubjectId = 6,
+                        SubjectId = 19,
                         Value = "4-",
                         Date = DateTime.Now
                     }
