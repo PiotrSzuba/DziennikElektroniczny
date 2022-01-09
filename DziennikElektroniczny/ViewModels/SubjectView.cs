@@ -10,6 +10,7 @@ namespace DziennikElektroniczny.ViewModels
         public int? TeacherPersonId { get; set; }
         public int StudentsGroupId { get; set; }
         public int ClassRoomId { get; set; }
+        public Object dupa { get; set; }
         public SubjectView(Subject subject)
         {
             Id = subject.SubjectId;
