@@ -22,25 +22,41 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/Subjects
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubjectView>>> GetSubject()
+        public async Task<SubjectView> CreateSubjectView(Subject subject)
         {
-            return await _context.Subject.Select(x => new SubjectView(x)).ToListAsync();
+            var teacher = await _context.Person.FindAsync(subject.TeacherPersonId);
+            var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+            var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
+            var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+            var studentsGroup = await _context.StudentsGroup.FindAsync(subject.StudentsGroupId);
+
+
+            return new SubjectView(subject, subjectInfo, classRoom, studentsGroup, teacherInfo);
         }
 
-        // GET: api/Subjects/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectView>> GetSubject(int id)
+        //// GET: api/Subjects
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SubjectView>>> GetSubject(int? id)
         {
-            var subject = await _context.Subject.FindAsync(id);
-
-            if (subject == null)
+            List<SubjectView> subjectViews = new();
+            if (id == null)
             {
-                return NotFound();
+                var subjects = await _context.Subject.ToListAsync();
+                foreach (var subject in subjects)
+                {
+                    subjectViews.Add(await CreateSubjectView(subject));
+                }
             }
-
-            return new SubjectView(subject);
+            else
+            {
+                var subject = await _context.Subject.FindAsync(id);
+                if (subject == null)
+                {
+                    return NotFound();
+                }
+                subjectViews.Add(CreateSubjectView(subject).Result);
+            }
+            return subjectViews;
         }
 
         // PUT: api/Subjects/5
