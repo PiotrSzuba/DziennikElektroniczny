@@ -10,7 +10,10 @@ namespace DziennikElektroniczny.ViewModels
         public DateTime Date { get; set; }
         public int? TeacherPersonId { get; set; }
         public int? StudentPersonId { get; set; }
-        public NoteView(Note note)
+        public string StudentDisplayName { get; set; }
+        public string TeacherDisplayName { get; set; }
+
+        public NoteView(Note note,PersonalInfo student,PersonalInfo teacher)
         {
             Id = note.NoteId;
             Description = note.Description;
@@ -18,6 +21,8 @@ namespace DziennikElektroniczny.ViewModels
             StudentPersonId = note.StudentPersonId;
             Description = note.Description;
             Date = note.Date;
+            StudentDisplayName = student.Name + " " + student.Surname;
+            TeacherDisplayName = teacher.Name + " " + teacher.Surname;
         }
     }
 }

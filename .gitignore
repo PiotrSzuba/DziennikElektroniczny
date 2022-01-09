@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+appsettings.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -322,6 +322,8 @@ __pycache__/
 
 # Tabs Studio
 *.tss
+# zadziala ?
+*.json
 
 # Telerik's JustMock configuration file
 *.jmconfig

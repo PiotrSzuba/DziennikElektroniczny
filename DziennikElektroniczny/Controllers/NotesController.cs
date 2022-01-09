@@ -22,11 +22,29 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
+        public Tuple<PersonalInfo,PersonalInfo> GetStudTeacherInfos(Note note)
+        {
+            var teacher = _context.Person.Find(note.TeacherPersonId);
+            var teacherInfo =  _context.PersonalInfo.Find(teacher.PersonalInfoId);
+
+            var student = _context.Person.Find(note.StudentPersonId);
+            var studentInfo =  _context.PersonalInfo.Find(student.PersonalInfoId);
+
+            return new Tuple<PersonalInfo, PersonalInfo>(studentInfo, teacherInfo);
+        }
+
         // GET: api/Notes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NoteView>>> GetNote()
         {
-            return await _context.Note.Select(x => new NoteView(x)).ToListAsync();
+            var notes = await _context.Note.ToListAsync();
+            List<NoteView> notesList = new();
+            foreach(var note in notes)
+            {
+                var type = GetStudTeacherInfos(note);
+                notesList.Add(new NoteView(note, type.Item1, type.Item2));
+            }
+            return notesList;
         }
 
         // GET: api/Notes/5
@@ -34,13 +52,13 @@ namespace DziennikElektroniczny.Controllers
         public async Task<ActionResult<NoteView>> GetNote(int id)
         {
             var note = await _context.Note.FindAsync(id);
-
             if (note == null)
             {
                 return NotFound();
             }
+            var type = GetStudTeacherInfos(note);
 
-            return new NoteView(note);
+            return new NoteView(note,type.Item1, type.Item2);
         }
 
         // PUT: api/Notes/5

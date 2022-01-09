@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DziennikElektroniczny.Controllers
 {
+    [Authorize]
     public class RegisterController : ControllerBase
     {
 

@@ -46,20 +46,17 @@ namespace DziennikElektroniczny.Controllers
             {
                 return NotFound();
             }
-            var parents = await Task.FromResult(_context.Parent.Where(x => x.StudentPersonId == id).ToList());
+            var parents = _context.Parent.Where(x => x.StudentPersonId == id).Select(x => _context.Person.Find(x.ParentPersonId)).ToList();
+            List<PersonalInfo> parentsInfos = new();
+            //if (parents != null)
+            //{
+            //    foreach (var parent in parents)
+            //    {
+            //        parentsInfos.Add(_context.PersonalInfo.Find(parent.PersonalInfoId));
+            //    }
+            //}
 
-            return new Profile
-            {
-                Id = id,
-                Name = personalInfo.Name,
-                SecondName = personalInfo.SecondName,
-                Surname = personalInfo.Surname,
-                DateOfBirth = personalInfo.DateOfBirth,
-                PhoneNumber = personalInfo.PhoneNumber,
-                Address = personalInfo.Address,
-                Pesel = personalInfo.Pesel,
-                ParentsNames = parents.Select(x => _context.PersonalInfo.FindAsync(x.ParentPersonId).Result.Name).ToList()
-            };
+            return new Profile(personalInfo, parentsInfos);
         }
     }
 } 

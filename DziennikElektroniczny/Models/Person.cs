@@ -23,7 +23,7 @@ namespace DziennikElektroniczny.Models
         [Column(TypeName = "varchar(255)")]
         public string HashedPassword { get; set; }
 
-        public int PersonalInfoId { get; set; } 
+        public int PersonalInfoId { get; set; }
         public PersonalInfo PersonalInfo { get; set; }
 
         public virtual ICollection<StudentsGroup> GroupTeacher { get; set; }

@@ -8,7 +8,6 @@ namespace DziennikElektroniczny.Models
 {
     public class PersonalInfo
     {
-#nullable enable annotations
         [Key]
         public int PersonalInfoId { get; set; }
 
@@ -17,7 +16,7 @@ namespace DziennikElektroniczny.Models
         public string Name { get; set; }
 
         [Column(TypeName = "varchar(40)")]
-        public string? SecondName { get; set; }
+        public string SecondName { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(40)")]
@@ -28,7 +27,7 @@ namespace DziennikElektroniczny.Models
         public DateTime DateOfBirth { get; set; }
 
         [Column(TypeName = "varchar(12)")]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(255)")]

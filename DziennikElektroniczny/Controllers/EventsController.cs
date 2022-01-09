@@ -22,25 +22,43 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventView>>> GetEvent()
+        public async Task<ActionResult<IEnumerable<EventView>>> GetEvent(string title,int? id)
         {
-            return await _context.Event.Select(x => new EventView(x)).ToListAsync();
-        }
-
-        // GET: api/Events/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EventView>> GetEvent(int id)
-        {
-            var @event = await _context.Event.FindAsync(id);
-
-            if (@event == null)
+            if(id > 0)
             {
-                return NotFound();
+                List<EventView> eventsView1 = new();
+                var @event = await _context.Event.FindAsync(id);
+                if (@event == null)
+                {
+                    return NotFound();
+                }
+                eventsView1.Add(new EventView(@event));
+
+                return eventsView1;
+            }
+            if (title != null)
+            {
+                var events = await _context.Event.Where(x => x.Title == title).ToListAsync();
+
+                if (events == null)
+                {
+                    return NotFound();
+                }
+
+                List<EventView> eventsView = new();
+
+                foreach (var @event in events)
+                {
+                    eventsView.Add(new EventView(@event));
+                }
+                return eventsView;
+            }
+            else
+            {
+                return await _context.Event.Select(x => new EventView(x)).ToListAsync();
             }
 
-            return new EventView(@event);
         }
 
         // PUT: api/Events/5
