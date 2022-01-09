@@ -8,7 +8,6 @@ namespace DziennikElektroniczny.Models
     public class Attendance
     {
         [Key]
-        [Range(1, 1000000000)]
         public int AttendanceId { get; set; }
 
         [Range(1, 1000000000)]

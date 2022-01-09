@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class ClassRoom
     {
         [Key]
-        [Range(1, 1000000000)]
         public int ClassRoomId { get; set; }
 
         [Required]

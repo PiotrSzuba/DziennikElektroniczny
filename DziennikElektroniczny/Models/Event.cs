@@ -9,8 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Event
     {
         [Key]
-        [Required]
-        [Range(1,1000000000)]
         public int EventId { get; set; }
 
         [Required]

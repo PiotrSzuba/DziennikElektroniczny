@@ -8,8 +8,6 @@ namespace DziennikElektroniczny.Models
     public class EventParticipator
     {
         [Key]
-        [Required]
-        [Range(1, 1000000000)]
         public int EventParticipatorId { get; set; }
 
         [ForeignKey("Event")]

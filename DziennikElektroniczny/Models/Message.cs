@@ -8,7 +8,6 @@ namespace DziennikElektroniczny.Models
     public class Message
     {
         [Key]
-        [Range(1, 1000000000)]
         public int MessageId { get; set; }
 
         [Required]
@@ -21,10 +20,8 @@ namespace DziennikElektroniczny.Models
         public int? MessageContentId { get; set; }
         public MessageContent MessageContent { get; set; }
 
-        [Range(1, 1000000000)]
         public int? FromPersonId { get; set; }
 
-        [Range(1, 1000000000)]
         public int? ToPersonId { get; set; }
 
         public virtual Person FromPerson { get; set; }

@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Person
     {
         [Key]
-        [Range(1, 1000000000)]
         public int PersonId { get; set; }
            
         [Required]

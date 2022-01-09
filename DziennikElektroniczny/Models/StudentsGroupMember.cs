@@ -9,8 +9,6 @@ namespace DziennikElektroniczny.Models
     public class StudentsGroupMember
     {
         [Key]
-        [Required]
-        [Range(1, 1000000000)]
         public int StudentsGroupMemberId { get; set; }
 
         [Range(1, 1000000000)]

@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Lesson
     {
         [Key]
-        [Range(1, 1000000000)]
         public int LessonId { get; set; }
 
         [Range(1, 1000000000)]

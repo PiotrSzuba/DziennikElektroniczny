@@ -10,7 +10,6 @@ namespace DziennikElektroniczny.Models
     {
 #nullable enable annotations
         [Key]
-        [Range(1, 1000000000)]
         public int PersonalInfoId { get; set; }
 
         [Required]

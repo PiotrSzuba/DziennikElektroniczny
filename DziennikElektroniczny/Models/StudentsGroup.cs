@@ -10,7 +10,6 @@ namespace DziennikElektroniczny.Models
     public class StudentsGroup
     {
         [Key]
-        [Range(1, 1000000000)]
         public int StudentsGroupId { get; set; }
 
         [Range(1, 1000000000)]

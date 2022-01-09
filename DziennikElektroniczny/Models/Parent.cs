@@ -9,8 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Parent
     {
         [Key]
-        [Required]
-        [Range(1, 1000000000)]
         public int ParentId { get; set; }
 
         [Range(1, 1000000000)]

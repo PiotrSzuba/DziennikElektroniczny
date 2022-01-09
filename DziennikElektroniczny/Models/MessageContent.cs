@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class MessageContent
     {
         [Key]
-        [Range(1, 1000000000)]
         public int MessageContentId { get; set; }
 
         [Required]

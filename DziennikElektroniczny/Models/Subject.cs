@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Subject
     {
         [Key]
-        [Range(1, 1000000000)]
         public int SubjectId { get; set; }
 
         [Range(1, 1000000000)]

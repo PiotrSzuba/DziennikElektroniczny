@@ -9,7 +9,6 @@ namespace DziennikElektroniczny.Models
     public class Note
     {
         [Key]
-        [Range(1, 1000000000)]
         public int NoteId { get; set; }
         
         [Required]
