@@ -38,8 +38,8 @@ namespace DziennikElektroniczny.Controllers
         // GET: api/Attendances
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AttendanceView>>> GetAttendance(
-            int? id,int? studentId,int? lessonId,int? wasPresent,string subjectName = null
-            ,string studentName = null,string studentSurname = null)
+            int? id,int? studentId,int? lessonId,int? wasPresent,string subjectName
+            ,string studentName,string studentSurname)
         {
             List<Attendance> attendancesList = new();
             List<AttendanceView> attendanceViews = new();

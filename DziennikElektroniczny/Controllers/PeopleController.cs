@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -16,31 +17,183 @@ namespace DziennikElektroniczny.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
-
-        public PeopleController(DziennikElektronicznyContext context)
+        private readonly ILogger _logger;
+        public PeopleController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
         {
             _context = context;
+            _logger = logger;
+        }
+
+        public async Task<PersonView> CreateView(Person person)
+        {
+
+            return new PersonView(person,await GetPersonalInfo(person));
+        }
+        public async Task<PersonalInfo> GetPersonalInfo(Person person)
+        {
+            return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
         }
 
         // GET: api/People
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson()
+        public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson(
+            int? id, int? role,string login,string name, string secondname, string surname, string phonenumber,string address,string pesel)
         {
-            return await _context.Person.Select(x => new PersonView(x)).ToListAsync();
-        }
+            List<Person> personsList = new();
+            List<PersonView> personViews = new();
+            if(id != null)
+            {
+                var person = await _context.Person.FindAsync(id);
 
-        // GET: api/People/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PersonView>> GetPerson(int id)
-        {
-            var person = await _context.Person.FindAsync(id);
+                if (person == null)
+                {
+                    return NotFound();
+                }
 
-            if (person == null)
+                personViews.Add(await CreateView(person));
+                return personViews;
+            }
+            if(role != null)
+            {
+                if(personsList.Count == 0)
+                {
+                    personsList = await _context.Person.Where(x => x.Role == role).ToListAsync();
+                }
+                else
+                {
+                    personsList = await Task.FromResult(personsList.Where(x => x.Role == role).ToList());
+                }
+            }
+            if(login != null)
+            {
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.Where(x => x.Login.ToLower().Contains(login.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    personsList = await Task.FromResult(personsList.Where(x => x.Login.ToLower().Contains(login.ToLower())).ToList());
+                }
+            }
+            if(name != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+                    if (personalInfo.Name.ToLower().Contains(name.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }
+            if(secondname != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await GetPersonalInfo(person);
+                    if (personalInfo.SecondName.ToLower().Contains(surname.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }
+            if(surname != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await GetPersonalInfo(person);
+                    if (personalInfo.Surname.ToLower().Contains(surname.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }
+            if(phonenumber != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await GetPersonalInfo(person);
+                    if (personalInfo.PhoneNumber.ToLower().Contains(phonenumber.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }
+            if(address != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await GetPersonalInfo(person);
+                    if (personalInfo.Address.ToLower().Contains(address.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }    
+            if(pesel != null)
+            {
+                List<Person> persons = new();
+                if (personsList.Count == 0)
+                {
+                    personsList = await _context.Person.ToListAsync();
+                }
+                foreach (var person in personsList)
+                {
+                    var personalInfo = await GetPersonalInfo(person);
+                    if (personalInfo.Pesel.ToLower().Contains(pesel.ToLower()))
+                    {
+                        persons.Add(person);
+                    }
+                }
+                personsList = persons;
+            }
+            if(id == null && role == null && login == null && name == null 
+                && secondname == null && surname == null && phonenumber == null 
+                && address == null && pesel == null)
+            {
+                personsList = await _context.Person.ToListAsync();
+            }
+            if(personsList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new PersonView(person);
+            foreach(var person in personsList)
+            {
+                personViews.Add(await CreateView(person));
+            }
+
+            return personViews;
         }
 
         // PUT: api/People/5

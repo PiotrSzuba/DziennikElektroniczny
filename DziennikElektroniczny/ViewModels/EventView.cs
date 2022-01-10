@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DziennikElektroniczny.Models;
 
 namespace DziennikElektroniczny.ViewModels
@@ -10,13 +11,18 @@ namespace DziennikElektroniczny.ViewModels
         public string Description { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
-        public EventView(Event @event)
+        public List<string> Participators { get; set; } = new List<string>();
+        public EventView(Event @event,List<PersonalInfo> personalInfos)
         {
             Id = @event.EventId;
             Title = @event.Title;
             Description = @event.Description;
             EndDate = @event.EndDate;
             StartDate = @event.StartDate;
+            foreach(var personalInfo in personalInfos)
+            {
+                Participators.Add(personalInfo.Name + " " + personalInfo.Surname);
+            }
         }
     }
 }

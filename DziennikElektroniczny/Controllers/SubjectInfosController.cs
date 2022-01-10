@@ -24,23 +24,60 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/SubjectInfoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubjectInfoView>>> GetSubjectInfo()
+        public async Task<ActionResult<IEnumerable<SubjectInfoView>>> GetSubjectInfo(int? id, string title,string description)
         {
-            return await _context.SubjectInfo.Select(x => new SubjectInfoView(x)).ToListAsync();
-        }
+            List<SubjectInfo> subjectInfosList = new();
+            List<SubjectInfoView> subjectInfoViews = new();
+            if(id != null)
+            {
+                var subjectInfo = await _context.SubjectInfo.FindAsync(id);
+                if (subjectInfo == null)
+                {
+                    return NotFound();
+                }
 
-        // GET: api/SubjectInfoes/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SubjectInfoView>> GetSubjectInfo(int id)
-        {
-            var subjectInfo = await _context.SubjectInfo.FindAsync(id);
+                subjectInfoViews.Add(new SubjectInfoView(subjectInfo));
 
-            if (subjectInfo == null)
+                return subjectInfoViews;
+            }
+            if(title != null)
+            {
+                if(subjectInfosList.Count == 0)
+                {
+                    subjectInfosList = await _context.SubjectInfo.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    subjectInfosList = await Task.FromResult(subjectInfosList.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList());
+                }
+            }
+            if(description != null)
+            {
+                if(subjectInfosList.Count == 0)
+                {
+                    subjectInfosList = await _context.SubjectInfo.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    subjectInfosList = await Task.FromResult(subjectInfosList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                }
+            }
+            if(id == null && title == null && description == null)
+            {
+                subjectInfosList = await _context.SubjectInfo.ToListAsync();
+            }
+
+            if(subjectInfosList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new SubjectInfoView(subjectInfo);
+            foreach(var subjectInfo in subjectInfosList)
+            {
+                subjectInfoViews.Add(new SubjectInfoView(subjectInfo));
+            }
+
+            return subjectInfoViews;
         }
 
         // PUT: api/SubjectInfoes/5

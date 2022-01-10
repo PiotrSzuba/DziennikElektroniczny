@@ -38,7 +38,8 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Lessons/5
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson(int? id, int? teacherId, int? subjectId, string teacherSurname = null, string subjectName = null, string topic = null)
+        public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson(
+            int? id, int? teacherId, int? subjectId, string teacherSurname, string subjectName, string topic)
         {
             List<LessonView> lessonViews = new();
             List<Lesson> lessonsList = new();

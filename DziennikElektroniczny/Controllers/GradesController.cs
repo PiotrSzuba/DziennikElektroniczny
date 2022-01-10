@@ -41,9 +41,8 @@ namespace DziennikElektroniczny.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade(
             int? id,int? studentId,int? teacherId,int? subjectId,
-            string subjectName = null,string value = null, string studentName = null
-            ,string studentSurname = null, string teacherName = null 
-            , string teacherSurname = null)
+            string subjectName,string value, string studentName
+            ,string studentSurname, string teacherName , string teacherSurname)
         {
             List<Grade> gradesList = new();
             List<GradeView> gradeViews = new();

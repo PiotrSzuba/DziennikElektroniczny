@@ -37,9 +37,8 @@ namespace DziennikElektroniczny.Controllers
         //// GET: api/Subjects
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubjectView>>> GetSubject(
-            int? id, int? teacherId, int? classRoomId,
-            int? studentsGroupId,string classRoomName = null, string classRoomFloor = null
-            , string classRoomBuilding = null, string subjectName = null)
+            int? id, int? teacherId, int? classRoomId,int? studentsGroupId,string classroomName,
+            string classroomFloor, string classroomBuilding, string subjectName)
         {
             List<SubjectView> subjectViews = new();
             List<Subject> subjectsList = new();
@@ -87,7 +86,7 @@ namespace DziennikElektroniczny.Controllers
                     subjectsList = await Task.FromResult(subjectsList.Where(x => x.ClassRoomId == classRoomId).ToList());
                 }
             }
-            if(classRoomName != null)
+            if(classroomName != null)
             {
                 List<Subject> subjects = new();
                 if(subjectsList.Count == 0)
@@ -98,14 +97,14 @@ namespace DziennikElektroniczny.Controllers
                 foreach(var subject in subjectsList)
                 {
                     var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
-                    if(classRoom.Destination.ToLower().Contains(classRoomName.ToLower()))
+                    if(classRoom.Destination.ToLower().Contains(classroomName.ToLower()))
                     {
                         subjects.Add(subject);
                     }
                 }
                 subjectsList = subjects;
             }
-            if(classRoomFloor != null)
+            if(classroomFloor != null)
             {
                 List<Subject> subjects = new();
                 if (subjectsList.Count == 0)
@@ -116,14 +115,14 @@ namespace DziennikElektroniczny.Controllers
                 foreach (var subject in subjectsList)
                 {
                     var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
-                    if (classRoom.Floor.ToLower().Contains(classRoomFloor.ToLower()))
+                    if (classRoom.Floor.ToLower().Contains(classroomFloor.ToLower()))
                     {
                         subjects.Add(subject);
                     }
                 }
                 subjectsList = subjects;
             }
-            if(classRoomBuilding != null)
+            if(classroomBuilding != null)
             {
                 List<Subject> subjects = new();
                 if (subjectsList.Count == 0)
@@ -134,7 +133,7 @@ namespace DziennikElektroniczny.Controllers
                 foreach (var subject in subjectsList)
                 {
                     var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
-                    if (classRoom.Building.ToLower().Contains(classRoomBuilding.ToLower()))
+                    if (classRoom.Building.ToLower().Contains(classroomBuilding.ToLower()))
                     {
                         subjects.Add(subject);
                     }
@@ -162,8 +161,8 @@ namespace DziennikElektroniczny.Controllers
                 subjectsList = subjects;
             }
             if (id == null && subjectName == null && teacherId == null 
-                && studentsGroupId == null && classRoomId == null && classRoomName == null &&
-                classRoomFloor == null && classRoomBuilding == null)
+                && studentsGroupId == null && classRoomId == null && classroomName == null &&
+                classroomFloor == null && classroomBuilding == null)
             {
                 subjectsList = await _context.Subject.ToListAsync();
             }

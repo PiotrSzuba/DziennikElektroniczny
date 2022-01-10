@@ -22,25 +22,108 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/StudentsGroupMembers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentsGroupMemberView>>> GetStudentsGroupMember()
+        public async Task<StudentsGroupMemberView> CreateView(StudentsGroupMember studentsMemberGroup)
         {
-            return await _context.StudentsGroupMember.Select(x => new StudentsGroupMemberView(x)).ToListAsync();
+            var studentsGroup = await _context.StudentsGroup.FindAsync(studentsMemberGroup.StudentsGroupId);
+
+            var student = await _context.Person.FindAsync(studentsMemberGroup.StudentPersonId);
+            var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+
+            return new StudentsGroupMemberView(studentsMemberGroup, studentsGroup, studentInfo);
         }
 
-        // GET: api/StudentsGroupMembers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StudentsGroupMemberView>> GetStudentsGroupMember(int id)
+        // GET: api/StudentsGroupMembers
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<StudentsGroupMemberView>>> GetStudentsGroupMember(
+            int? id,int? groupId,int? studentId,string groupName,string studentName)
         {
-            var studentsGroupMember = await _context.StudentsGroupMember.FindAsync(id);
+            List<StudentsGroupMember> studentsGroupMembersList = new();
+            List<StudentsGroupMemberView> studentsGroupMemberViews = new();
+            if(id != null)
+            {
+                var studentsGroupMember = await _context.StudentsGroupMember.FindAsync(id);
 
-            if (studentsGroupMember == null)
+                if (studentsGroupMember == null)
+                {
+                    return NotFound();
+                }
+
+                studentsGroupMemberViews.Add(await CreateView(studentsGroupMember));
+                return studentsGroupMemberViews;
+            }
+            if(groupId != null)
+            {
+                if(studentsGroupMembersList.Count == 0)
+                {
+                    studentsGroupMembersList = await _context.StudentsGroupMember.Where(x => x.StudentsGroupId == groupId).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupMembersList = await Task.FromResult(studentsGroupMembersList.Where(x => x.StudentsGroupId == groupId).ToList());
+                }
+            }
+            if(studentId != null)
+            {
+                if (studentsGroupMembersList.Count == 0)
+                {
+                    studentsGroupMembersList = await _context.StudentsGroupMember.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupMembersList = await Task.FromResult(studentsGroupMembersList.Where(x => x.StudentPersonId == studentId).ToList());
+                }
+            }
+            if(groupName != null)
+            {
+                List<StudentsGroupMember> studentsGroupMembers = new();
+                if (studentsGroupMembersList.Count == 0)
+                {
+                    studentsGroupMembersList = await _context.StudentsGroupMember.ToListAsync();
+                }
+                foreach(var studentMember in studentsGroupMembersList)
+                {
+                    var studentsGroup = await _context.StudentsGroup.FindAsync(studentMember.StudentsGroupId);
+                    if(studentsGroup.Title.ToLower().Contains(groupName.ToLower()))
+                    {
+                        studentsGroupMembers.Add(studentMember);
+                    }
+                }
+                studentsGroupMembersList = studentsGroupMembers;
+            }
+            if(studentName != null)
+            {
+                List<StudentsGroupMember> studentsGroupMembers = new();
+                if (studentsGroupMembersList.Count == 0)
+                {
+                    studentsGroupMembersList = await _context.StudentsGroupMember.ToListAsync();
+                }
+                foreach (var studentMember in studentsGroupMembersList)
+                {
+                    var student = await _context.Person.FindAsync(studentMember.StudentPersonId);
+                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                    var name = studentInfo.Name + " " + studentInfo.Surname;
+               
+                    if (name.ToLower().Contains(studentName.ToLower()))
+                    {
+                        studentsGroupMembers.Add(studentMember);
+                    }
+                }
+                studentsGroupMembersList = studentsGroupMembers;
+            }
+            if(id == null && groupId == null && studentId == null && groupName == null && studentName == null)
+            {
+                studentsGroupMembersList = await _context.StudentsGroupMember.ToListAsync();
+            }
+            if(studentsGroupMembersList.Count == 0)
             {
                 return NotFound();
             }
+            foreach(var studentsGroupMember in studentsGroupMembersList)
+            {
+                studentsGroupMemberViews.Add(await CreateView(studentsGroupMember));
+            }
 
-            return new StudentsGroupMemberView(studentsGroupMember);
+            return studentsGroupMemberViews;
         }
 
         // PUT: api/StudentsGroupMembers/5

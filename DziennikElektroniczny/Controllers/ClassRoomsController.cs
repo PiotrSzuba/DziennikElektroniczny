@@ -24,23 +24,89 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Classrooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClassroomsView>>> GetClassRoom()
+        public async Task<ActionResult<IEnumerable<ClassroomsView>>> GetClassRoom(
+            int? id, string classroomName, string classroomFloor, string classroomBuilding)
         {
-            return await _context.ClassRoom.Select(x => new ClassroomsView(x)).ToArrayAsync();
-        }
+            List<ClassroomsView> classroomViews = new();
+            List<ClassRoom> classroomsList = new();
+            if(id != null)
+            {
+                var classRoom = await _context.ClassRoom.FindAsync(id);
 
-        // GET: api/Classrooms/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ClassroomsView>> GetClassRoom(int id)
-        {
-            var classRoom = await _context.ClassRoom.FindAsync(id);
+                if (classRoom == null)
+                {
+                    return NotFound();
+                }
+                classroomViews.Add(new ClassroomsView(classRoom));
+                return classroomViews;
+            }
+            if (classroomName != null)
+            {
+                List<ClassRoom> classrooms = new();
+                if (classroomsList.Count == 0)
+                {
+                    classroomsList = await _context.ClassRoom.ToListAsync();
+                }
 
-            if (classRoom == null)
+                foreach (var classroom in classroomsList)
+                {
+                    if (classroom.Destination.ToLower().Contains(classroomName.ToLower()))
+                    {
+                        classrooms.Add(classroom);
+                    }
+                }
+                classroomsList = classrooms;
+            }
+            if (classroomFloor != null)
+            {
+                List<ClassRoom> classrooms = new();
+                if (classroomsList.Count == 0)
+                {
+                    classroomsList = await _context.ClassRoom.ToListAsync();
+                }
+
+                foreach (var classroom in classroomsList)
+                {
+                    if (classroom.Floor.ToLower().Contains(classroomFloor.ToLower()))
+                    {
+                        classrooms.Add(classroom);
+                    }
+                }
+                classroomsList = classrooms;
+            }
+            if (classroomBuilding != null)
+            {
+                List<ClassRoom> classrooms = new();
+                if (classroomsList.Count == 0)
+                {
+                    classroomsList = await _context.ClassRoom.ToListAsync();
+                }
+
+                foreach (var classroom in classroomsList)
+                {
+                    if (classroom.Building.ToLower().Contains(classroomBuilding.ToLower()))
+                    {
+                        classrooms.Add(classroom);
+                    }
+                }
+                classroomsList = classrooms;
+            }
+            if(id == null && classroomName == null && classroomFloor == null && classroomBuilding == null)
+            {
+                classroomsList = await _context.ClassRoom.ToListAsync();
+            }
+
+            if (classroomsList.Count == 0)
             {
                 return NotFound();
             }
 
-            return await Task.FromResult(new ClassroomsView(classRoom));
+            foreach(var classroom in classroomsList)
+            {
+                classroomViews.Add(new ClassroomsView(classroom));
+            }
+
+            return classroomViews;
         }
 
         // PUT: api/Classrooms/5

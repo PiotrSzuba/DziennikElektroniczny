@@ -22,25 +22,110 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/EventParticipators
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventParticipatorView>>> GetEventParticipator()
+        public async Task<EventParticipatorView> CreateView(EventParticipator eventParticipator)
         {
-            return await _context.EventParticipator.Select(x => new EventParticipatorView(x)).ToListAsync();
+            var @event = await _context.Event.FindAsync(eventParticipator.EventId);
+
+            var person = await _context.Person.FindAsync(eventParticipator.PersonId);
+            var personalInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+
+            return new EventParticipatorView(eventParticipator,@event, personalInfo);
         }
 
-        // GET: api/EventParticipators/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EventParticipatorView>> GetEventParticipator(int id)
+        // GET: api/EventParticipators
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EventParticipatorView>>> GetEventParticipator(
+            int? id,int? eventId,int? personId,string eventName,string personName)
         {
-            var eventParticipator = await _context.EventParticipator.FindAsync(id);
+            List<EventParticipator> eventParticipatorsList = new();
+            List<EventParticipatorView> eventParticipatorViews = new();
+            if(id != null)
+            {
+                var eventParticipator = await _context.EventParticipator.FindAsync(id);
 
-            if (eventParticipator == null)
+                if (eventParticipator == null)
+                {
+                    return NotFound();
+                }
+
+                eventParticipatorViews.Add(await CreateView(eventParticipator));
+
+                return eventParticipatorViews;
+            }
+            if(eventId != null)
+            {
+                if(eventParticipatorsList.Count == 0)
+                {
+                    eventParticipatorsList = await _context.EventParticipator.Where(x => x.EventId == eventId).ToListAsync();
+                }
+                else
+                {
+                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList.Where(x => x.EventId == eventId).ToList());
+                }
+            }
+            if(personId != null)
+            {
+                if (eventParticipatorsList.Count == 0)
+                {
+                    eventParticipatorsList = await _context.EventParticipator.Where(x => x.PersonId == personId).ToListAsync();
+                }
+                else
+                {
+                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList.Where(x => x.PersonId == personId).ToList());
+                }
+            }
+            if(eventName != null)
+            {
+                List<EventParticipator> eventParticipators = new();
+                if (eventParticipatorsList.Count == 0)
+                {
+                    eventParticipatorsList = await _context.EventParticipator.ToListAsync();
+                }
+                foreach(var eventParticipator in eventParticipatorsList)
+                {
+                    var @event = await _context.Event.FindAsync(eventParticipator.EventId);
+                    if(@event.Title.ToLower().Contains(eventName.ToLower()))
+                    {
+                        eventParticipators.Add(eventParticipator);
+                    }
+                }
+                eventParticipatorsList = eventParticipators;
+            }
+            if(personName != null)
+            {
+                List<EventParticipator> eventParticipators = new();
+                if (eventParticipatorsList.Count == 0)
+                {
+                    eventParticipatorsList = await _context.EventParticipator.ToListAsync();
+                }
+                foreach (var eventParticipator in eventParticipatorsList)
+                {
+                    var person = await _context.Person.FindAsync(eventParticipator.PersonId);
+                    var personalInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+                    var name = personalInfo.Name + " " + personalInfo.Surname;
+                    if(name.ToLower().Contains(personName.ToLower()))
+                    {
+                        eventParticipators.Add(eventParticipator);
+                    }
+                }
+                eventParticipatorsList = eventParticipators;
+            }
+            if(id == null && eventId == null && personId == null && eventName == null && personName == null)
+            {
+                eventParticipatorsList = await _context.EventParticipator.ToListAsync();
+            }
+
+            if(eventParticipatorsList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new EventParticipatorView(eventParticipator);
+            foreach(var eventParticipator in eventParticipatorsList)
+            {
+                eventParticipatorViews.Add(await CreateView(eventParticipator));
+            }
+
+            return eventParticipatorViews;
         }
 
         // PUT: api/EventParticipators/5

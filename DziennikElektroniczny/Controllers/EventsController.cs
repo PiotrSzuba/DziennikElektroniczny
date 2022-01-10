@@ -21,43 +21,84 @@ namespace DziennikElektroniczny.Controllers
         {
             _context = context;
         }
+        public async Task<EventView> CreateView(Event @event)
+        {
+            var participators = await _context.EventParticipator.Where(x => x.EventId == @event.EventId).ToListAsync();
+            List<PersonalInfo> personalInfos = new();
+            foreach(var participator in participators)
+            {
+                var person = await _context.Person.FindAsync(participator.PersonId);
+                var personalInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+                personalInfos.Add(personalInfo);
+            }
+            return new EventView(@event,personalInfos);
+        }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventView>>> GetEvent(string title,int? id)
+        public async Task<ActionResult<IEnumerable<EventView>>> GetEvent(
+            int? id,int? eventId, string title, string description)
         {
-            if(id > 0)
+            List<EventView> eventViews = new();
+            List<Event> eventsList = new();
+            if(id != null)
             {
-                List<EventView> eventsView1 = new();
                 var @event = await _context.Event.FindAsync(id);
                 if (@event == null)
                 {
                     return NotFound();
                 }
-                eventsView1.Add(new EventView(@event));
+                eventViews.Add(await CreateView(@event));
 
-                return eventsView1;
+                return eventViews;
+            }
+            if(eventId != null)
+            {
+                if(eventsList.Count == 0)
+                {
+                    eventsList = await _context.Event.Where(x => x.EventId == eventId).ToListAsync();
+                }
+                else
+                {
+                    eventsList = await Task.FromResult(eventsList.Where(x => x.EventId == eventId).ToList());
+                }
             }
             if (title != null)
             {
-                var events = await _context.Event.Where(x => x.Title == title).ToListAsync();
-
-                if (events == null)
+                if(eventsList.Count == 0)
                 {
-                    return NotFound();
+                    eventsList = await _context.Event.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToListAsync();
                 }
-
-                List<EventView> eventsView = new();
-
-                foreach (var @event in events)
+                else
                 {
-                    eventsView.Add(new EventView(@event));
+                    eventsList = await Task.FromResult(eventsList.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList());
                 }
-                return eventsView;
             }
-            else
+            if (description != null)
             {
-                return await _context.Event.Select(x => new EventView(x)).ToListAsync();
+                if (eventsList.Count == 0)
+                {
+                    eventsList = await _context.Event.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    eventsList = await Task.FromResult(eventsList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                }
             }
+            if(id == null && eventId == null && title == null && description == null)
+            {
+                eventsList = await _context.Event.ToListAsync();
+            }
+            if(eventsList.Count == 0)
+            {
+                return NotFound();
+            }
+
+            foreach (var @event in eventsList)
+            {
+                eventViews.Add(await CreateView(@event));
+            }
+
+            return eventViews;
 
         }
 

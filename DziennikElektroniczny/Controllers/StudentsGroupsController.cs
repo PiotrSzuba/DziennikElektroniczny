@@ -22,25 +22,119 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/StudentsGroups
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentsGroupView>>> GetStudentsGroup()
+        public async Task<StudentsGroupView> CreateView(StudentsGroup studentsGroup)
         {
-            return await _context.StudentsGroup.Select(x => new StudentsGroupView(x)).ToListAsync();
+            var teacher = await _context.Person.FindAsync(studentsGroup.TeacherPersonId);
+            var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+
+            var studentsMember = await _context.StudentsGroupMember.Where(x => x.StudentsGroupId == studentsGroup.StudentsGroupId).ToListAsync();
+            List<PersonalInfo> studentsInfos = new();
+            foreach(var studentMember in studentsMember)
+            {
+                var student = await _context.Person.FindAsync(studentMember.StudentPersonId);
+                var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                studentsInfos.Add(studentInfo);
+            }
+
+            return new StudentsGroupView(studentsGroup,teacherInfo,studentsInfos);
         }
 
-        // GET: api/StudentsGroups/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StudentsGroupView>> GetStudentsGroup(int id)
+        // GET: api/StudentsGroups
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<StudentsGroupView>>> GetStudentsGroup(
+            int? id,int? teacherId,string teacherName,string title,string description,int? yearOfStudy)
         {
-            var studentsGroup = await _context.StudentsGroup.FindAsync(id);
+            List<StudentsGroup> studentsGroupsList = new();
+            List<StudentsGroupView> studentsGroupViews = new();
+            if(id != null)
+            {
+                var studentsGroup = await _context.StudentsGroup.FindAsync(id);
 
-            if (studentsGroup == null)
+                if (studentsGroup == null)
+                {
+                    return NotFound();
+                }
+
+                studentsGroupViews.Add(await CreateView(studentsGroup));
+                return studentsGroupViews;
+            }
+            if(teacherId != null)
+            {
+                if(studentsGroupsList.Count == 0)
+                {
+                    studentsGroupsList = await _context.StudentsGroup.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupsList = await Task.FromResult(studentsGroupsList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                }
+            }
+            if(teacherName != null)
+            {
+                List<StudentsGroup> studentsGroups = new();
+                if (studentsGroupsList.Count == 0)
+                {
+                    studentsGroupsList = await _context.StudentsGroup.ToListAsync();
+                }
+                foreach (var studentGroup in studentsGroupsList)
+                {
+                    var teacher = await _context.Person.FindAsync(studentGroup.TeacherPersonId);
+                    var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+                    var name = teacherInfo.Name + " " + teacherInfo.Surname;
+                    if(name.ToLower().Contains(teacherName.ToLower()))
+                    {
+                        studentsGroups.Add(studentGroup);
+                    }
+                }
+                studentsGroupsList = studentsGroups;
+            }
+            if(title != null)
+            {
+                if (studentsGroupsList.Count == 0)
+                {
+                    studentsGroupsList = await _context.StudentsGroup.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupsList = await Task.FromResult(studentsGroupsList.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList());
+                }
+            }
+            if(description != null)
+            {
+                if (studentsGroupsList.Count == 0)
+                {
+                    studentsGroupsList = await _context.StudentsGroup.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupsList = await Task.FromResult(studentsGroupsList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                }
+            }
+            if(yearOfStudy != null)
+            {
+                if (studentsGroupsList.Count == 0)
+                {
+                    studentsGroupsList = await _context.StudentsGroup.Where(x => x.YearOfStudy == yearOfStudy).ToListAsync();
+                }
+                else
+                {
+                    studentsGroupsList = await Task.FromResult(studentsGroupsList.Where(x => x.YearOfStudy == yearOfStudy).ToList());
+                }
+            }
+            if (id == null && teacherId == null && teacherName == null && title == null && description == null && yearOfStudy == null)
+            {
+                studentsGroupsList = await _context.StudentsGroup.ToListAsync();
+            }
+            if(studentsGroupsList.Count == 0)
             {
                 return NotFound();
             }
+            foreach(var studentGroup in studentsGroupsList)
+            {
+                studentsGroupViews.Add(await CreateView(studentGroup));
+            }
 
-            return new StudentsGroupView(studentsGroup);
+            return studentsGroupViews;
         }
 
         // PUT: api/StudentsGroups/5
