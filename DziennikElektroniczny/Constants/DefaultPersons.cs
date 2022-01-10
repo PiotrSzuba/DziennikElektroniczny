@@ -74,7 +74,14 @@ namespace DziennikElektroniczny.Constants
                         Role = 2,
                         Login = "Login7",
                         HashedPassword = "1234"
+                    }, new Person
+                    {
+                        PersonalInfoId = 8,
+                        Role = 0,
+                        Login = "Login9",
+                        HashedPassword = "1234"
                     }
+
 
                 );
                 context.SaveChanges();
