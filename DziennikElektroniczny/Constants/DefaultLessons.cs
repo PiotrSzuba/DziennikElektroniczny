@@ -25,43 +25,43 @@ namespace DziennikElektroniczny.Constants
                 context.Lesson.AddRange(
                     new Lesson
                     {
-                        TeacherPersonId = 1,
-                        SubjectId = 16,
+                        TeacherPersonId = 8,
+                        SubjectId = 1,
                         Topic = "Dodawanie",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 17,
+                        SubjectId = 2,
                         Topic = "Całki",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 18,
+                        SubjectId = 3,
                         Topic = "Podwójne całki",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
-                        TeacherPersonId = 1,
-                        SubjectId = 19,
+                        TeacherPersonId = 8,
+                        SubjectId = 4,
                         Topic = "Wektory",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 17,
+                        SubjectId = 2,
                         Topic = "Odejmowanie",
                         Date = DateTime.Now
                     },
                     new Lesson
                     {
                         TeacherPersonId = 1,
-                        SubjectId = 18,
+                        SubjectId = 3,
                         Topic = "Całki część dalsza",
                         Date = DateTime.Now
                     }

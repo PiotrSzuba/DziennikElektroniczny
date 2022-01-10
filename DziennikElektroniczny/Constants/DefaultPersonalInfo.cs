@@ -88,8 +88,16 @@ namespace DziennikElektroniczny.Constants
                         PhoneNumber = "tel7",
                         Address = "Address 7",
                         Pesel = "Pesel7"
+                    },new PersonalInfo
+                    {
+                        Name = "Zemsta",
+                        SecondName = "",
+                        Surname = "Salhazara",
+                        DateOfBirth = DateTime.Now,
+                        PhoneNumber = "tel8",
+                        Address = "Address 8",
+                        Pesel = "Pesel8"
                     }
-
                     ) ;
                 context.SaveChanges();
             }

@@ -32,7 +32,7 @@ namespace DziennikElektroniczny.Constants
                     },
                     new StudentsGroup
                     {
-                        TeacherPersonId = 1,
+                        TeacherPersonId = 8,
                         Title = "1B",
                         Description = "Fresh meat",
                         YearOfStudy = 2020
@@ -46,7 +46,7 @@ namespace DziennikElektroniczny.Constants
                     },
                     new StudentsGroup
                     {
-                        TeacherPersonId = 1,
+                        TeacherPersonId = 8,
                         Title = "2B",
                         Description = "Experienced meat",
                         YearOfStudy = 2019
@@ -60,7 +60,7 @@ namespace DziennikElektroniczny.Constants
                     },
                     new StudentsGroup
                     {
-                        TeacherPersonId = 1,
+                        TeacherPersonId = 8,
                         Title = "3A",
                         Description = "Old meat",
                         YearOfStudy = 2018

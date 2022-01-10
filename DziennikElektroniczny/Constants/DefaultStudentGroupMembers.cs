@@ -25,22 +25,22 @@ namespace DziennikElektroniczny.Constants
                 context.StudentsGroupMember.AddRange(
                     new StudentsGroupMember
                     {
-                        StudentsGroupId = 25,
+                        StudentsGroupId = 1,
                         StudentPersonId = 2,
                     },
                     new StudentsGroupMember
                     {
-                        StudentsGroupId = 25,
+                        StudentsGroupId = 1,
                         StudentPersonId = 3,
                     },
                     new StudentsGroupMember
                     {
-                        StudentsGroupId = 25,
+                        StudentsGroupId = 2,
                         StudentPersonId = 4,
                     },
                     new StudentsGroupMember
                     {
-                        StudentsGroupId = 25,
+                        StudentsGroupId = 2,
                         StudentPersonId = 5,
                     }
                     );

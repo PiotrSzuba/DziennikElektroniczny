@@ -45,43 +45,43 @@ namespace DziennikElektroniczny.Constants
                     {
                         Building = "A1",
                         Floor = "1",
-                        Destination = "1"
+                        Destination = "4"
                     },
                     new ClassRoom
                     {
                         Building = "A1",
                         Floor = "0",
-                        Destination = "2"
+                        Destination = "5"
                     },
                     new ClassRoom
                     {
                         Building = "A1",
                         Floor = "1",
-                        Destination = "3"
+                        Destination = "6"
                     },
                     new ClassRoom
                     {
                         Building = "A2",
                         Floor = "0",
-                        Destination = "1"
+                        Destination = "7"
                     },
                     new ClassRoom
                     {
                         Building = "A2",
                         Floor = "0",
-                        Destination = "2"
+                        Destination = "8"
                     },
                     new ClassRoom
                     {
                         Building = "A2",
                         Floor = "0",
-                        Destination = "3"
+                        Destination = "9"
                     },
                     new ClassRoom
                     {
                         Building = "A2",
                         Floor = "1",
-                        Destination = "1"
+                        Destination = "10"
                     }
                     );
                 context.SaveChanges();
