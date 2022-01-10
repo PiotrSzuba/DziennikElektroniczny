@@ -22,26 +22,143 @@ namespace DziennikElektroniczny.Controllers
         {
             _context = context;
         }
+        public async Task<AttendanceView> CreateAttendanceView(Attendance attendance)
+        {
+            var student = await _context.Person.FindAsync(attendance.StudentPersonId);
+            var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+
+            var lesson = await _context.Lesson.FindAsync(attendance.LessonId);
+
+            var subject = await _context.Subject.FindAsync(lesson.SubjectId);
+            var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+            return new AttendanceView(attendance, studentInfo,lesson,subjectInfo);
+        }
 
         // GET: api/Attendances
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AttendanceView>>> GetAttendance()
+        public async Task<ActionResult<IEnumerable<AttendanceView>>> GetAttendance(
+            int? id,int? studentId,int? lessonId,int? wasPresent,string subjectName = null
+            ,string studentName = null,string studentSurname = null)
         {
-            return await _context.Attendance.Select(x => new AttendanceView(x)).ToListAsync();
-        }
+            List<Attendance> attendancesList = new();
+            List<AttendanceView> attendanceViews = new();
+            if (id != null)
+            {
+                var attendance = await _context.Attendance.FindAsync(id);
 
-        // GET: api/Attendances/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AttendanceView>> GetAttendance(int id)
-        {
-            var attendance = await _context.Attendance.FindAsync(id);
+                if (attendance == null)
+                {
+                    return NotFound();
+                }
 
-            if (attendance == null)
+                attendanceViews.Add(await CreateAttendanceView(attendance));
+
+                return attendanceViews;
+            }
+            if(studentId != null)
+            {
+                if(attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                }
+                else
+                {
+                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.StudentPersonId == studentId).ToList());
+                }
+            }
+            if(lessonId != null)
+            {
+                if(attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.Where(x => x.LessonId == lessonId).ToListAsync();
+                }
+                else
+                {
+                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.LessonId == lessonId).ToList());
+                }
+            }
+            if(wasPresent != null)
+            {
+                if (attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.Where(x => x.WasPresent == wasPresent).ToListAsync();
+                }
+                else
+                {
+                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.WasPresent == wasPresent).ToList());
+                }
+            }
+            if(subjectName != null)
+            {
+                List<Attendance> attendances = new();
+                if(attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.ToListAsync();
+                }
+                foreach(var attendance in attendancesList)
+                {
+                    var lesson = await _context.Lesson.FindAsync(attendance.LessonId);
+                    var subject = await _context.Subject.FindAsync(lesson.SubjectId);
+                    var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+                    if (subjectInfo.Title.ToLower().Contains(subjectName.ToLower()))
+                    {
+                        attendances.Add(attendance);
+                    }
+                }
+                attendancesList = attendances;
+            }
+            if(studentName != null)
+            {
+                List<Attendance> attendances = new();
+                if (attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.ToListAsync();
+                }
+                foreach (var attendance in attendancesList)
+                {
+                    var student = await _context.Person.FindAsync(attendance.StudentPersonId);
+                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                    if (studentInfo.Name.ToLower().Contains(studentName.ToLower()))
+                    {
+                        attendances.Add(attendance);
+                    }
+                }
+                attendancesList = attendances;
+            }
+            if(studentSurname != null)
+            {
+                List<Attendance> attendances = new();
+                if (attendancesList.Count == 0)
+                {
+                    attendancesList = await _context.Attendance.ToListAsync();
+                }
+                foreach (var attendance in attendancesList)
+                {
+                    var student = await _context.Person.FindAsync(attendance.StudentPersonId);
+                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                    if (studentInfo.Surname.ToLower().Contains(studentSurname.ToLower()))
+                    {
+                        attendances.Add(attendance);
+                    }
+                }
+                attendancesList = attendances;
+            }
+            if(id == null && studentId == null && lessonId == null 
+                && wasPresent == null && subjectName == null && studentName == null && studentSurname == null)
+            {
+                attendancesList = await _context.Attendance.ToListAsync();
+            }
+            if (attendancesList.Count == 0)
             {
                 return NotFound();
             }
+            foreach (var attendance in attendancesList)
+            {
+                attendanceViews.Add(await CreateAttendanceView(attendance));
+            }
 
-            return await Task.FromResult(new AttendanceView(attendance));
+            return attendanceViews;
         }
 
         // PUT: api/Attendances/5

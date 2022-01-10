@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -30,32 +31,151 @@ namespace DziennikElektroniczny.Controllers
             var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
             var studentsGroup = await _context.StudentsGroup.FindAsync(subject.StudentsGroupId);
 
-
             return new SubjectView(subject, subjectInfo, classRoom, studentsGroup, teacherInfo);
         }
 
         //// GET: api/Subjects
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubjectView>>> GetSubject(int? id)
+        public async Task<ActionResult<IEnumerable<SubjectView>>> GetSubject(
+            int? id, int? teacherId, int? classRoomId,
+            int? studentsGroupId,string classRoomName = null, string classRoomFloor = null
+            , string classRoomBuilding = null, string subjectName = null)
         {
             List<SubjectView> subjectViews = new();
-            if (id == null)
-            {
-                var subjects = await _context.Subject.ToListAsync();
-                foreach (var subject in subjects)
-                {
-                    subjectViews.Add(await CreateSubjectView(subject));
-                }
-            }
-            else
+            List<Subject> subjectsList = new();
+            if (id != null)
             {
                 var subject = await _context.Subject.FindAsync(id);
                 if (subject == null)
                 {
                     return NotFound();
                 }
-                subjectViews.Add(CreateSubjectView(subject).Result);
+                subjectViews.Add(await CreateSubjectView(subject));
+
+                return subjectViews;
             }
+            if(teacherId != null)
+            {
+                if(subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                }
+                else
+                {
+                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                }
+            }
+            if(studentsGroupId != null)
+            {
+                if(subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.Where(x => x.StudentsGroupId == studentsGroupId).ToListAsync();
+                }
+                else
+                {
+                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.StudentsGroupId == studentsGroupId).ToList());
+                }
+            }
+            if(classRoomId != null)
+            {
+                if (subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.Where(x => x.ClassRoomId == classRoomId).ToListAsync();
+                }
+                else
+                {
+                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.ClassRoomId == classRoomId).ToList());
+                }
+            }
+            if(classRoomName != null)
+            {
+                List<Subject> subjects = new();
+                if(subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.ToListAsync();
+                }
+
+                foreach(var subject in subjectsList)
+                {
+                    var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
+                    if(classRoom.Destination.ToLower().Contains(classRoomName.ToLower()))
+                    {
+                        subjects.Add(subject);
+                    }
+                }
+                subjectsList = subjects;
+            }
+            if(classRoomFloor != null)
+            {
+                List<Subject> subjects = new();
+                if (subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.ToListAsync();
+                }
+
+                foreach (var subject in subjectsList)
+                {
+                    var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
+                    if (classRoom.Floor.ToLower().Contains(classRoomFloor.ToLower()))
+                    {
+                        subjects.Add(subject);
+                    }
+                }
+                subjectsList = subjects;
+            }
+            if(classRoomBuilding != null)
+            {
+                List<Subject> subjects = new();
+                if (subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.ToListAsync();
+                }
+
+                foreach (var subject in subjectsList)
+                {
+                    var classRoom = await _context.ClassRoom.FindAsync(subject.ClassRoomId);
+                    if (classRoom.Building.ToLower().Contains(classRoomBuilding.ToLower()))
+                    {
+                        subjects.Add(subject);
+                    }
+                }
+                subjectsList = subjects;
+            }
+            if (subjectName != null)
+            {
+                List<Subject> subjects = new();
+
+                if(subjectsList.Count == 0)
+                {
+                    subjectsList = await _context.Subject.ToListAsync();
+                }
+
+                foreach (var subject in subjectsList)
+                {
+                    var subjectsInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+                    if(subjectsInfo.Title.ToLower().Contains(subjectName.ToLower()))
+                    {
+                        subjects.Add(subject);
+                    }
+                }
+                subjectsList = subjects;
+            }
+            if (id == null && subjectName == null && teacherId == null 
+                && studentsGroupId == null && classRoomId == null && classRoomName == null &&
+                classRoomFloor == null && classRoomBuilding == null)
+            {
+                subjectsList = await _context.Subject.ToListAsync();
+            }
+            if (subjectsList.Count == 0)
+            {
+                return NotFound();
+            }
+            foreach (var subject in subjectsList)
+            {
+                subjectViews.Add(await CreateSubjectView(subject));
+            }
+
             return subjectViews;
         }
 

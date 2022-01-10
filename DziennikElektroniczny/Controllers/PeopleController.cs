@@ -97,24 +97,70 @@ namespace DziennikElektroniczny.Controllers
 
             var toMsgs = await _context.Message.Where(x => x.ToPersonId == id).ToListAsync();
             var fromMsgs = await _context.Message.Where(x => x.FromPersonId == id).ToListAsync();
-            var allMsgs = await Task.FromResult(toMsgs.Concat(fromMsgs));
+
+            foreach(var msg in toMsgs)
+            {
+                msg.ToPersonId = null;
+                if(msg.FromPersonId == null)
+                {
+                    _context.Remove(msg);
+                }        
+            }
+
+            foreach (var msg in fromMsgs)
+            {
+                msg.FromPersonId = null;
+                if (msg.ToPersonId == null)
+                {
+                    _context.Remove(msg);
+                }
+            }
 
             var studGrades = await _context.Grade.Where(x => x.StudentPersonId == id).ToListAsync();
             var teacherGrades = await _context.Grade.Where(x => x.TeacherPersonId == id).ToListAsync();
-            var allGrades = await Task.FromResult(studGrades.Concat(teacherGrades));
+
+            foreach(var grade in studGrades)
+            {
+                _context.Grade.Remove(grade);
+            }
+
+            foreach(var grade in  teacherGrades)
+            {
+                grade.TeacherPersonId = null;
+            }
 
             await _context.StudentsGroup.Where(x => x.TeacherPersonId == id).ForEachAsync(x => x.TeacherPersonId = null);
 
-            if (allMsgs == null && allGrades == null)
+            var attendanceStudent = await _context.Attendance.Where(x => x.StudentPersonId == id).ToListAsync();
+            foreach(var attendance in attendanceStudent)
             {
-                _context.Person.Remove(person);
+                _context.Attendance.Remove(attendance);
             }
-            else
+
+            var studNotes = await _context.Note.Where(x => x.StudentPersonId == id).ToListAsync();
+            var teacherNotes = await _context.Note.Where(x => x.TeacherPersonId==id).ToListAsync();
+
+            foreach(var note in studNotes)
             {
-                _context.Message.RemoveRange(allMsgs);
-                _context.Grade.RemoveRange(allGrades);
-                _context.Person.Remove(person);
+                _context.Note.Remove(note);
             }
+            foreach(var note in teacherNotes)
+            {
+                note.TeacherPersonId = null;
+            }
+
+            var parents = await _context.Parent.Where(x => x.ParentPersonId == id).ToArrayAsync();
+            var parentsStud = await _context.Parent.Where(x => x.StudentPersonId == id).ToListAsync();
+            foreach(var parent in parents)
+            {
+                _context.Parent.Remove(parent);
+            }
+            foreach (var parent in parentsStud)
+            {
+                _context.Parent.Remove(parent);
+            }
+
+            _context.Person.Remove(person);
             await _context.SaveChangesAsync();
 
             return NoContent();

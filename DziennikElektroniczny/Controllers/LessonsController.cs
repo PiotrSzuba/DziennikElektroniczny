@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -16,31 +17,125 @@ namespace DziennikElektroniczny.Controllers
     public class LessonsController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
+        private readonly ILogger _logger;
 
-        public LessonsController(DziennikElektronicznyContext context)
+        public LessonsController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        // GET: api/Lessons
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson()
+        public async Task<LessonView> CreateLessonView(Lesson lesson)
         {
-            return await _context.Lesson.Select(x => new LessonView(x)).ToListAsync();
+            var teacher = await _context.Person.FindAsync(lesson.TeacherPersonId);
+            var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+
+            var subject = await _context.Subject.FindAsync(lesson.SubjectId);
+            var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+            return new LessonView(lesson, subjectInfo, teacherInfo);
         }
 
         // GET: api/Lessons/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<LessonView>> GetLesson(int id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson(int? id, int? teacherId, int? subjectId, string teacherSurname = null, string subjectName = null, string topic = null)
         {
-            var lesson = await _context.Lesson.FindAsync(id);
+            List<LessonView> lessonViews = new();
+            List<Lesson> lessonsList = new();
+            if (id != null)
+            {
+                var lesson = await _context.Lesson.FindAsync(id);
 
-            if (lesson == null)
+                if (lesson == null)
+                {
+                    return NotFound();
+                }
+                lessonViews.Add(await CreateLessonView(lesson));
+                
+                return lessonViews;
+            }
+            if(teacherId != null)
+            {
+                if(lessonsList.Count == 0)
+                {
+                    lessonsList = await _context.Lesson.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                }
+                else
+                {
+                    lessonsList = await Task.FromResult(lessonsList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                }
+            }
+            if(subjectId != null)
+            {
+                if(lessonsList.Count == 0)
+                {
+                    lessonsList = await _context.Lesson.Where(x => x.SubjectId == subjectId).ToListAsync();
+                }
+                else
+                {
+                    lessonsList = await Task.FromResult(lessonsList.Where(x => x.SubjectId == subjectId).ToList());
+                }
+            }
+            if(teacherSurname != null)
+            {
+                List<Lesson> lessons = new();
+                if (lessonsList.Count == 0)
+                {
+                    lessons = await _context.Lesson.ToListAsync();
+                }
+                foreach (var lesson in lessonsList)
+                {
+                    var teacher = await _context.Person.FindAsync(lesson.TeacherPersonId);
+                    var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+                    if (teacherInfo.Surname.Contains(teacherSurname))
+                    {
+                        lessons.Add(lesson);
+                    }
+                }
+                lessonsList = lessons;
+            }
+            if(subjectName != null)
+            {
+                List<Lesson> lessons = new();
+                if (lessonsList.Count == 0)
+                {
+                    lessonsList = await _context.Lesson.ToListAsync();
+                }
+                foreach (var lesson in lessonsList)
+                {
+                    var subject = await _context.Subject.FindAsync(lesson.SubjectId);
+                    var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+                    if (subjectInfo.Title.ToLower().Contains(subjectName.ToLower()))
+                    {
+                        lessons.Add(lesson);
+                    }
+                }
+                lessonsList = lessons;
+            }
+            if(topic != null)
+            {
+                if (lessonsList.Count == 0)
+                {
+                    lessonsList = await _context.Lesson.Where(x => x.Topic.ToLower().Contains(topic)).ToListAsync();
+                }
+                else
+                {
+                    lessonsList = await Task.FromResult(lessonsList.Where(x => x.Topic.ToLower().Contains(topic.ToLower())).ToList());
+                }
+            }
+            if(id == null && teacherId == null && subjectId == null && teacherSurname == null && subjectName == null && topic == null)
+            {
+                lessonsList = await _context.Lesson.ToListAsync();
+            }
+            if (lessonsList.Count == 0)
             {
                 return NotFound();
             }
-
-            return new LessonView(lesson);
+            foreach (var lesson in lessonsList)
+            {
+                lessonViews.Add(await CreateLessonView(lesson));
+            }
+            return lessonViews;
         }
 
         // PUT: api/Lessons/5

@@ -14,6 +14,9 @@ namespace DziennikElektroniczny.ViewModels
         public string StudentsGroupName { get; set; }
         public int ClassRoomId { get; set; }
         public string ClassRoomName { get; set; }
+        public string ClassRoomFloor { get; set; }
+        public string ClassRoomBuilding { get; set; }
+
         public SubjectView(Subject subject,SubjectInfo subjectInfo,ClassRoom classRoom,StudentsGroup studentsGroup,PersonalInfo teacherInfo)
         {
             Id = subject.SubjectId;
@@ -25,6 +28,9 @@ namespace DziennikElektroniczny.ViewModels
             StudentsGroupName = studentsGroup.Title;
             ClassRoomId = subject.ClassRoomId;
             ClassRoomName = classRoom.Destination;
+            ClassRoomFloor = classRoom.Floor;
+            ClassRoomBuilding = classRoom.Building;
+
 
         }
     }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -16,31 +17,203 @@ namespace DziennikElektroniczny.Controllers
     public class GradesController : ControllerBase
     {
         private readonly DziennikElektronicznyContext _context;
-
-        public GradesController(DziennikElektronicznyContext context)
+        private readonly ILogger _logger;
+        public GradesController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
         {
             _context = context;
+            _logger = logger;
+        }
+        public async Task<GradeView> CreateGradeView(Grade grade)
+        {
+            var student = await _context.Person.FindAsync(grade.StudentPersonId);
+            var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+
+            var teacher = await _context.Person.FindAsync(grade.TeacherPersonId);
+            var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+
+            var subject = await _context.Subject.FindAsync(grade.SubjectId);
+            var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+            return new GradeView(grade, studentInfo,teacherInfo,subjectInfo);
         }
 
         // GET: api/Grades
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade()
+        public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade(
+            int? id,int? studentId,int? teacherId,int? subjectId,
+            string subjectName = null,string value = null, string studentName = null
+            ,string studentSurname = null, string teacherName = null 
+            , string teacherSurname = null)
         {
-            return await _context.Grade.Select(x => new GradeView(x)).ToListAsync();
-        }
+            List<Grade> gradesList = new();
+            List<GradeView> gradeViews = new();
+            if (id != null)
+            {
+                var grade = await _context.Grade.FindAsync(id);
 
-        // GET: api/Grades/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GradeView>> GetGrade(int id)
-        {
-            var grade = await _context.Grade.FindAsync(id);
-
-            if (grade == null)
+                if (grade == null)
+                {
+                    return NotFound();
+                }
+                gradeViews.Add(await CreateGradeView(grade));
+                return gradeViews;
+            }
+            if(studentId != null)
+            {
+                if(gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                }
+                else
+                {
+                    gradesList = await Task.FromResult(gradesList.Where(x => x.StudentPersonId == studentId).ToList());
+                }
+            }
+            if(teacherId != null)
+            {
+                if(gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                }
+                else
+                {
+                    gradesList = await Task.FromResult(gradesList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                }
+            }
+            if(subjectId != null)
+            {
+                if (subjectId != null)
+                {
+                    gradesList = await _context.Grade.Where(x => x.SubjectId == subjectId).ToListAsync();
+                }
+                else
+                {
+                    gradesList = await Task.FromResult(gradesList.Where(x => x.SubjectId == subjectId).ToList());
+                }
+            }
+            if (subjectName != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach (var grade in gradesList)
+                {
+                    var subject = await _context.Subject.FindAsync(grade.SubjectId);
+                    var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+                    if (subjectInfo.Title.ToLower().Contains(subjectName.ToLower()))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if(value != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach(var grade in gradesList)
+                {
+                    if (grade.Value.ToLower().Contains(value))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if (studentName != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach (var grade in gradesList)
+                {
+                    var student = await _context.Person.FindAsync(grade.StudentPersonId);
+                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                    if (studentInfo.Name.ToLower().Contains(studentName))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if (studentSurname != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach (var grade in gradesList)
+                {
+                    var student = await _context.Person.FindAsync(grade.StudentPersonId);
+                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                    if(studentInfo.Surname.ToLower().Contains(studentSurname))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if (teacherName != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach (var grade in gradesList)
+                {
+                    var teacher = await _context.Person.FindAsync(grade.StudentPersonId);
+                    var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+                    if (teacherInfo.Name.ToLower().Contains(teacherName))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if(teacherSurname != null)
+            {
+                List<Grade> grades = new();
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade.ToListAsync();
+                }
+                foreach (var grade in gradesList)
+                {
+                    var teacher = await _context.Person.FindAsync(grade.StudentPersonId);
+                    var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+                    if (teacherInfo.Surname.ToLower().Contains(teacherSurname))
+                    {
+                        grades.Add(grade);
+                    }
+                }
+                gradesList = grades;
+            }
+            if(id == null && studentId == null && teacherId == null 
+                && subjectName == null && subjectId == null && value == null
+                && studentName == null && studentSurname == null 
+                && teacherName == null && teacherSurname == null)
+            {
+                gradesList = await _context.Grade.ToListAsync();
+            }
+            if (gradesList.Count == 0)
             {
                 return NotFound();
             }
+            foreach (var grade in gradesList)
+            {
+                gradeViews.Add(await CreateGradeView(grade));
+            }
 
-            return new GradeView(grade);
+            return gradeViews;
         }
 
         // PUT: api/Grades/5

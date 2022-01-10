@@ -46,7 +46,7 @@ namespace DziennikElektroniczny.Controllers
             {
                 return NotFound();
             }
-            var parents = _context.Parent.Where(x => x.StudentPersonId == id).Select(x => _context.Person.Find(x.ParentPersonId)).ToList();
+            //var parents = _context.Parent.Where(x => x.StudentPersonId == id).Select(x => _context.Person.Find(x.ParentPersonId)).ToList();
             List<PersonalInfo> parentsInfos = new();
             //if (parents != null)
             //{
