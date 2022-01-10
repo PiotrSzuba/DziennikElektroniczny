@@ -37,7 +37,8 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Messages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MessageView>>> GetMessage(int? id)
+        public async Task<ActionResult<IEnumerable<MessageView>>> GetMessage( int? id, int? messageContentId,string title,
+            string content, int? fromPersonId, string fromPersonName, int? toPersonId, string toPersonName)
         {
             List<Message> messagesList = new();
             List<MessageView> messageViews = new();
@@ -54,7 +55,126 @@ namespace DziennikElektroniczny.Controllers
 
                 return messageViews;
             }
-            if(id == null)
+            if(messageContentId != null)
+            {
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message
+                        .Where(x => x.MessageContentId == messageContentId)
+                        .ToListAsync();
+                }
+                else
+                {
+                    messagesList = await Task.FromResult( messagesList
+                        .Where(x => x.MessageContentId == messageContentId)
+                        .ToList());
+                }
+            }
+            if(title != null)
+            {
+                List<Message> messages = new();
+                if(messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message.ToListAsync();
+                }
+
+                foreach(var message in messagesList)
+                {
+                    var messageContent = await _context.MessageContent.FindAsync(message.MessageContentId);
+                    if(messageContent.Title.ToLower().Contains(title.ToLower()))
+                    {
+                        messages.Add(message);
+                    }
+                }
+                messagesList = messages;
+            }
+            if(content != null)
+            {
+                List<Message> messages = new();
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message.ToListAsync();
+                }
+                foreach(var message in messagesList)
+                {
+                    var messageContent = await _context.MessageContent.FindAsync(message.MessageContentId);
+                    if(messageContent.Content.ToLower().Contains(content.ToLower()))
+                    {
+                        messages.Add(message);
+                    }
+                }
+                messagesList = messages;
+            }
+            if(fromPersonId != null)
+            {
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message
+                        .Where(x => x.FromPersonId == fromPersonId)
+                        .ToListAsync();
+                }
+                else
+                {
+                    messagesList = await Task.FromResult(messagesList
+                        .Where(x => x.FromPersonId == fromPersonId)
+                        .ToList());
+                }
+            }
+            if (fromPersonName != null)
+            {
+                List<Message> messages = new();
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message.ToListAsync();
+                }
+                foreach (var message in messagesList)
+                {
+                    var person = await _context.Person.FindAsync(message.FromPersonId);
+                    var personInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+                    var name = personInfo.Name + " " + personInfo.Surname;
+                    if (name.ToLower().Contains(fromPersonName.ToLower()))
+                    {
+                        messages.Add(message);
+                    }
+                }
+                messagesList = messages;
+            }
+            if(toPersonId != null)
+            {
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message
+                        .Where(x => x.ToPersonId == toPersonId)
+                        .ToListAsync();
+                }
+                else
+                {
+                    messagesList = await Task.FromResult(messagesList
+                        .Where(x => x.ToPersonId == toPersonId)
+                        .ToList());
+                }
+            }
+            if(toPersonName != null)
+            {
+                List<Message> messages = new();
+                if (messagesList.Count == 0)
+                {
+                    messagesList = await _context.Message.ToListAsync();
+                }
+                foreach (var message in messagesList)
+                {
+                    var person = await _context.Person.FindAsync(message.ToPersonId);
+                    var personInfo = await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+                    var name = personInfo.Name + " " + personInfo.Surname;
+                    if (name.ToLower().Contains(toPersonName.ToLower()))
+                    {
+                        messages.Add(message);
+                    }
+                }
+                messagesList = messages;
+            }
+            if(id == null && messageContentId == null && title == null && content == null && fromPersonId == null
+                && fromPersonName == null && toPersonId == null && toPersonName == null)
             {
                 messagesList = await _context.Message.ToListAsync();
             }
