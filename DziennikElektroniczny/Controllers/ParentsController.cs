@@ -25,25 +25,114 @@ namespace DziennikElektroniczny.Controllers
             _logger = logger;
         }
 
-        // GET: api/Parents
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParentView>>> GetParent()
+        public async Task<ParentView> CreateView(Parent parent)
         {
-            return await _context.Parent.Select(x => new ParentView(x)).ToListAsync();
+            var parentPerson = await _context.Person.FindAsync(parent.ParentPersonId);
+            var parentInfo = await _context.PersonalInfo.FindAsync(parentPerson.PersonalInfoId);
+
+            var studentPerson = await _context.Person.FindAsync(parent.StudentPersonId);
+            var studentInfo = await _context.PersonalInfo.FindAsync(studentPerson.PersonalInfoId);
+
+            return new ParentView(parent,parentInfo,studentInfo);
         }
 
-        // GET: api/Parents/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ParentView>> GetParent(int id)
+        // GET: api/Parents
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ParentView>>> GetParent(int? id,int? parentId,int? studentId,string parentName, string studentName)
         {
-            var parent = await _context.Parent.FindAsync(id);
+            List<Parent> parentsList = new();
+            List<ParentView> parentViews = new();
+            if(id != null)
+            {
+                var parent = await _context.Parent.FindAsync(id);
 
-            if (parent == null)
+                if (parent == null)
+                {
+                    return NotFound();
+                }
+                parentViews.Add(await CreateView(parent));
+
+                return parentViews;
+            }
+            if(parentId != null)
+            {
+                if(parentsList.Count == 0)
+                {
+                    parentsList = await _context.Parent.Where(x => x.ParentPersonId == parentId).ToListAsync();
+                }
+                else
+                {
+                    parentsList = await Task.FromResult(parentsList.Where(x => x.ParentPersonId == parentId).ToList());
+                }
+            }
+            if (studentId != null)
+            {
+                if (parentsList.Count == 0)
+                {
+                    parentsList = await _context.Parent.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                }
+                else
+                {
+                    parentsList = await Task.FromResult(parentsList.Where(x => x.StudentPersonId == studentId).ToList());
+                }
+            }
+            if(parentName != null)
+            {
+                List<Parent> parents = new List<Parent>();
+                if(parentsList.Count == 0)
+                {
+                    parentsList = await _context.Parent.ToListAsync();
+                }
+                foreach(var parent in parentsList)
+                {
+                    var parentPerson = await _context.Person.FindAsync(parent.ParentPersonId);
+                    var parentInfo = await _context.PersonalInfo.FindAsync(parentPerson.PersonalInfoId);
+                    var name = parentInfo.Name + " " + parentInfo.Surname;
+                    if(name.ToLower().Contains(parentName.ToLower()))
+                    {
+                        parents.Add(parent);
+                    }
+                }
+                parentsList = parents;
+            }
+            if(studentName != null)
+            {
+                if (parentName != null)
+                {
+                    List<Parent> parents = new List<Parent>();
+                    if (parentsList.Count == 0)
+                    {
+                        parentsList = await _context.Parent.ToListAsync();
+                    }
+                    foreach (var parent in parentsList)
+                    {
+                        var studentPerson = await _context.Person.FindAsync(parent.ParentPersonId);
+                        var studentInfo = await _context.PersonalInfo.FindAsync(studentPerson.PersonalInfoId);
+                        var name = studentInfo.Name + " " + studentInfo.Surname;
+                        if (name.ToLower().Contains(studentName.ToLower()))
+                        {
+                            parents.Add(parent);
+                        }
+                    }
+                    parentsList = parents;
+                }
+            }
+            if(id == null && parentId == null && studentId == null && parentName == null && studentName == null)
+            {
+                parentsList = await _context.Parent.ToListAsync();
+            }
+
+            if (parentsList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new ParentView(parent);
+            foreach(var parent in parentsList)
+            {
+                parentViews.Add(await CreateView(parent));
+            }
+
+            return parentViews;
         }
 
         // PUT: api/Parents/5
