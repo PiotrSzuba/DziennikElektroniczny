@@ -9,6 +9,7 @@ using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -34,6 +35,7 @@ namespace DziennikElektroniczny.Controllers
             return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
         }
 
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { "Studnt" })]
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson(
