@@ -24,23 +24,70 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/MessageContents
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MessageContentView>>> GetMessageContent()
+        public async Task<ActionResult<IEnumerable<MessageContentView>>> GetMessageContent(
+            int? id,string title,string content)
         {
-            return await _context.MessageContent.Select(x => new MessageContentView(x)).ToListAsync();
-        }
+            List<MessageContent> messageContentsList = new();
+            List<MessageContentView> messageContentsViews = new();
 
-        // GET: api/MessageContents/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MessageContentView>> GetMessageContent(int id)
-        {
-            var messageContent = await _context.MessageContent.FindAsync(id);
+            if(id != null)
+            {
+                var messageContent = await _context.MessageContent.FindAsync(id);
 
-            if (messageContent == null)
+                if (messageContent == null)
+                {
+                    return NotFound();
+                }
+
+                messageContentsViews.Add(new MessageContentView(messageContent));
+
+                return messageContentsViews;
+            }
+            if(title != null)
+            {
+                if(messageContentsList.Count == 0)
+                {
+                    messageContentsList = await _context.MessageContent
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToListAsync();
+                }
+                else
+                {
+                    messageContentsList = await Task.FromResult(messageContentsList
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToList());
+                }
+            }
+            if(content != null)
+            {
+                if(messageContentsList.Count == 0)
+                {
+                    messageContentsList = await _context.MessageContent
+                        .Where(x => x.Content.ToLower().Contains(content.ToLower()))
+                        .ToListAsync();
+                }
+                else
+                {
+                    messageContentsList = await Task.FromResult(messageContentsList
+                        .Where(x => x.Content.ToLower().Contains(content.ToLower()))
+                        .ToList());
+                }      
+            }
+            if (id == null && title == null && content == null)
+            {
+                messageContentsList = await _context.MessageContent.ToListAsync();
+            }
+            if(messageContentsList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new MessageContentView(messageContent);
+            foreach (var messageContent in messageContentsList)
+            {
+                messageContentsViews.Add(new MessageContentView(messageContent));
+            }
+
+            return messageContentsViews;
         }
 
         // PUT: api/MessageContents/5

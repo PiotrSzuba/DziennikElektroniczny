@@ -22,25 +22,53 @@ namespace DziennikElektroniczny.Controllers
             _context = context;
         }
 
-        // GET: api/Messages
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<MessageView>>> GetMessage()
+        public async Task<MessageView> CreateView(Message message)
         {
-            return await _context.Message.Select(x => new MessageView(x)).ToListAsync();
+            var fromPerson = await _context.Person.FindAsync(message.FromPersonId);
+            var fromPrsonInfo = await _context.PersonalInfo.FindAsync(fromPerson.PersonalInfoId);
+
+            var toPerson = await _context.Person.FindAsync(message.ToPersonId);
+            var toPersonInfo = await _context.PersonalInfo.FindAsync(toPerson.PersonalInfoId);
+
+            var messageContent = await _context.MessageContent.FindAsync(message.MessageContentId);
+
+            return new MessageView(message,messageContent,fromPrsonInfo,toPersonInfo);
         }
 
-        // GET: api/Messages/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MessageView>> GetMessage(int id)
+        // GET: api/Messages
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageView>>> GetMessage(int? id)
         {
-            var message = await _context.Message.FindAsync(id);
+            List<Message> messagesList = new();
+            List<MessageView> messageViews = new();
+            if(id != null)
+            {
+                var message = await _context.Message.FindAsync(id);
 
-            if (message == null)
+                if (message == null)
+                {
+                    return NotFound();
+                }
+
+                messageViews.Add(await CreateView(message));
+
+                return messageViews;
+            }
+            if(id == null)
+            {
+                messagesList = await _context.Message.ToListAsync();
+            }
+            if(messagesList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new MessageView(message);
+            foreach(var message in messagesList)
+            {
+                messageViews.Add(await CreateView(message));
+            }
+
+            return messageViews;
         }
 
         // PUT: api/Messages/5
