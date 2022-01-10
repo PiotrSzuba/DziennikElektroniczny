@@ -58,22 +58,30 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(parentsList.Count == 0)
                 {
-                    parentsList = await _context.Parent.Where(x => x.ParentPersonId == parentId).ToListAsync();
+                    parentsList = await _context.Parent
+                        .Where(x => x.ParentPersonId == parentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    parentsList = await Task.FromResult(parentsList.Where(x => x.ParentPersonId == parentId).ToList());
+                    parentsList = await Task.FromResult(parentsList
+                        .Where(x => x.ParentPersonId == parentId)
+                        .ToList());
                 }
             }
             if (studentId != null)
             {
                 if (parentsList.Count == 0)
                 {
-                    parentsList = await _context.Parent.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                    parentsList = await _context.Parent
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    parentsList = await Task.FromResult(parentsList.Where(x => x.StudentPersonId == studentId).ToList());
+                    parentsList = await Task.FromResult(parentsList
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToList());
                 }
             }
             if(parentName != null)

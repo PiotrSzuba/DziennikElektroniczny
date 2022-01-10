@@ -27,7 +27,9 @@ namespace DziennikElektroniczny.Controllers
             var teacher = await _context.Person.FindAsync(studentsGroup.TeacherPersonId);
             var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
 
-            var studentsMember = await _context.StudentsGroupMember.Where(x => x.StudentsGroupId == studentsGroup.StudentsGroupId).ToListAsync();
+            var studentsMember = await _context.StudentsGroupMember
+                .Where(x => x.StudentsGroupId == studentsGroup.StudentsGroupId)
+                .ToListAsync();
             List<PersonalInfo> studentsInfos = new();
             foreach(var studentMember in studentsMember)
             {

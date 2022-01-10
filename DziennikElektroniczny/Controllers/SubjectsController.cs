@@ -57,11 +57,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(subjectsList.Count == 0)
                 {
-                    subjectsList = await _context.Subject.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                    subjectsList = await _context.Subject
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                    subjectsList = await Task.FromResult(subjectsList
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToList());
                 }
             }
             if(studentsGroupId != null)
@@ -72,18 +76,24 @@ namespace DziennikElektroniczny.Controllers
                 }
                 else
                 {
-                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.StudentsGroupId == studentsGroupId).ToList());
+                    subjectsList = await Task.FromResult(subjectsList
+                        .Where(x => x.StudentsGroupId == studentsGroupId)
+                        .ToList());
                 }
             }
             if(classRoomId != null)
             {
                 if (subjectsList.Count == 0)
                 {
-                    subjectsList = await _context.Subject.Where(x => x.ClassRoomId == classRoomId).ToListAsync();
+                    subjectsList = await _context.Subject
+                        .Where(x => x.ClassRoomId == classRoomId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    subjectsList = await Task.FromResult(subjectsList.Where(x => x.ClassRoomId == classRoomId).ToList());
+                    subjectsList = await Task.FromResult(subjectsList
+                        .Where(x => x.ClassRoomId == classRoomId)
+                        .ToList());
                 }
             }
             if(classroomName != null)

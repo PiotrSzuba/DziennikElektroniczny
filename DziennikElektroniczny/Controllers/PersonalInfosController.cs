@@ -24,23 +24,38 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/PersonalInfos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonalInfoView>>> GetPersonalInfo()
+        public async Task<ActionResult<IEnumerable<PersonalInfoView>>> GetPersonalInfo(int? id)
         {
-            return await _context.PersonalInfo.Select(x => new PersonalInfoView(x)).ToListAsync();
-        }
+            List<PersonalInfo> personalInfosList = new();
+            List<PersonalInfoView> personalInfoViews = new();
+            if(id != null)
+            {
+                var personalInfo = await _context.PersonalInfo.FindAsync(id);
 
-        // GET: api/PersonalInfos/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PersonalInfoView>> GetPersonalInfo(int id)
-        {
-            var personalInfo = await _context.PersonalInfo.FindAsync(id);
+                if (personalInfo == null)
+                {
+                    return NotFound();
+                }
+                personalInfoViews.Add(new PersonalInfoView(personalInfo));
 
-            if (personalInfo == null)
+                return personalInfoViews;
+            }
+            if(id == null)
+            {
+                personalInfosList = await _context.PersonalInfo.ToListAsync();
+            }
+
+            if(personalInfosList.Count == 0)
             {
                 return NotFound();
             }
 
-            return new PersonalInfoView(personalInfo);
+            foreach(var personalInfo in personalInfosList)
+            {
+                personalInfoViews.Add(new PersonalInfoView(personalInfo));
+            }
+
+            return personalInfoViews;
         }
 
         // PUT: api/PersonalInfos/5

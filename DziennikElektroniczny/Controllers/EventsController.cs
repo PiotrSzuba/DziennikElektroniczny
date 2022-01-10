@@ -55,33 +55,45 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(eventsList.Count == 0)
                 {
-                    eventsList = await _context.Event.Where(x => x.EventId == eventId).ToListAsync();
+                    eventsList = await _context.Event
+                        .Where(x => x.EventId == eventId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    eventsList = await Task.FromResult(eventsList.Where(x => x.EventId == eventId).ToList());
+                    eventsList = await Task.FromResult(eventsList
+                        .Where(x => x.EventId == eventId)
+                        .ToList());
                 }
             }
             if (title != null)
             {
                 if(eventsList.Count == 0)
                 {
-                    eventsList = await _context.Event.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+                    eventsList = await _context.Event
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    eventsList = await Task.FromResult(eventsList.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList());
+                    eventsList = await Task.FromResult(eventsList
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToList());
                 }
             }
             if (description != null)
             {
                 if (eventsList.Count == 0)
                 {
-                    eventsList = await _context.Event.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                    eventsList = await _context.Event
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    eventsList = await Task.FromResult(eventsList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                    eventsList = await Task.FromResult(eventsList
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToList());
                 }
             }
             if(id == null && eventId == null && title == null && description == null)

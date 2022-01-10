@@ -54,11 +54,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(notesList.Count == 0)
                 {
-                    notesList = await _context.Note.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                    notesList = await _context.Note
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    notesList = await Task.FromResult(notesList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                    notesList = await Task.FromResult(notesList
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToList());
                 }
             }
             if(teacherName != null)
@@ -84,11 +88,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(notesList.Count == 0)
                 {
-                    notesList = await _context.Note.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                    notesList = await _context.Note
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    notesList = await Task.FromResult(notesList.Where(x => x.StudentPersonId == studentId).ToList());
+                    notesList = await Task.FromResult(notesList
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToList());
                 }
             }
             if(studentName != null)
@@ -114,11 +122,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(notesList.Count == 0)
                 {
-                    notesList = await _context.Note.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                    notesList = await _context.Note
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    notesList = await Task.FromResult(notesList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                    notesList = await Task.FromResult(notesList
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToList());
                 }
             }
             if (id == null && teacherId == null && teacherName == null && studentId == null 

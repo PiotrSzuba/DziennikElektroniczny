@@ -56,22 +56,30 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(eventParticipatorsList.Count == 0)
                 {
-                    eventParticipatorsList = await _context.EventParticipator.Where(x => x.EventId == eventId).ToListAsync();
+                    eventParticipatorsList = await _context.EventParticipator
+                        .Where(x => x.EventId == eventId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList.Where(x => x.EventId == eventId).ToList());
+                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList
+                        .Where(x => x.EventId == eventId)
+                        .ToList());
                 }
             }
             if(personId != null)
             {
                 if (eventParticipatorsList.Count == 0)
                 {
-                    eventParticipatorsList = await _context.EventParticipator.Where(x => x.PersonId == personId).ToListAsync();
+                    eventParticipatorsList = await _context.EventParticipator
+                        .Where(x => x.PersonId == personId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList.Where(x => x.PersonId == personId).ToList());
+                    eventParticipatorsList = await Task.FromResult(eventParticipatorsList
+                        .Where(x => x.PersonId == personId)
+                        .ToList());
                 }
             }
             if(eventName != null)

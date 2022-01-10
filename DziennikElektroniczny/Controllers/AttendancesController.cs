@@ -60,33 +60,45 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(attendancesList.Count == 0)
                 {
-                    attendancesList = await _context.Attendance.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                    attendancesList = await _context.Attendance
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.StudentPersonId == studentId).ToList());
+                    attendancesList = await Task.FromResult(attendancesList
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToList());
                 }
             }
             if(lessonId != null)
             {
                 if(attendancesList.Count == 0)
                 {
-                    attendancesList = await _context.Attendance.Where(x => x.LessonId == lessonId).ToListAsync();
+                    attendancesList = await _context.Attendance
+                        .Where(x => x.LessonId == lessonId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.LessonId == lessonId).ToList());
+                    attendancesList = await Task.FromResult(attendancesList
+                        .Where(x => x.LessonId == lessonId)
+                        .ToList());
                 }
             }
             if(wasPresent != null)
             {
                 if (attendancesList.Count == 0)
                 {
-                    attendancesList = await _context.Attendance.Where(x => x.WasPresent == wasPresent).ToListAsync();
+                    attendancesList = await _context.Attendance
+                        .Where(x => x.WasPresent == wasPresent)
+                        .ToListAsync();
                 }
                 else
                 {
-                    attendancesList = await Task.FromResult(attendancesList.Where(x => x.WasPresent == wasPresent).ToList());
+                    attendancesList = await Task.FromResult(attendancesList
+                        .Where(x => x.WasPresent == wasPresent)
+                        .ToList());
                 }
             }
             if(subjectName != null)

@@ -44,22 +44,30 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(subjectInfosList.Count == 0)
                 {
-                    subjectInfosList = await _context.SubjectInfo.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+                    subjectInfosList = await _context.SubjectInfo
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    subjectInfosList = await Task.FromResult(subjectInfosList.Where(x => x.Title.ToLower().Contains(title.ToLower())).ToList());
+                    subjectInfosList = await Task.FromResult(subjectInfosList
+                        .Where(x => x.Title.ToLower().Contains(title.ToLower()))
+                        .ToList());
                 }
             }
             if(description != null)
             {
                 if(subjectInfosList.Count == 0)
                 {
-                    subjectInfosList = await _context.SubjectInfo.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToListAsync();
+                    subjectInfosList = await _context.SubjectInfo
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    subjectInfosList = await Task.FromResult(subjectInfosList.Where(x => x.Description.ToLower().Contains(description.ToLower())).ToList());
+                    subjectInfosList = await Task.FromResult(subjectInfosList
+                        .Where(x => x.Description.ToLower().Contains(description.ToLower()))
+                        .ToList());
                 }
             }
             if(id == null && title == null && description == null)

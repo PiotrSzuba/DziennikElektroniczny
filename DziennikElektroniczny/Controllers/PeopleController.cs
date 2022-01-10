@@ -68,11 +68,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if (personsList.Count == 0)
                 {
-                    personsList = await _context.Person.Where(x => x.Login.ToLower().Contains(login.ToLower())).ToListAsync();
+                    personsList = await _context.Person
+                        .Where(x => x.Login.ToLower().Contains(login.ToLower()))
+                        .ToListAsync();
                 }
                 else
                 {
-                    personsList = await Task.FromResult(personsList.Where(x => x.Login.ToLower().Contains(login.ToLower())).ToList());
+                    personsList = await Task.FromResult(personsList
+                        .Where(x => x.Login.ToLower().Contains(login.ToLower()))
+                        .ToList());
                 }
             }
             if(name != null)

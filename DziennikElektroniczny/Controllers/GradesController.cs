@@ -61,33 +61,45 @@ namespace DziennikElektroniczny.Controllers
             {
                 if(gradesList.Count == 0)
                 {
-                    gradesList = await _context.Grade.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                    gradesList = await _context.Grade
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    gradesList = await Task.FromResult(gradesList.Where(x => x.StudentPersonId == studentId).ToList());
+                    gradesList = await Task.FromResult(gradesList
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToList());
                 }
             }
             if(teacherId != null)
             {
                 if(gradesList.Count == 0)
                 {
-                    gradesList = await _context.Grade.Where(x => x.TeacherPersonId == teacherId).ToListAsync();
+                    gradesList = await _context.Grade
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    gradesList = await Task.FromResult(gradesList.Where(x => x.TeacherPersonId == teacherId).ToList());
+                    gradesList = await Task.FromResult(gradesList
+                        .Where(x => x.TeacherPersonId == teacherId)
+                        .ToList());
                 }
             }
             if(subjectId != null)
             {
                 if (subjectId != null)
                 {
-                    gradesList = await _context.Grade.Where(x => x.SubjectId == subjectId).ToListAsync();
+                    gradesList = await _context.Grade
+                        .Where(x => x.SubjectId == subjectId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    gradesList = await Task.FromResult(gradesList.Where(x => x.SubjectId == subjectId).ToList());
+                    gradesList = await Task.FromResult(gradesList
+                        .Where(x => x.SubjectId == subjectId)
+                        .ToList());
                 }
             }
             if (subjectName != null)

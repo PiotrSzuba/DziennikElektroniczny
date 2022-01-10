@@ -66,11 +66,15 @@ namespace DziennikElektroniczny.Controllers
             {
                 if (studentsGroupMembersList.Count == 0)
                 {
-                    studentsGroupMembersList = await _context.StudentsGroupMember.Where(x => x.StudentPersonId == studentId).ToListAsync();
+                    studentsGroupMembersList = await _context.StudentsGroupMember
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToListAsync();
                 }
                 else
                 {
-                    studentsGroupMembersList = await Task.FromResult(studentsGroupMembersList.Where(x => x.StudentPersonId == studentId).ToList());
+                    studentsGroupMembersList = await Task.FromResult(studentsGroupMembersList
+                        .Where(x => x.StudentPersonId == studentId)
+                        .ToList());
                 }
             }
             if(groupName != null)
