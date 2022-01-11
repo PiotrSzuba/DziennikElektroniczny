@@ -9,6 +9,7 @@ using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -38,6 +39,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Parents
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<IEnumerable<ParentView>>> GetParent(
             int? id,int? parentId,int? studentId,string parentName, string studentName)
         {
@@ -147,6 +149,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Parents/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutParent(int id, Parent parent)
         {
             if (id != parent.ParentId)
@@ -178,6 +181,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Parents
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<Parent>> PostParent(Parent parent)
         {
             _context.Parent.Add(parent);
@@ -188,6 +192,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Parents/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteParent(int id)
         {
             var parent = await _context.Parent.FindAsync(id);

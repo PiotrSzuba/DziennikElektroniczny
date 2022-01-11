@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -24,6 +25,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/SubjectInfoes
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<SubjectInfoView>>> GetSubjectInfo(int? id, string title,string description)
         {
             List<SubjectInfo> subjectInfosList = new();
@@ -91,6 +93,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/SubjectInfoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutSubjectInfo(int id, SubjectInfo subjectInfo)
         {
             if (id != subjectInfo.SubjectInfoId)
@@ -122,6 +125,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/SubjectInfoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<SubjectInfo>> PostSubjectInfo(SubjectInfo subjectInfo)
         {
             _context.SubjectInfo.Add(subjectInfo);
@@ -132,6 +136,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/SubjectInfoes/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteSubjectInfo(int id)
         {
             var subjectInfo = await _context.SubjectInfo.FindAsync(id);

@@ -24,6 +24,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/MessageContents
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<MessageContentView>>> GetMessageContent(
             int? id,string title,string content)
         {
@@ -93,6 +94,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/MessageContents/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<IActionResult> PutMessageContent(int id, MessageContent messageContent)
         {
             if (id != messageContent.MessageContentId)
@@ -124,6 +126,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/MessageContents
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<MessageContent>> PostMessageContent(MessageContent messageContent)
         {
             _context.MessageContent.Add(messageContent);
@@ -134,6 +137,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/MessageContents/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<IActionResult> DeleteMessageContent(int id)
         {
             var messageContent = await _context.MessageContent.FindAsync(id);

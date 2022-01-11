@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -34,6 +35,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/StudentsGroupMembers
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<StudentsGroupMemberView>>> GetStudentsGroupMember(
             int? id,int? groupId,int? studentId,string groupName,string studentName)
         {
@@ -133,6 +135,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/StudentsGroupMembers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutStudentsGroupMember(int id, StudentsGroupMember studentsGroupMember)
         {
             if (id != studentsGroupMember.StudentsGroupMemberId)
@@ -164,6 +167,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/StudentsGroupMembers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<StudentsGroupMember>> PostStudentsGroupMember(StudentsGroupMember studentsGroupMember)
         {
             _context.StudentsGroupMember.Add(studentsGroupMember);
@@ -174,6 +178,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/StudentsGroupMembers/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteStudentsGroupMember(int id)
         {
             var studentsGroupMember = await _context.StudentsGroupMember.FindAsync(id);

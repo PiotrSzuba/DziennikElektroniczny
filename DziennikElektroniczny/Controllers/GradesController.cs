@@ -9,7 +9,7 @@ using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
-
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -40,6 +40,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Grades
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade(
             int? id,int? studentId,int? teacherId,int? subjectId,
             string subjectName,string value, string studentName, string teacherName)
@@ -195,6 +196,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Grades/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> PutGrade(int id, Grade grade)
         {
             if (id != grade.GradeId)
@@ -226,6 +228,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Grades
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
             _context.Grade.Add(grade);
@@ -236,6 +239,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Grades/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteGrade(int id)
         {
             var grade = await _context.Grade.FindAsync(id);

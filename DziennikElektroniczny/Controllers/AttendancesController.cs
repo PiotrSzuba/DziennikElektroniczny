@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
-
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -37,6 +37,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Attendances
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<AttendanceView>>> GetAttendance(
             int? id,int? studentId,int? lessonId,int? wasPresent,string subjectName = null
             ,string studentName = null)
@@ -159,6 +160,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Attendances/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 2 })]
         public async Task<IActionResult> PutAttendance(int id, Attendance attendance)
         {
             if (id != attendance.AttendanceId)
@@ -190,6 +192,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Attendances
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Attendance>> PostAttendance(Attendance attendance)
         {
             _context.Attendance.Add(attendance);
@@ -200,6 +203,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Attendances/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteAttendance(int id)
         {
             var attendance = await _context.Attendance.FindAsync(id);
