@@ -10,6 +10,7 @@ using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
 
+
 namespace DziennikElektroniczny.Controllers
 {
     [Route("api/[controller]")]
@@ -41,8 +42,7 @@ namespace DziennikElektroniczny.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GradeView>>> GetGrade(
             int? id,int? studentId,int? teacherId,int? subjectId,
-            string subjectName,string value, string studentName
-            ,string studentSurname, string teacherName , string teacherSurname)
+            string subjectName,string value, string studentName, string teacherName)
         {
             List<Grade> gradesList = new();
             List<GradeView> gradeViews = new();
@@ -147,25 +147,8 @@ namespace DziennikElektroniczny.Controllers
                 {
                     var student = await _context.Person.FindAsync(grade.StudentPersonId);
                     var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
-                    if (studentInfo.Name.ToLower().Contains(studentName))
-                    {
-                        grades.Add(grade);
-                    }
-                }
-                gradesList = grades;
-            }
-            if (studentSurname != null)
-            {
-                List<Grade> grades = new();
-                if (gradesList.Count == 0)
-                {
-                    gradesList = await _context.Grade.ToListAsync();
-                }
-                foreach (var grade in gradesList)
-                {
-                    var student = await _context.Person.FindAsync(grade.StudentPersonId);
-                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
-                    if(studentInfo.Surname.ToLower().Contains(studentSurname))
+                    var name = studentInfo.Name + " " + studentInfo.Surname;
+                    if (name.ToLower().Contains(studentName))
                     {
                         grades.Add(grade);
                     }
@@ -183,25 +166,8 @@ namespace DziennikElektroniczny.Controllers
                 {
                     var teacher = await _context.Person.FindAsync(grade.StudentPersonId);
                     var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
-                    if (teacherInfo.Name.ToLower().Contains(teacherName))
-                    {
-                        grades.Add(grade);
-                    }
-                }
-                gradesList = grades;
-            }
-            if(teacherSurname != null)
-            {
-                List<Grade> grades = new();
-                if (gradesList.Count == 0)
-                {
-                    gradesList = await _context.Grade.ToListAsync();
-                }
-                foreach (var grade in gradesList)
-                {
-                    var teacher = await _context.Person.FindAsync(grade.StudentPersonId);
-                    var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
-                    if (teacherInfo.Surname.ToLower().Contains(teacherSurname))
+                    var name = teacherInfo.Name + " " + teacherInfo.Surname;
+                    if (name.ToLower().Contains(teacherName))
                     {
                         grades.Add(grade);
                     }
@@ -210,8 +176,7 @@ namespace DziennikElektroniczny.Controllers
             }
             if(id == null && studentId == null && teacherId == null 
                 && subjectName == null && subjectId == null && value == null
-                && studentName == null && studentSurname == null 
-                && teacherName == null && teacherSurname == null)
+                && studentName == null  && teacherName == null )
             {
                 gradesList = await _context.Grade.ToListAsync();
             }

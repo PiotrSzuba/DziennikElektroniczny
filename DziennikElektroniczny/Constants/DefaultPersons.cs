@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DziennikElektroniczny.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DziennikElektroniczny.Data;
@@ -29,59 +29,65 @@ namespace DziennikElektroniczny.Constants
                     new Person
                     {
                         PersonalInfoId = 1,
-                        Role = 0,
+                        Role = 1,
                         Login = "Login1",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 2,
-                        Role = 1,
+                        Role = 2,
                         Login = "Login2",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 3,
-                        Role = 1,
+                        Role = 2,
                         Login = "Login3",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 4,
-                        Role = 1,
+                        Role = 2,
                         Login = "Login4",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 5,
-                        Role = 1,
+                        Role = 2,
                         Login = "Login5",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 6,
-                        Role = 2,
+                        Role = 3,
                         Login = "Login6",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 7,
-                        Role = 2,
+                        Role = 3,
                         Login = "Login7",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
                     }, new Person
                     {
                         PersonalInfoId = 8,
-                        Role = 0,
+                        Role = 1,
                         Login = "Login9",
-                        HashedPassword = "1234"
+                        HashedPassword = Hasher.hashEncoder("1234")
+                    }, 
+                    new Person
+                    {
+                        PersonalInfoId = 1,
+                        Role = 4,
+                        Login = "Admin",
+                        HashedPassword = Hasher.hashEncoder("1234")
                     }
-
 
                 );
                 context.SaveChanges();

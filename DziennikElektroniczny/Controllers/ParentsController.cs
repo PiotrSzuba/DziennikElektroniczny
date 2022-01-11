@@ -38,7 +38,8 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Parents
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ParentView>>> GetParent(int? id,int? parentId,int? studentId,string parentName, string studentName)
+        public async Task<ActionResult<IEnumerable<ParentView>>> GetParent(
+            int? id,int? parentId,int? studentId,string parentName, string studentName)
         {
             List<Parent> parentsList = new();
             List<ParentView> parentViews = new();

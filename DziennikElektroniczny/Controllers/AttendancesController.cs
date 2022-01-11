@@ -39,7 +39,7 @@ namespace DziennikElektroniczny.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AttendanceView>>> GetAttendance(
             int? id,int? studentId,int? lessonId,int? wasPresent,string subjectName
-            ,string studentName,string studentSurname)
+            ,string studentName)
         {
             List<Attendance> attendancesList = new();
             List<AttendanceView> attendanceViews = new();
@@ -131,25 +131,8 @@ namespace DziennikElektroniczny.Controllers
                 {
                     var student = await _context.Person.FindAsync(attendance.StudentPersonId);
                     var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
-                    if (studentInfo.Name.ToLower().Contains(studentName.ToLower()))
-                    {
-                        attendances.Add(attendance);
-                    }
-                }
-                attendancesList = attendances;
-            }
-            if(studentSurname != null)
-            {
-                List<Attendance> attendances = new();
-                if (attendancesList.Count == 0)
-                {
-                    attendancesList = await _context.Attendance.ToListAsync();
-                }
-                foreach (var attendance in attendancesList)
-                {
-                    var student = await _context.Person.FindAsync(attendance.StudentPersonId);
-                    var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
-                    if (studentInfo.Surname.ToLower().Contains(studentSurname.ToLower()))
+                    var name = studentInfo.Name + " " + studentInfo.Surname;
+                    if (name.ToLower().Contains(studentName.ToLower()))
                     {
                         attendances.Add(attendance);
                     }
@@ -157,7 +140,7 @@ namespace DziennikElektroniczny.Controllers
                 attendancesList = attendances;
             }
             if(id == null && studentId == null && lessonId == null 
-                && wasPresent == null && subjectName == null && studentName == null && studentSurname == null)
+                && wasPresent == null && subjectName == null && studentName == null)
             {
                 attendancesList = await _context.Attendance.ToListAsync();
             }
