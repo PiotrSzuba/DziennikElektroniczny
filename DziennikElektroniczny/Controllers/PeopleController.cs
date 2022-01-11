@@ -35,7 +35,7 @@ namespace DziennikElektroniczny.Controllers
             return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
         }
 
-        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson(
