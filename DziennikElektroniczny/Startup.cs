@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
+using DziennikElektroniczny.Services;
 
 namespace DziennikElektroniczny
 {
@@ -31,6 +32,7 @@ namespace DziennikElektroniczny
 
             services.AddDbContext<DziennikElektronicznyContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DziennikElektronicznyContext")));
+            services.AddScoped<AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
