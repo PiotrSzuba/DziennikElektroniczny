@@ -39,7 +39,7 @@ namespace DziennikElektroniczny.Controllers
         // GET: api/Lessons/5
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson(
-            int? id, int? teacherId, int? subjectId, string teacherSurname, string subjectName, string topic)
+            int? id, int? teacherId, int? subjectId, string teachername, string subjectName, string topic)
         {
             List<LessonView> lessonViews = new();
             List<Lesson> lessonsList = new();
@@ -77,7 +77,7 @@ namespace DziennikElektroniczny.Controllers
                     lessonsList = await Task.FromResult(lessonsList.Where(x => x.SubjectId == subjectId).ToList());
                 }
             }
-            if(teacherSurname != null)
+            if(teachername != null)
             {
                 List<Lesson> lessons = new();
                 if (lessonsList.Count == 0)
@@ -88,7 +88,8 @@ namespace DziennikElektroniczny.Controllers
                 {
                     var teacher = await _context.Person.FindAsync(lesson.TeacherPersonId);
                     var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
-                    if (teacherInfo.Surname.Contains(teacherSurname))
+                    var name = teacherInfo.Name + " " + teacherInfo.Surname;
+                    if (name.ToLower().Contains(teachername.ToLower()))
                     {
                         lessons.Add(lesson);
                     }
@@ -124,7 +125,7 @@ namespace DziennikElektroniczny.Controllers
                     lessonsList = await Task.FromResult(lessonsList.Where(x => x.Topic.ToLower().Contains(topic.ToLower())).ToList());
                 }
             }
-            if(id == null && teacherId == null && subjectId == null && teacherSurname == null && subjectName == null && topic == null)
+            if(id == null && teacherId == null && subjectId == null && teachername == null && subjectName == null && topic == null)
             {
                 lessonsList = await _context.Lesson.ToListAsync();
             }
