@@ -21,15 +21,20 @@ namespace DziennikElektroniczny.Utils
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
             var jwtFromHeaders = context.HttpContext.Request.Headers["JWT"];
-            Person person = _authService.GetPersonFromJWT(jwtFromHeaders);
-            if (person.Role < roleValue || person == null)
-            {
-                context.HttpContext.Response.StatusCode = 401;
-            }
+            if (jwtFromHeaders.Count == 0) context.HttpContext.Response.StatusCode = 401;
             else
             {
-                await next();
+                Person person = _authService.GetPersonFromJWT(jwtFromHeaders);
+                if (person.Role < roleValue || person == null)
+                {
+                    context.HttpContext.Response.StatusCode = 401;
+                }
+                else
+                {
+                    await next();
+                }
             }
+
         }
     }
 }

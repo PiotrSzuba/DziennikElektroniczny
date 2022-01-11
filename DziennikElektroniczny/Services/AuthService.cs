@@ -1,5 +1,6 @@
 ﻿using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
+using DziennikElektroniczny.Utils;
 using DziennikElektroniczny.ViewModels;
 using JWT.Algorithms;
 using JWT.Builder;
@@ -26,8 +27,7 @@ namespace DziennikElektroniczny.Services
         {
             var person = _context.Person.Where(person => person.Login == loginView.Login).FirstOrDefault();
             if (person == null) return null;
-            // todo hashing
-            if (person.HashedPassword == loginView.Password)
+            if (Hasher.hashEncoder(person.HashedPassword) == Hasher.hashEncoder(loginView.Password))
             {
                 return this.GenerateJWT(person);
             }
