@@ -228,6 +228,49 @@ namespace DziennikElektroniczny.Controllers
         [HttpPost]
         public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
+            var student = await _context.Person.FindAsync(grade.StudentPersonId);
+
+            var studGrades = await _context.Grade.Where(x => x.StudentPersonId == student.PersonId).ToListAsync();
+
+            int minusCount = 0;
+            int plusCount = 0;
+
+            foreach (var gradie in studGrades)
+            {
+                if(gradie.Value == "-")
+                {
+                    minusCount++;
+                }
+                if(minusCount == 3)
+                {
+                    grade =
+                        new Grade
+                        {
+                            StudentPersonId = student.PersonalInfoId,
+                            TeacherPersonId = grade.TeacherPersonId,
+                            SubjectId = grade.SubjectId,
+                            Value = "1",
+                            Date = DateTime.Now
+                        };
+                }
+                if(gradie.Value == "+")
+                {
+                    plusCount++;
+                }
+                if(plusCount == 3)
+                {
+                    grade = 
+                        new Grade 
+                        {
+                            StudentPersonId = student.PersonalInfoId,
+                            TeacherPersonId = grade.TeacherPersonId,
+                            SubjectId = grade.SubjectId,
+                            Value = "5",
+                            Date = DateTime.Now
+                        };
+                }
+            }
+
             _context.Grade.Add(grade);
             await _context.SaveChangesAsync();
 
