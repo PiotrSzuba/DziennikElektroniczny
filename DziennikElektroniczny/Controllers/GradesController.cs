@@ -231,7 +231,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Grade.Add(grade);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGrade", new { id = grade.GradeId }, grade);
+            return CreatedAtAction("GetGrade", new { id = grade.GradeId }, await CreateGradeView(grade));
         }
 
         // DELETE: api/Grades/5

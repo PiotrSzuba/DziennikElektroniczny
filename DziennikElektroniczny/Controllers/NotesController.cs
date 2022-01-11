@@ -191,7 +191,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Note.Add(note);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNote", new { id = note.NoteId }, note);
+            return CreatedAtAction("GetNote", new { id = note.NoteId }, await CreateView(note));
         }
 
         // DELETE: api/Notes/5

@@ -8,7 +8,7 @@ namespace DziennikElektroniczny.ViewModels
         public int Id { get; set; }
         public int Role { get; set; }
         public string Login { get; set; }
-        public string HashedPassword { get; set; }
+        //public string HashedPassword { get; set; }
         public int PersonalInfoId { get; set; }
         public string Name { get; set; }
         public string SecondName { get; set; }
@@ -22,7 +22,7 @@ namespace DziennikElektroniczny.ViewModels
             Id = person.PersonId;
             Role = person.Role;
             Login = person.Login;
-            HashedPassword = person.HashedPassword;
+            //HashedPassword = person.HashedPassword;
             PersonalInfoId = person.PersonalInfoId;
             Name = personalInfo.Name;
             SecondName = personalInfo.SecondName;

@@ -153,7 +153,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.EventId }, @event);
+            return CreatedAtAction("GetEvent", new { id = @event.EventId }, await CreateView(@event));
         }
 
         // DELETE: api/Events/5

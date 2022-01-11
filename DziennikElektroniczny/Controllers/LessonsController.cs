@@ -179,7 +179,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Lesson.Add(lesson);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLesson", new { id = lesson.LessonId }, lesson);
+            return CreatedAtAction("GetLesson", new { id = lesson.LessonId }, await CreateLessonView(lesson));
         }
 
         // DELETE: api/Lessons/5

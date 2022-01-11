@@ -175,7 +175,7 @@ namespace DziennikElektroniczny.Controllers
             _context.EventParticipator.Add(eventParticipator);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEventParticipator", new { id = eventParticipator.EventParticipatorId }, eventParticipator);
+            return CreatedAtAction("GetEventParticipator", new { id = eventParticipator.EventParticipatorId }, await CreateView(eventParticipator));
         }
 
         // DELETE: api/EventParticipators/5

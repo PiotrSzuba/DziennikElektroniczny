@@ -230,7 +230,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Message.Add(message);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMessage", new { id = message.MessageId }, message);
+            return CreatedAtAction("GetMessage", new { id = message.MessageId }, await CreateView(message));
         }
 
         // DELETE: api/Messages/5

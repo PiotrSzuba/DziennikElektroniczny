@@ -227,7 +227,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Subject.Add(subject);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSubject", new { id = subject.SubjectId }, subject);
+            return CreatedAtAction("GetSubject", new { id = subject.SubjectId }, await CreateSubjectView(subject));
         }
 
         // DELETE: api/Subjects/5

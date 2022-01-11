@@ -195,7 +195,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Attendance.Add(attendance);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAttendance", new { id = attendance.AttendanceId }, attendance);
+            return CreatedAtAction("GetAttendance", new { id = attendance.AttendanceId }, await CreateAttendanceView(attendance));
         }
 
         // DELETE: api/Attendances/5

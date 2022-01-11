@@ -178,7 +178,7 @@ namespace DziennikElektroniczny.Controllers
             _context.StudentsGroup.Add(studentsGroup);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudentsGroup", new { id = studentsGroup.StudentsGroupId }, studentsGroup);
+            return CreatedAtAction("GetStudentsGroup", new { id = studentsGroup.StudentsGroupId }, await CreateView(studentsGroup));
         }
 
         // DELETE: api/StudentsGroups/5

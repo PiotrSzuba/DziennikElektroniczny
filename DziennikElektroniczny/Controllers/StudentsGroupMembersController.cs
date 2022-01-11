@@ -169,7 +169,7 @@ namespace DziennikElektroniczny.Controllers
             _context.StudentsGroupMember.Add(studentsGroupMember);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudentsGroupMember", new { id = studentsGroupMember.StudentsGroupMemberId }, studentsGroupMember);
+            return CreatedAtAction("GetStudentsGroupMember", new { id = studentsGroupMember.StudentsGroupMemberId }, await CreateView(studentsGroupMember));
         }
 
         // DELETE: api/StudentsGroupMembers/5

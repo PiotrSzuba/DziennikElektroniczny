@@ -238,11 +238,11 @@ namespace DziennikElektroniczny.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
-            //person.HashedPassword = 
+            person.HashedPassword = Hasher.hashEncoder(person.HashedPassword);
             _context.Person.Add(person);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
+            return CreatedAtAction("GetPerson", new { id = person.PersonId }, await CreateView(person));
         }
 
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]

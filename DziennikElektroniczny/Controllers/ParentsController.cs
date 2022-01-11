@@ -183,7 +183,7 @@ namespace DziennikElektroniczny.Controllers
             _context.Parent.Add(parent);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetParent", new { id = parent.ParentId }, parent);
+            return CreatedAtAction("GetParent", new { id = parent.ParentId }, await CreateView(parent));
         }
 
         // DELETE: api/Parents/5
