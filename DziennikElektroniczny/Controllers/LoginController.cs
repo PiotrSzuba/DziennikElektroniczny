@@ -19,7 +19,7 @@ namespace DziennikElektroniczny.Controllers
         }
 
         [HttpPost]
-        public bool Login(LoginView loginView)
+        public String Login(LoginView loginView)
         {
             return _authService.AuthenticateCredentials(loginView);
         }
