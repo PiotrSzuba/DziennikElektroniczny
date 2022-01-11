@@ -238,6 +238,7 @@ namespace DziennikElektroniczny.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
+            //person.HashedPassword = 
             _context.Person.Add(person);
             await _context.SaveChangesAsync();
 

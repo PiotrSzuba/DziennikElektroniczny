@@ -29,55 +29,55 @@ namespace DziennikElektroniczny.Constants
                     new Person
                     {
                         PersonalInfoId = 1,
-                        Role = 1,
+                        Role = 3,
                         Login = "Login1",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 2,
-                        Role = 2,
+                        Role = 1,
                         Login = "Login2",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 3,
-                        Role = 2,
+                        Role = 1,
                         Login = "Login3",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 4,
-                        Role = 2,
+                        Role = 1,
                         Login = "Login4",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 5,
-                        Role = 2,
+                        Role = 1,
                         Login = "Login5",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 6,
-                        Role = 3,
+                        Role = 2,
                         Login = "Login6",
                         HashedPassword = Hasher.hashEncoder("1234")
                     },
                     new Person
                     {
                         PersonalInfoId = 7,
-                        Role = 3,
+                        Role = 2,
                         Login = "Login7",
                         HashedPassword = Hasher.hashEncoder("1234")
                     }, new Person
                     {
                         PersonalInfoId = 8,
-                        Role = 1,
+                        Role = 3,
                         Login = "Login9",
                         HashedPassword = Hasher.hashEncoder("1234")
                     }, 
