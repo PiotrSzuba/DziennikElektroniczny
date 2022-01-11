@@ -9,6 +9,7 @@ using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -38,6 +39,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Lessons/5
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<LessonView>>> GetLesson(
             int? id, int? teacherId, int? subjectId, string teachername, string subjectName, string topic)
         {
@@ -143,6 +145,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Lessons/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> PutLesson(int id, Lesson lesson)
         {
             if (id != lesson.LessonId)
@@ -174,6 +177,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Lessons
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Lesson>> PostLesson(Lesson lesson)
         {
             _context.Lesson.Add(lesson);
@@ -184,6 +188,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Lessons/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteLesson(int id)
         {
             var lesson = await _context.Lesson.FindAsync(id);

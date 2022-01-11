@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -35,6 +36,7 @@ namespace DziennikElektroniczny.Controllers
         }
 
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<EventView>>> GetEvent(
             int? id,int? eventId, string title, string description)
         {
@@ -117,6 +119,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Events/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> PutEvent(int id, Event @event)
         {
             if (id != @event.EventId)
@@ -148,6 +151,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
             _context.Event.Add(@event);
@@ -158,6 +162,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteEvent(int id)
         {
             var @event = await _context.Event.FindAsync(id);

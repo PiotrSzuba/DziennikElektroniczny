@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -37,6 +38,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Messages
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<MessageView>>> GetMessage( int? id, int? messageContentId,string title,
             string content, int? fromPersonId, string fromPersonName, int? toPersonId, string toPersonName)
         {
@@ -194,6 +196,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Messages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutMessage(int id, Message message)
         {
             if (id != message.MessageId)
@@ -225,6 +228,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Messages
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<Message>> PostMessage(Message message)
         {
             _context.Message.Add(message);
@@ -235,6 +239,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Messages/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteMessage(int id)
         {
             var message = await _context.Message.FindAsync(id);

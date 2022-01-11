@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -34,6 +35,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/EventParticipators
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<EventParticipatorView>>> GetEventParticipator(
             int? id,int? eventId,int? personId,string eventName,string personName)
         {
@@ -139,6 +141,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/EventParticipators/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> PutEventParticipator(int id, EventParticipator eventParticipator)
         {
             if (id != eventParticipator.EventParticipatorId)
@@ -170,6 +173,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/EventParticipators
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<EventParticipator>> PostEventParticipator(EventParticipator eventParticipator)
         {
             _context.EventParticipator.Add(eventParticipator);
@@ -180,6 +184,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/EventParticipators/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteEventParticipator(int id)
         {
             var eventParticipator = await _context.EventParticipator.FindAsync(id);

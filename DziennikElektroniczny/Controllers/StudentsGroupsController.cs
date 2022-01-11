@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -43,6 +44,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/StudentsGroups
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<StudentsGroupView>>> GetStudentsGroup(
             int? id,int? teacherId,string teacherName,string title,string description,int? yearOfStudy)
         {
@@ -142,6 +144,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/StudentsGroups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutStudentsGroup(int id, StudentsGroup studentsGroup)
         {
             if (id != studentsGroup.StudentsGroupId)
@@ -173,6 +176,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/StudentsGroups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<StudentsGroup>> PostStudentsGroup(StudentsGroup studentsGroup)
         {
             _context.StudentsGroup.Add(studentsGroup);
@@ -183,6 +187,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/StudentsGroups/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteStudentsGroup(int id)
         {
             var studentsGroup = await _context.StudentsGroup.FindAsync(id);

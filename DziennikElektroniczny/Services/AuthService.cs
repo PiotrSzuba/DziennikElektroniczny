@@ -27,7 +27,7 @@ namespace DziennikElektroniczny.Services
         {
             var person = _context.Person.Where(person => person.Login == loginView.Login).FirstOrDefault();
             if (person == null) return null;
-            if (Hasher.hashEncoder(person.HashedPassword) == Hasher.hashEncoder(loginView.Password))
+            if (person.HashedPassword == Hasher.hashEncoder(loginView.Password))
             {
                 return this.GenerateJWT(person);
             }

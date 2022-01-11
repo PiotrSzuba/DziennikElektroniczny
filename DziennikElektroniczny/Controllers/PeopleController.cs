@@ -202,6 +202,7 @@ namespace DziennikElektroniczny.Controllers
             return personViews;
         }
 
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         // PUT: api/People/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -236,6 +237,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/People
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<Person>> PostPerson(Person person)
         {
             person.HashedPassword = Hasher.hashEncoder(person.HashedPassword);
@@ -245,7 +247,7 @@ namespace DziennikElektroniczny.Controllers
             return CreatedAtAction("GetPerson", new { id = person.PersonId }, await CreateView(person));
         }
 
-        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         // DELETE: api/People/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(int id)

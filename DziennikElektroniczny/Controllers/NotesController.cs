@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -35,6 +36,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Notes
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<NoteView>>> GetNote(
             int? id,int? teacherId,string teacherName,int? studentId, string studentName,string description)
         {
@@ -155,6 +157,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Notes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> PutNote(int id, Note note)
         {
             if (id != note.NoteId)
@@ -186,6 +189,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Notes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Note>> PostNote(Note note)
         {
             _context.Note.Add(note);
@@ -196,6 +200,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Notes/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<IActionResult> DeleteNote(int id)
         {
             var note = await _context.Note.FindAsync(id);

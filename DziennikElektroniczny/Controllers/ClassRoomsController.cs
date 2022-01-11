@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -24,6 +25,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Classrooms
         [HttpGet]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<ClassroomsView>>> GetClassRoom(
             int? id, string classroomName, string classroomFloor, string classroomBuilding)
         {
@@ -112,6 +114,7 @@ namespace DziennikElektroniczny.Controllers
         // PUT: api/Classrooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> PutClassRoom(int id, ClassRoom classRoom)
         {
             if (id != classRoom.ClassRoomId)
@@ -143,6 +146,7 @@ namespace DziennikElektroniczny.Controllers
         // POST: api/Classrooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<ClassRoom>> PostClassRoom(ClassRoom classRoom)
         {
             _context.ClassRoom.Add(classRoom);
@@ -153,6 +157,7 @@ namespace DziennikElektroniczny.Controllers
 
         // DELETE: api/Classrooms/5
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<IActionResult> DeleteClassRoom(int id)
         {
             var classRoom = await _context.ClassRoom.FindAsync(id);
