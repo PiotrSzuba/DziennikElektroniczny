@@ -19,9 +19,11 @@ namespace DziennikElektroniczny.Controllers
         }
 
         [HttpPost]
-        public String Login(LoginView loginView)
+        public ActionResult<string> Login(LoginView loginView)
         {
-            return _authService.AuthenticateCredentials(loginView);
+            string jwt =  _authService.AuthenticateCredentials(loginView);
+            if (jwt == null) return Unauthorized();
+            return jwt;
         }
     }
 }

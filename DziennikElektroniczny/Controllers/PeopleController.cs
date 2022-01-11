@@ -35,7 +35,7 @@ namespace DziennikElektroniczny.Controllers
             return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
         }
 
-        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { "Student" })]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson(
@@ -244,7 +244,7 @@ namespace DziennikElektroniczny.Controllers
             return CreatedAtAction("GetPerson", new { id = person.PersonId }, person);
         }
 
-        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { "Teacher" })]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         // DELETE: api/People/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson(int id)

@@ -25,7 +25,7 @@ namespace DziennikElektroniczny.Services
         public string AuthenticateCredentials(LoginView loginView)
         {
             var person = _context.Person.Where(person => person.Login == loginView.Login).FirstOrDefault();
-            if (person == null) throw new HttpResponseException(HttpStatusCode.Unauthorized);
+            if (person == null) return null;
             // todo hashing
             if (person.HashedPassword == loginView.Password)
             {
@@ -54,7 +54,7 @@ namespace DziennikElektroniczny.Services
                         .WithSecret(secret)
                         .MustVerifySignature()
                         .Decode<IDictionary<string, object>>(token);
-            int personId = (int) payload["personId"];
+            Int64 personId = (Int64) payload["personId"];
             if (personId < 1) return null;
 
             var person = _context.Person.Where(person => person.PersonId == personId).FirstOrDefault();
