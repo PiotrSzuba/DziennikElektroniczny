@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DziennikElektroniczny.Data;
 using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
+using DziennikElektroniczny.Utils;
 
 namespace DziennikElektroniczny.Controllers
 {

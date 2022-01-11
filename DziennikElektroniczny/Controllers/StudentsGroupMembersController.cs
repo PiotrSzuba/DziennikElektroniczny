@@ -37,11 +37,11 @@ namespace DziennikElektroniczny.Controllers
         [HttpGet]
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
         public async Task<ActionResult<IEnumerable<StudentsGroupMemberView>>> GetStudentsGroupMember(
-            int? id,int? groupId,int? studentId,string groupName,string studentName)
+            int? id, int? groupId, int? studentId, string groupName, string studentName)
         {
             List<StudentsGroupMember> studentsGroupMembersList = new();
             List<StudentsGroupMemberView> studentsGroupMemberViews = new();
-            if(id != null)
+            if (id != null)
             {
                 var studentsGroupMember = await _context.StudentsGroupMember.FindAsync(id);
 
@@ -53,9 +53,9 @@ namespace DziennikElektroniczny.Controllers
                 studentsGroupMemberViews.Add(await CreateView(studentsGroupMember));
                 return studentsGroupMemberViews;
             }
-            if(groupId != null)
+            if (groupId != null)
             {
-                if(studentsGroupMembersList.Count == 0)
+                if (studentsGroupMembersList.Count == 0)
                 {
                     studentsGroupMembersList = await _context.StudentsGroupMember.Where(x => x.StudentsGroupId == groupId).ToListAsync();
                 }
@@ -64,7 +64,7 @@ namespace DziennikElektroniczny.Controllers
                     studentsGroupMembersList = await Task.FromResult(studentsGroupMembersList.Where(x => x.StudentsGroupId == groupId).ToList());
                 }
             }
-            if(studentId != null)
+            if (studentId != null)
             {
                 if (studentsGroupMembersList.Count == 0)
                 {
@@ -79,24 +79,24 @@ namespace DziennikElektroniczny.Controllers
                         .ToList());
                 }
             }
-            if(groupName != null)
+            if (groupName != null)
             {
                 List<StudentsGroupMember> studentsGroupMembers = new();
                 if (studentsGroupMembersList.Count == 0)
                 {
                     studentsGroupMembersList = await _context.StudentsGroupMember.ToListAsync();
                 }
-                foreach(var studentMember in studentsGroupMembersList)
+                foreach (var studentMember in studentsGroupMembersList)
                 {
                     var studentsGroup = await _context.StudentsGroup.FindAsync(studentMember.StudentsGroupId);
-                    if(studentsGroup.Title.ToLower().Contains(groupName.ToLower()))
+                    if (studentsGroup.Title.ToLower().Contains(groupName.ToLower()))
                     {
                         studentsGroupMembers.Add(studentMember);
                     }
                 }
                 studentsGroupMembersList = studentsGroupMembers;
             }
-            if(studentName != null)
+            if (studentName != null)
             {
                 List<StudentsGroupMember> studentsGroupMembers = new();
                 if (studentsGroupMembersList.Count == 0)
@@ -108,7 +108,7 @@ namespace DziennikElektroniczny.Controllers
                     var student = await _context.Person.FindAsync(studentMember.StudentPersonId);
                     var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
                     var name = studentInfo.Name + " " + studentInfo.Surname;
-               
+
                     if (name.ToLower().Contains(studentName.ToLower()))
                     {
                         studentsGroupMembers.Add(studentMember);
@@ -116,15 +116,15 @@ namespace DziennikElektroniczny.Controllers
                 }
                 studentsGroupMembersList = studentsGroupMembers;
             }
-            if(id == null && groupId == null && studentId == null && groupName == null && studentName == null)
+            if (id == null && groupId == null && studentId == null && groupName == null && studentName == null)
             {
                 studentsGroupMembersList = await _context.StudentsGroupMember.ToListAsync();
             }
-            if(studentsGroupMembersList.Count == 0)
+            if (studentsGroupMembersList.Count == 0)
             {
                 return NotFound();
             }
-            foreach(var studentsGroupMember in studentsGroupMembersList)
+            foreach (var studentsGroupMember in studentsGroupMembersList)
             {
                 studentsGroupMemberViews.Add(await CreateView(studentsGroupMember));
             }
@@ -170,6 +170,13 @@ namespace DziennikElektroniczny.Controllers
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 4 })]
         public async Task<ActionResult<StudentsGroupMember>> PostStudentsGroupMember(StudentsGroupMember studentsGroupMember)
         {
+            var studentGroup = await _context.StudentsGroup.FindAsync(studentsGroupMember.StudentsGroupId);
+            var studentsInGroup = await _context.StudentsGroupMember
+                .Where(student => student.StudentsGroupId == studentGroup.StudentsGroupId).ToListAsync();
+            int count = studentsInGroup.Count();
+
+            if (count >= 30) return BadRequest();
+
             _context.StudentsGroupMember.Add(studentsGroupMember);
             await _context.SaveChangesAsync();
 
