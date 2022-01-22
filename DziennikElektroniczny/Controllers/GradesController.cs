@@ -19,6 +19,7 @@ namespace DziennikElektroniczny.Controllers
     {
         private readonly DziennikElektronicznyContext _context;
         private readonly ILogger _logger;
+        private readonly string[] _gradeOptions = { "-", "+", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "4-", "4", "4+", "5-" , "5", "5+", "6-", "6"};
         public GradesController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
         {
             _context = context;
@@ -231,6 +232,54 @@ namespace DziennikElektroniczny.Controllers
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
         public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
+            if(!_gradeOptions.Contains(grade.Value))
+            {
+                return StatusCode(400);
+            }
+
+            var student = await _context.Person.FindAsync(grade.StudentPersonId);
+
+            var studGrades = await _context.Grade.Where(x => x.StudentPersonId == student.PersonId).ToListAsync();
+
+            int minusCount = 0;
+            int plusCount = 0;
+
+            foreach (var gradie in studGrades)
+            {
+                if(gradie.Value == "-")
+                {
+                    minusCount++;
+                }
+                if(minusCount == 3)
+                {
+                    grade =
+                        new Grade
+                        {
+                            StudentPersonId = student.PersonalInfoId,
+                            TeacherPersonId = grade.TeacherPersonId,
+                            SubjectId = grade.SubjectId,
+                            Value = "1",
+                            Date = DateTime.Now
+                        };
+                }
+                if(gradie.Value == "+")
+                {
+                    plusCount++;
+                }
+                if(plusCount == 3)
+                {
+                    grade = 
+                        new Grade 
+                        {
+                            StudentPersonId = student.PersonalInfoId,
+                            TeacherPersonId = grade.TeacherPersonId,
+                            SubjectId = grade.SubjectId,
+                            Value = "5",
+                            Date = DateTime.Now
+                        };
+                }
+            }
+
             _context.Grade.Add(grade);
             await _context.SaveChangesAsync();
 

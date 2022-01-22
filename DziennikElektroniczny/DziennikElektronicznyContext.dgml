@@ -46,25 +46,39 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Node Id = "ClassRoom.Floor" Label="Floor" Name="Floor" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(255)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Grade" Label="Grade" Name="Grade" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+<Node Id = "EventParticipator" Label="EventParticipator" Name="EventParticipator" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
 Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
 Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
-Relational:TableName: Grade
+Relational:TableName: EventParticipator
 ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
 <Node Id = "Event.EventId" Label="EventId" Name="EventId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
 SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Event.EventParticipators" Label="EventParticipators (*)" Name="EventParticipators" Category="Navigation Collection" Type="ICollection&lt;EventParticipator&gt;"  Field="" Dependent="EventParticipator" Principal="" Inverse="Event" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Event.Description" Label="Description" Name="Description" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(2000)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Event.DndDate" Label="DndDate" Name="DndDate" Category="Property Required" Type="DateTime" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+<Node Id = "Event.EndDate" Label="EndDate" Name="EndDate" Category="Property Required" Type="DateTime" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "Event.StartDate" Label="StartDate" Name="StartDate" Category="Property Required" Type="DateTime" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "Event.Title" Label="Title" Name="Title" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(255)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Event.Persons" Label="Persons" Name="Persons" Category="Property Optional" Type="ICollection&lt;Person&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Grade" Label="Grade" Name="Grade" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
+Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
+Relational:TableName: Grade
+ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
+<Node Id = "EventParticipator.EventParticipatorId" Label="EventParticipatorId" Name="EventParticipatorId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
+SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "EventParticipator.Event" Label="Event (1)" Name="Event" Category="Navigation Property" Type="Event"  Field="" Dependent="" Principal="Event" Inverse="EventParticipators" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "EventParticipator.Person" Label="Person (1)" Name="Person" Category="Navigation Property" Type="Person"  Field="" Dependent="" Principal="Person" Inverse="EventParticipators" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "EventParticipator.EventId" Label="EventId" Name="EventId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "EventParticipator.PersonId" Label="PersonId" Name="PersonId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "Lesson" Label="Lesson" Name="Lesson" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
 Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
 Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
@@ -185,19 +199,19 @@ ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.Constructo
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
 SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
 <Node Id = "Person.AttendanceStudentPersons" Label="AttendanceStudentPersons (*)" Name="AttendanceStudentPersons" Category="Navigation Collection" Type="ICollection&lt;Attendance&gt;"  Field="" Dependent="Attendance" Principal="" Inverse="StudentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Person.EventParticipators" Label="EventParticipators (*)" Name="EventParticipators" Category="Navigation Collection" Type="ICollection&lt;EventParticipator&gt;"  Field="" Dependent="EventParticipator" Principal="" Inverse="Person" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.FromPersons" Label="FromPersons (*)" Name="FromPersons" Category="Navigation Collection" Type="ICollection&lt;Message&gt;"  Field="" Dependent="Message" Principal="" Inverse="FromPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.GradeStudentPersons" Label="GradeStudentPersons (*)" Name="GradeStudentPersons" Category="Navigation Collection" Type="ICollection&lt;Grade&gt;"  Field="" Dependent="Grade" Principal="" Inverse="StudentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.GradeTeacherPersons" Label="GradeTeacherPersons (*)" Name="GradeTeacherPersons" Category="Navigation Collection" Type="ICollection&lt;Grade&gt;"  Field="" Dependent="Grade" Principal="" Inverse="TeacherPerson" PropertyAccessMode="PropertyAccessMode.Default" />
-<Node Id = "Person.GroupTeacher" Label="GroupTeacher (1)" Name="GroupTeacher" Category="Navigation Property" Type="StudentsGroup"  Field="" Dependent="StudentsGroup" Principal="" Inverse="TeacherPerson" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Person.GroupTeacher" Label="GroupTeacher (*)" Name="GroupTeacher" Category="Navigation Collection" Type="ICollection&lt;StudentsGroup&gt;"  Field="" Dependent="StudentsGroup" Principal="" Inverse="TeacherPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.NoteStudentPersons" Label="NoteStudentPersons (*)" Name="NoteStudentPersons" Category="Navigation Collection" Type="ICollection&lt;Note&gt;"  Field="" Dependent="Note" Principal="" Inverse="StudentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.NoteTeacherPersons" Label="NoteTeacherPersons (*)" Name="NoteTeacherPersons" Category="Navigation Collection" Type="ICollection&lt;Note&gt;"  Field="" Dependent="Note" Principal="" Inverse="TeacherPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.ParentPersons" Label="ParentPersons (*)" Name="ParentPersons" Category="Navigation Collection" Type="ICollection&lt;Parent&gt;"  Field="" Dependent="Parent" Principal="" Inverse="ParentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.PersonalInfo" Label="PersonalInfo (1)" Name="PersonalInfo" Category="Navigation Property" Type="PersonalInfo"  Field="" Dependent="" Principal="PersonalInfo" Inverse="Persons" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.StudentPersons" Label="StudentPersons (*)" Name="StudentPersons" Category="Navigation Collection" Type="ICollection&lt;Parent&gt;"  Field="" Dependent="Parent" Principal="" Inverse="StudentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Person.StudentsGroupMembers" Label="StudentsGroupMembers (*)" Name="StudentsGroupMembers" Category="Navigation Collection" Type="ICollection&lt;StudentsGroupMember&gt;"  Field="" Dependent="StudentsGroupMember" Principal="" Inverse="StudentPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.SubjectTeacherPersons" Label="SubjectTeacherPersons (*)" Name="SubjectTeacherPersons" Category="Navigation Collection" Type="ICollection&lt;Subject&gt;"  Field="" Dependent="Subject" Principal="" Inverse="TeacherPerson" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.ToPersons" Label="ToPersons (*)" Name="ToPersons" Category="Navigation Collection" Type="ICollection&lt;Message&gt;"  Field="" Dependent="Message" Principal="" Inverse="ToPerson" PropertyAccessMode="PropertyAccessMode.Default" />
-<Node Id = "Person.Events" Label="Events (1)" Name="Events" Category="Navigation Property" Type="ICollection&lt;Event&gt;"  Field="" Dependent="" Principal="" Inverse="Persons" PropertyAccessMode="PropertyAccessMode.Default" />
-<Node Id = "Person.StudentsGroups" Label="StudentsGroups (1)" Name="StudentsGroups" Category="Navigation Property" Type="ICollection&lt;StudentsGroup&gt;"  Field="" Dependent="" Principal="" Inverse="Students" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "Person.HashedPassword" Label="HashedPassword" Name="HashedPassword" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(255)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
@@ -237,17 +251,17 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Node Id = "PersonalInfo.Surname" Label="Surname" Name="Surname" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(40)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "Subject" Label="Subject" Name="Subject" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+<Node Id = "StudentsGroupMember" Label="StudentsGroupMember" Name="StudentsGroupMember" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
 Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
 Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
-Relational:TableName: Subject
+Relational:TableName: StudentsGroupMember
 ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
 <Node Id = "StudentsGroup.StudentsGroupId" Label="StudentsGroupId" Name="StudentsGroupId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
 SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "StudentsGroup.StudentsGroupMembers" Label="StudentsGroupMembers (*)" Name="StudentsGroupMembers" Category="Navigation Collection" Type="ICollection&lt;StudentsGroupMember&gt;"  Field="" Dependent="StudentsGroupMember" Principal="" Inverse="StudentsGroup" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "StudentsGroup.Subjects" Label="Subjects (*)" Name="Subjects" Category="Navigation Collection" Type="ICollection&lt;Subject&gt;"  Field="" Dependent="Subject" Principal="" Inverse="StudentsGroup" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "StudentsGroup.TeacherPerson" Label="TeacherPerson (1)" Name="TeacherPerson" Category="Navigation Property" Type="Person"  Field="" Dependent="" Principal="Person" Inverse="GroupTeacher" PropertyAccessMode="PropertyAccessMode.Default" />
-<Node Id = "StudentsGroup.Students" Label="Students (1)" Name="Students" Category="Navigation Property" Type="ICollection&lt;Person&gt;"  Field="" Dependent="" Principal="" Inverse="StudentsGroups" PropertyAccessMode="PropertyAccessMode.Default" />
 <Node Id = "StudentsGroup.Description" Label="Description" Name="Description" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(2000)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
@@ -258,6 +272,20 @@ Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microso
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "StudentsGroup.YearOfStudy" Label="YearOfStudy" Name="YearOfStudy" Category="Property Required" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Subject" Label="Subject" Name="Subject" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
+Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
+Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
+Relational:TableName: Subject
+ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
+<Node Id = "StudentsGroupMember.StudentsGroupMemberId" Label="StudentsGroupMemberId" Name="StudentsGroupMemberId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
+SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "StudentsGroupMember.StudentPerson" Label="StudentPerson (1)" Name="StudentPerson" Category="Navigation Property" Type="Person"  Field="" Dependent="" Principal="Person" Inverse="StudentsGroupMembers" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "StudentsGroupMember.StudentsGroup" Label="StudentsGroup (1)" Name="StudentsGroup" Category="Navigation Property" Type="StudentsGroup"  Field="" Dependent="" Principal="StudentsGroup" Inverse="StudentsGroupMembers" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "StudentsGroupMember.StudentPersonId" Label="StudentPersonId" Name="StudentPersonId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "StudentsGroupMember.StudentsGroupId" Label="StudentsGroupId" Name="StudentsGroupId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
+Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "SubjectInfo" Label="SubjectInfo" Name="SubjectInfo" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
 Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
 Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
@@ -279,10 +307,7 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
 <Node Id = "Subject.TeacherPersonId" Label="TeacherPersonId" Name="TeacherPersonId" Category="Property Foreign" Type="Nullable&lt;int&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="True" IsRequired="False" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "EventPerson" Label="EventPerson" Name="EventPerson" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
-Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
-Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
-ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
+<Node Id = "SubjectInfo" Label="SubjectInfo" Name="SubjectInfo" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
 <Node Id = "SubjectInfo.SubjectInfoId" Label="SubjectInfoId" Name="SubjectInfoId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]
 SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
@@ -293,19 +318,6 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Node Id = "SubjectInfo.Title" Label="Title" Name="Title" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:ColumnType: varchar(255)
 Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
 Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "PersonStudentsGroup" Label="PersonStudentsGroup" Name="PersonStudentsGroup" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="ConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding
-Relational:DefaultMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMappingBase]
-Relational:TableMappings: System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.Internal.TableMapping]
-ServiceOnlyConstructorBinding: Microsoft.EntityFrameworkCore.Metadata.ConstructorBinding" Category="EntityType" Group="Expanded" />
-<Node Id = "EventPerson.EventsEventId" Label="EventsEventId" Name="EventsEventId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
-Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "EventPerson.PersonsPersonId" Label="PersonsPersonId" Name="PersonsPersonId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
-Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "PersonStudentsGroup" Label="PersonStudentsGroup" Name="PersonStudentsGroup" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
-<Node Id = "PersonStudentsGroup.StudentsGroupsStudentsGroupId" Label="StudentsGroupsStudentsGroupId" Name="StudentsGroupsStudentsGroupId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
-Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
-<Node Id = "PersonStudentsGroup.StudentsPersonId" Label="StudentsPersonId" Name="StudentsPersonId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="Relational:DefaultColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMappingBase]
-Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ColumnMapping]" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
   </Nodes>
   <Links>
 <Link Source = "IModel" Target="Attendance" Category="Contains" />
@@ -325,13 +337,21 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Link Source = "ClassRoom" Target="ClassRoom.Building" Category="Contains" />
 <Link Source = "ClassRoom" Target="ClassRoom.Destination" Category="Contains" />
 <Link Source = "ClassRoom" Target="ClassRoom.Floor" Category="Contains" />
-<Link Source = "IModel" Target="Grade" Category="Contains" />
+<Link Source = "IModel" Target="EventParticipator" Category="Contains" />
+<Link Source = "Event" Target="Event.EventParticipators" Category="Contains" />
 <Link Source = "Event" Target="Event.EventId" Category="Contains" />
 <Link Source = "Event" Target="Event.Description" Category="Contains" />
-<Link Source = "Event" Target="Event.DndDate" Category="Contains" />
+<Link Source = "Event" Target="Event.EndDate" Category="Contains" />
 <Link Source = "Event" Target="Event.StartDate" Category="Contains" />
 <Link Source = "Event" Target="Event.Title" Category="Contains" />
-<Link Source = "Event" Target="Event.Persons" Category="Contains" />
+<Link Source = "IModel" Target="Grade" Category="Contains" />
+<Link Source = "EventParticipator" Target="EventParticipator.Event" Category="Contains" />
+<Link Source = "EventParticipator" Target="EventParticipator.Person" Category="Contains" />
+<Link Source = "EventParticipator" Target="EventParticipator.EventParticipatorId" Category="Contains" />
+<Link Source="EventParticipator" Target="Event" From="EventParticipator.EventId" To="Event.EventId" Name="EventParticipator -> Event" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="EventParticipator" Target="Person" From="EventParticipator.PersonId" To="Person.PersonId" Name="EventParticipator -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "EventParticipator" Target="EventParticipator.EventId" Category="Contains" />
+<Link Source = "EventParticipator" Target="EventParticipator.PersonId" Category="Contains" />
 <Link Source = "IModel" Target="Lesson" Category="Contains" />
 <Link Source = "Grade" Target="Grade.StudentPerson" Category="Contains" />
 <Link Source = "Grade" Target="Grade.Subject" Category="Contains" />
@@ -394,6 +414,7 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Link Source = "Parent" Target="Parent.StudentPersonId" Category="Contains" />
 <Link Source = "IModel" Target="PersonalInfo" Category="Contains" />
 <Link Source = "Person" Target="Person.AttendanceStudentPersons" Category="Contains" />
+<Link Source = "Person" Target="Person.EventParticipators" Category="Contains" />
 <Link Source = "Person" Target="Person.FromPersons" Category="Contains" />
 <Link Source = "Person" Target="Person.GradeStudentPersons" Category="Contains" />
 <Link Source = "Person" Target="Person.GradeTeacherPersons" Category="Contains" />
@@ -403,10 +424,9 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Link Source = "Person" Target="Person.ParentPersons" Category="Contains" />
 <Link Source = "Person" Target="Person.PersonalInfo" Category="Contains" />
 <Link Source = "Person" Target="Person.StudentPersons" Category="Contains" />
+<Link Source = "Person" Target="Person.StudentsGroupMembers" Category="Contains" />
 <Link Source = "Person" Target="Person.SubjectTeacherPersons" Category="Contains" />
 <Link Source = "Person" Target="Person.ToPersons" Category="Contains" />
-<Link Source = "Person" Target="Person.Events" Category="Contains" />
-<Link Source = "Person" Target="Person.StudentsGroups" Category="Contains" />
 <Link Source = "Person" Target="Person.PersonId" Category="Contains" />
 <Link Source="Person" Target="PersonalInfo" From="Person.PersonalInfoId" To="PersonalInfo.PersonalInfoId" Name="Person -> PersonalInfo" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
 <Link Source = "Person" Target="Person.HashedPassword" Category="Contains" />
@@ -423,16 +443,24 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Link Source = "PersonalInfo" Target="PersonalInfo.PhoneNumber" Category="Contains" />
 <Link Source = "PersonalInfo" Target="PersonalInfo.SecondName" Category="Contains" />
 <Link Source = "PersonalInfo" Target="PersonalInfo.Surname" Category="Contains" />
-<Link Source = "IModel" Target="Subject" Category="Contains" />
+<Link Source = "IModel" Target="StudentsGroupMember" Category="Contains" />
+<Link Source = "StudentsGroup" Target="StudentsGroup.StudentsGroupMembers" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.Subjects" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.TeacherPerson" Category="Contains" />
-<Link Source = "StudentsGroup" Target="StudentsGroup.Students" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.StudentsGroupId" Category="Contains" />
-<Link Source="StudentsGroup" Target="Person" From="StudentsGroup.TeacherPersonId" To="Person.PersonId" Name="StudentsGroup -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="True" Label="1:1" Category="Foreign Key" />
+<Link Source="StudentsGroup" Target="Person" From="StudentsGroup.TeacherPersonId" To="Person.PersonId" Name="StudentsGroup -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.Description" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.TeacherPersonId" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.Title" Category="Contains" />
 <Link Source = "StudentsGroup" Target="StudentsGroup.YearOfStudy" Category="Contains" />
+<Link Source = "IModel" Target="Subject" Category="Contains" />
+<Link Source = "StudentsGroupMember" Target="StudentsGroupMember.StudentPerson" Category="Contains" />
+<Link Source = "StudentsGroupMember" Target="StudentsGroupMember.StudentsGroup" Category="Contains" />
+<Link Source = "StudentsGroupMember" Target="StudentsGroupMember.StudentsGroupMemberId" Category="Contains" />
+<Link Source="StudentsGroupMember" Target="Person" From="StudentsGroupMember.StudentPersonId" To="Person.PersonId" Name="StudentsGroupMember -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="StudentsGroupMember" Target="StudentsGroup" From="StudentsGroupMember.StudentsGroupId" To="StudentsGroup.StudentsGroupId" Name="StudentsGroupMember -> StudentsGroup" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "StudentsGroupMember" Target="StudentsGroupMember.StudentPersonId" Category="Contains" />
+<Link Source = "StudentsGroupMember" Target="StudentsGroupMember.StudentsGroupId" Category="Contains" />
 <Link Source = "IModel" Target="SubjectInfo" Category="Contains" />
 <Link Source = "Subject" Target="Subject.ClassRoom" Category="Contains" />
 <Link Source = "Subject" Target="Subject.Grades" Category="Contains" />
@@ -448,21 +476,11 @@ Relational:TableColumnMappings: System.Collections.Generic.SortedSet`1[Microsoft
 <Link Source = "Subject" Target="Subject.StudentsGroupId" Category="Contains" />
 <Link Source = "Subject" Target="Subject.SubjectInfoId" Category="Contains" />
 <Link Source = "Subject" Target="Subject.TeacherPersonId" Category="Contains" />
-<Link Source = "IModel" Target="EventPerson" Category="Contains" />
+<Link Source = "IModel" Target="SubjectInfo" Category="Contains" />
 <Link Source = "SubjectInfo" Target="SubjectInfo.Subjects" Category="Contains" />
 <Link Source = "SubjectInfo" Target="SubjectInfo.SubjectInfoId" Category="Contains" />
 <Link Source = "SubjectInfo" Target="SubjectInfo.Description" Category="Contains" />
 <Link Source = "SubjectInfo" Target="SubjectInfo.Title" Category="Contains" />
-<Link Source = "IModel" Target="PersonStudentsGroup" Category="Contains" />
-<Link Source = "EventPerson" Target="EventPerson.EventsEventId" Category="Contains" />
-<Link Source="EventPerson" Target="Event" From="EventPerson.EventsEventId" To="Event.EventId" Name="EventPerson -> Event" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source="EventPerson" Target="Person" From="EventPerson.PersonsPersonId" To="Person.PersonId" Name="EventPerson -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source = "EventPerson" Target="EventPerson.PersonsPersonId" Category="Contains" />
-<Link Source = "IModel" Target="PersonStudentsGroup" Category="Contains" />
-<Link Source = "PersonStudentsGroup" Target="PersonStudentsGroup.StudentsGroupsStudentsGroupId" Category="Contains" />
-<Link Source="PersonStudentsGroup" Target="StudentsGroup" From="PersonStudentsGroup.StudentsGroupsStudentsGroupId" To="StudentsGroup.StudentsGroupId" Name="PersonStudentsGroup -> StudentsGroup" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source="PersonStudentsGroup" Target="Person" From="PersonStudentsGroup.StudentsPersonId" To="Person.PersonId" Name="PersonStudentsGroup -> Person" Annotations="Relational:ForeignKeyMappings: System.Collections.Generic.SortedSet`1[Microsoft.EntityFrameworkCore.Metadata.Internal.ForeignKeyConstraint]" IsUnique="False" Label="1:*" Category="Foreign Key" />
-<Link Source = "PersonStudentsGroup" Target="PersonStudentsGroup.StudentsPersonId" Category="Contains" />
   </Links>
   <Styles>
     <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">
