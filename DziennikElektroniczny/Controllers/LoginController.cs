@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+
+using Newtonsoft.Json.Linq;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -19,11 +22,17 @@ namespace DziennikElektroniczny.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string> Login(LoginView loginView)
+        public ActionResult Login(LoginView loginView)
         {
             string jwt =  _authService.AuthenticateCredentials(loginView);
             if (jwt == null) return Unauthorized();
-            return jwt;
+            TokenRes token = new TokenRes();
+            token.token = jwt;
+          return new JsonResult(token);
         }
     }
+}
+class TokenRes
+{
+    public string token { get; set; }
 }

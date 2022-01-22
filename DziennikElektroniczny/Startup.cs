@@ -27,12 +27,13 @@ namespace DziennikElektroniczny
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors();
             services.AddControllers();
 
             services.AddDbContext<DziennikElektronicznyContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DziennikElektronicznyContext")));
             services.AddScoped<AuthService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,9 +44,17 @@ namespace DziennikElektroniczny
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(x => x
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .SetIsOriginAllowed(origin => true) // allow any origin
+         .WithOrigins("http://localhost:4200") // Allow only this origin can also have multiple origins separated with comma
+        .AllowCredentials()); // allow credentials
+
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
