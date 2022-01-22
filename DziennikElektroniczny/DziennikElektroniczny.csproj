@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AngularApp\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
