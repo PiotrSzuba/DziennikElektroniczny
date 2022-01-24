@@ -16,6 +16,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
 import { GradesComponent } from './components/grades/grades.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MessagesDisplayComponent } from './components/messages/messages-display/messages-display.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,8 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     NavbarComponent,
     GradesComponent,
     AttendanceComponent,
+    MessagesComponent,
+    MessagesDisplayComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +43,8 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     MatInputModule,
     MatToolbarModule,
     FormsModule,
+    MatTabsModule,
+    MatExpansionModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },

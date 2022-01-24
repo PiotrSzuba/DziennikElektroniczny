@@ -1,0 +1,29 @@
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel hideToggle disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{received ? 'Od' : 'Do'}}
+      </mat-panel-title>
+      <mat-panel-description>
+        Tytuł
+      </mat-panel-description>
+      <mat-panel-description>
+        Data wysłania
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <mat-expansion-panel hideToggle *ngFor="let message of messages">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{received ? message.fromPersonName : message.toPersonName}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{message.title}}
+      </mat-panel-description>
+      <mat-panel-description>
+        {{message.sendDate}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>{{message.content}}</p>
+  </mat-expansion-panel>
+</mat-accordion>

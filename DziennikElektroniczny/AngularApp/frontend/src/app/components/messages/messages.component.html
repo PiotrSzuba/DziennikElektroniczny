@@ -1,0 +1,13 @@
+<div class="message-view">
+    <mat-tab-group>
+        <mat-tab label="Odebrane">
+            <app-messages-display [messages]="receivedMsg" [received]="true"></app-messages-display>
+        </mat-tab>
+        <mat-tab label="Wysłane">
+            <app-messages-display [messages]="sendMsg" [received]="false"></app-messages-display>
+        </mat-tab>
+        <mat-tab label="Wyślij wiadomość">
+            TBD
+        </mat-tab>
+    </mat-tab-group>
+</div> 
