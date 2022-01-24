@@ -21,7 +21,8 @@ namespace DziennikElektroniczny.Utils
         public async Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
             var jwtFromHeaders = context.HttpContext.Request.Headers["JWT"];
-            if (jwtFromHeaders.Count == 0) context.HttpContext.Response.StatusCode = 401;
+            string jwt = (string)jwtFromHeaders;
+            if (jwt==null || jwt.Length == 0) context.HttpContext.Response.StatusCode = 401;
             else
             {
                 Person person = _authService.GetPersonFromJWT(jwtFromHeaders);

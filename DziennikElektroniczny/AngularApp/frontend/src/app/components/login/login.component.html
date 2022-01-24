@@ -1,0 +1,14 @@
+<div class="login-container">
+  <div class="login-wrapper">
+    <mat-form-field appearance="fill" class="input-field">
+      <mat-label>Login</mat-label>
+      <input matInput [(ngModel)]="login" placeholder="Login" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="input-field">
+      <mat-label>Hasło</mat-label>
+      <input matInput [(ngModel)]="password" [type]="'password'" required />
+    </mat-form-field>
+  </div>
+  <button class="btn" mat-raised-button color="primary" (click)="loginMe()">Loguj</button>
+</div>
+

@@ -10,6 +10,8 @@ using DziennikElektroniczny.Models;
 using DziennikElektroniczny.ViewModels;
 using Microsoft.Extensions.Logging;
 using DziennikElektroniczny.Utils;
+using Microsoft.Extensions.Primitives;
+using DziennikElektroniczny.Services;
 
 namespace DziennikElektroniczny.Controllers
 {
@@ -19,10 +21,12 @@ namespace DziennikElektroniczny.Controllers
     {
         private readonly DziennikElektronicznyContext _context;
         private readonly ILogger _logger;
-        public PeopleController(DziennikElektronicznyContext context, ILogger<ParentsController> logger)
+        private readonly AuthService _authService;
+        public PeopleController(DziennikElektronicznyContext context, ILogger<ParentsController> logger, AuthService authService)
         {
             _context = context;
             _logger = logger;
+            _authService = authService;
         }
 
         public async Task<PersonView> CreateView(Person person)
@@ -33,6 +37,17 @@ namespace DziennikElektroniczny.Controllers
         public async Task<PersonalInfo> GetPersonalInfo(Person person)
         {
             return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+        }
+
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
+        [HttpOptions]
+        public async Task<ActionResult> GetCurrentLoggedPerson()
+        {
+            StringValues token;
+            Request.Headers.TryGetValue("JWT", out token);
+            Person p = _authService.GetPersonFromJWT(token);
+            PersonView pv = await CreateView(p);
+            return new JsonResult(pv);
         }
 
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
