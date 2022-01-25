@@ -1,0 +1,54 @@
+<div class="send-message-main">
+    <div class="send-message-receiver">
+        <mat-form-field appearance="fill">
+            <mat-label>Odbiorca</mat-label>
+            <input type="text"
+                placeholder="Pick one"
+                aria-label="Number"
+                matInput
+                [formControl]="receiversControl"
+                [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let receiver of filteredReceivers | async" [value]="receiver">
+                {{receiver}}
+            </mat-option>
+            </mat-autocomplete>
+            <input matInput>
+        </mat-form-field>
+        <p class="invalid-input" *ngIf="!receiverValid">Trzeba wybrać conajmniej jednego odbiorcę</p>
+        <mat-chip-list appearance="fill"
+            class="example-chip"
+            cdkDropList 
+            cdkDropListOrientation="horizontal">
+            <mat-chip
+                class="example-box"
+                cdkDrag
+                *ngFor="let receiver of selectedReceivers"
+                (removed)="removeSelectedReceiver(receiver)">
+                {{receiver.name + ' ' + receiver.surname}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+</mat-chip-list>
+</div>
+    <div class="send-message-topic">
+        <mat-form-field appearance="fill">
+            <mat-label>Temat</mat-label>
+            <input
+                matInput
+                [formControl]="topicControl">
+        </mat-form-field>
+        <p class="invalid-input" *ngIf="!topicValid">Temat nie może być pusty</p>
+    </div>
+    <div class="send-message-content">
+        <mat-form-field appearance="fill">
+            <mat-label>Treść wiadomości</mat-label>
+            <textarea
+            matInput
+            [formControl]="contentControl">></textarea>
+        </mat-form-field>
+        <p class="invalid-input" *ngIf="!contentValid">Treść wiadomości nie może być pusta</p>
+    </div>
+</div>
+<button mat-button color="primary" (click)="send()">Wyślij</button>

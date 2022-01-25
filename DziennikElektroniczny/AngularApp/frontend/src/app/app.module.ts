@@ -13,13 +13,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GradesComponent } from './components/grades/grades.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { MessagesComponent } from './components/messages/messages.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MessagesDisplayComponent } from './components/messages/messages-display/messages-display.component';
+import { SendMessageComponent } from './components/messages/send-message/send-message.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { MessagesDisplayComponent } from './components/messages/messages-display
     AttendanceComponent,
     MessagesComponent,
     MessagesDisplayComponent,
+    SendMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,9 @@ import { MessagesDisplayComponent } from './components/messages/messages-display
     FormsModule,
     MatTabsModule,
     MatExpansionModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatChipsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
