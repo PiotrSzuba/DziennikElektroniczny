@@ -13,13 +13,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GradesComponent } from './components/grades/grades.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MessagesDisplayComponent } from './components/messages/messages-display/messages-display.component';
+import { EventsComponent } from './components/events/events.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
+import { DatePipe } from '@angular/common'
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -31,6 +38,7 @@ import { MessagesDisplayComponent } from './components/messages/messages-display
     AttendanceComponent,
     MessagesComponent,
     MessagesDisplayComponent,
+    EventsComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +53,15 @@ import { MessagesDisplayComponent } from './components/messages/messages-display
     FormsModule,
     MatTabsModule,
     MatExpansionModule,
+    MatCardModule,
+    MatGridListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatButtonToggleModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,
   ],
   bootstrap: [AppComponent],
 })

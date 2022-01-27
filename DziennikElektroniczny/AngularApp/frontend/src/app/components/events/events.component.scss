@@ -1,0 +1,53 @@
+.event-container{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.event-element{
+    margin-top: 10px;
+}
+.event-element:hover{
+    background-color: rgb(39, 39, 39);
+}
+
+.left-align-forced {
+    width:100%;
+  }
+
+.right-align-forced {
+    width:100%;
+    text-align:right;
+  }
+
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(39, 39, 39);
+    border-radius: 5px;
+  }
+
+.white-letters{
+    color: white;
+}
+
+.wrap-element{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: -1.32em;
+}
+
+.wrap-element-small{
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: -1.32em;
+}
+
+.wide-text-input{
+    width: 100%;
+}
+
+.align-contents-center {
+    margin: .25em;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

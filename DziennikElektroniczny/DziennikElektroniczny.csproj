@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Angular app\**" />
     <Compile Remove="AngularApp\**" />
+    <Content Remove="Angular app\**" />
     <Content Remove="AngularApp\**" />
+    <EmbeddedResource Remove="Angular app\**" />
     <EmbeddedResource Remove="AngularApp\**" />
+    <None Remove="Angular app\**" />
     <None Remove="AngularApp\**" />
   </ItemGroup>
 

@@ -120,14 +120,14 @@ namespace DziennikElektroniczny.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
-        public async Task<IActionResult> PutEvent(int id, Event @event)
+        public async Task<IActionResult> PutEvent(int id, Event editedEvent)
         {
-            if (id != @event.EventId)
+            if (id != editedEvent.EventId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@event).State = EntityState.Modified;
+            _context.Entry(editedEvent).State = EntityState.Modified;
 
             try
             {

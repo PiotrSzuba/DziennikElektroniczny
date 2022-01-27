@@ -46,6 +46,7 @@ namespace DziennikElektroniczny.Controllers
             int? id,int? studentId,int? teacherId,int? subjectId,
             string subjectName,string value, string studentName, string teacherName)
         {
+            
             List<Grade> gradesList = new();
             List<GradeView> gradeViews = new();
             if (id != null)

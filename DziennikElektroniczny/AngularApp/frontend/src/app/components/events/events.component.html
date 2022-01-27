@@ -1,0 +1,149 @@
+<div class = "event-container"> 
+    <div class = "wrap white-letters">
+
+        <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitTitle()">
+            <mat-label>Nazwa wydarzenia</mat-label>
+            <input matInput placeholder="" [(ngModel)]="eventTitleSearch">
+        </mat-form-field>
+
+        <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitDescription()">
+            <mat-label>Opis</mat-label>
+            <input matInput placeholder="" [(ngModel)]="eventDescriptionSearch">
+        </mat-form-field>
+
+        <div class = "align-contents-center wrap-element">
+            <mat-button-toggle (change) = "participationFilter()" checked="true">Zapisany</mat-button-toggle>
+        </div>
+
+        <div class = "align-contents-center wrap-element">
+            <button mat-stroked-button (click)="search()">Szukaj</button>
+        </div>
+
+        <div *ngIf="checkRole()" class = "align-contents-center wrap-element" >
+            <button mat-stroked-button (click) = "createEvent()">{{createEventButtonName}}</button>
+        </div>
+
+        <div *ngIf="checkRole() && creatingNewEvent" class = "align-contents-center wrap-element" >
+            <button mat-stroked-button (click) = "cancelCreateEvent()">Anuluj</button>
+        </div>      
+    
+        <div *ngIf = "showRestricted">
+            <p>
+                <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()">
+                    <mat-label>Nowa nazwa wydarzenia</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="newTitle">
+                </mat-form-field>
+
+                <mat-form-field class="wrap-element" appearance="outline" >
+                    <mat-label>Wybierz dzień startowy</mat-label>
+                    <input matInput [matDatepicker]="newStartDatePicker" [formControl]="newStartDateForm">
+                    <mat-datepicker-toggle matSuffix [for]="newStartDatePicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #newStartDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()">
+                    <mat-label>Wybierz czas startowy</mat-label>
+                    <input type="time" matInput [formControl]="newStartTimeForm" [(ngModel)]="startTime">
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()">
+                    <mat-label>Wybierz dzień końcowy</mat-label>
+                    <input matInput [matDatepicker]="newEndDatePicker" [formControl]="newEndDateForm">
+                    <mat-datepicker-toggle matSuffix [for]="newEndDatePicker" >
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #newEndDatePicker [(ngModel)]="endDate"></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()" >
+                    <mat-label>Wybierz czas końcowy</mat-label>
+                    <input type="time" matInput name="week" [formControl]="newEndTimeForm">
+                </mat-form-field>
+
+            </p>  
+            <p>
+                <mat-form-field class = "wrap-element wide-text-input" appearance="outline" (submit)="onSubmitNewEvent()">
+                    <mat-label>Nowy opis</mat-label>
+                    <textarea matInput [(ngModel)]="newDescription"></textarea>
+                </mat-form-field>
+            </p>  
+        </div>
+    </div>
+    <mat-card class = "event-element" *ngFor="let event of filteredEventsList; let i = index">
+        <mat-card-title> {{event.title}} </mat-card-title>
+        <mat-grid-list cols="2" rowHeight="100px">
+            <mat-grid-tile>
+                <div class="left-align-forced" >
+                    <p>{{event.description}}</p>                
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-card-content align="end" class = "right-align-forced">
+                    <p>od {{formatDate(event.startDate)}}</p>
+                    <p>do {{formatDate(event.endDate)}}</p>
+                </mat-card-content>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-grid-list cols="2" rowHeight="50px" *ngIf="checkRole()">
+            <mat-grid-tile>
+                <div class="left-align-forced" >
+                    <button mat-stroked-button class = "wrap-element" (click) = "signIn(event.id)">Zapisz</button>
+                    <button mat-stroked-button class = "wrap-element" (click) = "signOut(event.id)">Wypisz</button>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-card-content align="end" class = "right-align-forced">
+                    <button mat-stroked-button class = "wrap-element" (click) = "editEvent(event.id,i )">{{editButtonName[event.id]}}</button>
+                    <button mat-stroked-button class = "wrap-element" (click) = "deleteEvent(event.id)">{{deleteCancelButtonName[event.id]}}</button>
+                </mat-card-content>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <div *ngIf = "showEditFormId[event.id]">
+            <p>
+                <mat-form-field class = "wrap-element-small" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Edytuj nazwę wydarzenia</mat-label>
+                    <input matInput placeholder="Edytuj nazwę wydarzenia" [(ngModel)]="editedTitle">
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element-small" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Wybierz dzień startowy</mat-label>
+                    <input matInput [matDatepicker]="editStarPicker" [formControl]="editStartDateForm" [value]="editStartDateForm">
+                    <mat-datepicker-toggle matSuffix [for]="editStarPicker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #editStarPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element-small" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Wybierz czas startowy</mat-label>
+                    <input type="time" matInput [formControl]="editStartTimeForm">
+                </mat-form-field>
+
+                <mat-form-field class = "wrap-element-small" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Wybierz dzień końcowy</mat-label>
+                    <input matInput [matDatepicker]="editEndPicker" [formControl]="editEndDateForm" [value]="editEndDateForm">
+                    <mat-datepicker-toggle matSuffix [for]="editEndPicker" >
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #editEndPicker></mat-datepicker>
+                </mat-form-field>
+
+                 <mat-form-field class = "wrap-element-small" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Wybierz czas końcowy</mat-label>
+                    <input type="time" matInput [formControl]="editEndTimeForm">
+                </mat-form-field>
+            </p>  
+            <p>
+                <mat-form-field class = "wrap-element-small wide-text-input" appearance="outline" (submit)="onSubmitEditEvent()">
+                    <mat-label>Edytuj opis</mat-label>
+                    <textarea matInput [(ngModel)]="editedDescription"></textarea>
+                </mat-form-field>
+            </p>  
+        </div>
+    </mat-card>
+</div>
