@@ -34,6 +34,7 @@ import * as moment from 'moment';
     editedTitle: String;
     editedDescription: String;
     editingEvent: boolean;
+    deletingEvent: boolean;
     editingDivOpen: Number;
     showEditFormId: boolean[];
     editButtonName: String[];
@@ -83,6 +84,7 @@ import * as moment from 'moment';
       this.editedTitle = "";
       this.editedDescription = "";
       this.editingEvent = false;
+      this.deletingEvent = false;
       this.editingDivOpen = -1;
       this.showEditFormId = [];
       this.editButtonName = [];
@@ -93,6 +95,8 @@ import * as moment from 'moment';
       this.participationFilterValue = false;
   }
 
+  //wpisywanie ludzi i wypisywanie
+
   resolveFixer() {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -102,12 +106,25 @@ import * as moment from 'moment';
   }
 
   async ngOnInit(){
-    this.userId = 6;
-    this.userRole = 3;
+    this.userId = 5;
+    this.userRole = 4;
     this.eventsList = await this.eventService.getEventsList();
-    this.filteredEventsList = this.eventsList;
     this.participatorsEvents = this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString()));
     await this.resolveFixer();
+    if(this.userRole < this.minRole){
+      var tempList: EventViewModel[] = [];
+      for(let i = 0; i < this.participatorsEvents.length; i++){
+        for(let j = 0; j < this.eventsList.length; j++){
+          if(this.eventsList[j].id == this.participatorsEvents[i].eventId){
+            tempList.push(this.eventsList[j]);
+            break;
+          }
+        }
+      }
+      this.eventsList = tempList;
+    }
+    this.filteredEventsList = this.eventsList;
+    this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate));
     this.setShowEditFormId();
   }
 
@@ -144,12 +161,26 @@ import * as moment from 'moment';
   }
 
   search(){
-      this.filteredEventsList = this.eventsList.filter(s => s.title
-        .toLowerCase()
-        .includes(this.eventTitleSearch.toString().toLowerCase()));
-      this.filteredEventsList = this.filteredEventsList.filter(s =>s.description
-        .toLowerCase()
-        .includes(this.eventDescriptionSearch.toString().toLowerCase()));
+    this.filteredEventsList = this.eventsList.filter(s => s.title
+      .toLowerCase()
+      .includes(this.eventTitleSearch.toString().toLowerCase()));
+    this.filteredEventsList = this.filteredEventsList.filter(s =>s.description
+      .toLowerCase()
+      .includes(this.eventDescriptionSearch.toString().toLowerCase()));
+    if(this.participationFilterValue){
+      var tempList: EventViewModel[] = [];
+      for(let i = 0; i < this.participatorsEvents.length; i++){
+        for(let j = 0; j < this.filteredEventsList.length; j++){
+          if(this.filteredEventsList[j].id == this.participatorsEvents[i].eventId){
+            tempList.push(this.filteredEventsList[j]);
+            break;
+          }
+        }
+      }
+      this.filteredEventsList = tempList;
+      tempList = [];  
+    }
+    this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.endDate) - +new Date(a.endDate));
   }
 
   createEvent(){
@@ -174,8 +205,8 @@ import * as moment from 'moment';
         return; 
       }
       this.eventService.postEvent(this.newTitle,this.newDescription, this.endDate,this.startDate);
-      window.location.reload();
       this.cancelCreateEvent();
+      window.location.reload();
       return;
     }
     this.showRestricted = true;
@@ -301,15 +332,28 @@ import * as moment from 'moment';
         this.setShowEditFormId();
         return;
     }
-    this.eventService.deleteEvent(parseInt(eventId.toString()));
-    window.location.reload();
-    this.setShowEditFormId();
+    if(this.deletingEvent){
+      this.eventService.deleteEvent(parseInt(eventId.toString()));
+      window.location.reload();
+      this.setShowEditFormId(); 
+    }
+    this.deletingEvent = true;
+    this.deleteCancelButtonName[parseInt(eventId.toString())] = "Na pewno ?"; 
   }
 
   participationFilter(){
     this.participationFilterValue = !this.participationFilterValue;
-    if(this.participationFilterValue ){
-      
-    }
+    this.search();
+  }
+
+  checkIfParticipator(eventId: number,index: number): boolean{
+    if(this.participationFilterValue){
+      for(let i = 0; i < this.participatorsEvents.length; i++){
+        if(this.participatorsEvents[i].eventId == eventId){
+          return true;
+        }
+      }
+    } 
+    return false;
   }
 }

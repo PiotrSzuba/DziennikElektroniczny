@@ -3,15 +3,15 @@
 
         <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitTitle()">
             <mat-label>Nazwa wydarzenia</mat-label>
-            <input matInput placeholder="" [(ngModel)]="eventTitleSearch">
+            <input matInput placeholder="" [(ngModel)]="eventTitleSearch" (keydown.enter)="search()">
         </mat-form-field>
 
         <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitDescription()">
             <mat-label>Opis</mat-label>
-            <input matInput placeholder="" [(ngModel)]="eventDescriptionSearch">
+            <input matInput placeholder="" [(ngModel)]="eventDescriptionSearch" (keydown.enter)="search()">
         </mat-form-field>
 
-        <div class = "align-contents-center wrap-element">
+        <div *ngIf="checkRole()" class = "align-contents-center wrap-element">
             <mat-button-toggle (change) = "participationFilter()" checked="true">Zapisany</mat-button-toggle>
         </div>
 
@@ -45,7 +45,7 @@
 
                 <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()">
                     <mat-label>Wybierz czas startowy</mat-label>
-                    <input type="time" matInput [formControl]="newStartTimeForm" [(ngModel)]="startTime">
+                    <input type="time" matInput [formControl]="newStartTimeForm" >
                 </mat-form-field>
 
                 <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()">
@@ -54,12 +54,12 @@
                     <mat-datepicker-toggle matSuffix [for]="newEndDatePicker" >
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                     </mat-datepicker-toggle>
-                    <mat-datepicker #newEndDatePicker [(ngModel)]="endDate"></mat-datepicker>
+                    <mat-datepicker #newEndDatePicker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field class = "wrap-element" appearance="outline" (submit)="onSubmitNewEvent()" >
                     <mat-label>Wybierz czas końcowy</mat-label>
-                    <input type="time" matInput name="week" [formControl]="newEndTimeForm">
+                    <input type="time" matInput [formControl]="newEndTimeForm">
                 </mat-form-field>
 
             </p>  
@@ -76,7 +76,7 @@
         <mat-grid-list cols="2" rowHeight="100px">
             <mat-grid-tile>
                 <div class="left-align-forced" >
-                    <p>{{event.description}}</p>                
+                    <p class = "text-area" >{{event.description}}</p>          
                 </div>
             </mat-grid-tile>
 
