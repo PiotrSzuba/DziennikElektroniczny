@@ -4,6 +4,7 @@ import { ApiRouteService } from '../../globals/api-route.service';
 import { Message } from '../../models/Message';
 import { PersonViewModel } from 'src/app/models/Person';
 import { AccountService } from '../account/account.service';
+import { catchError, map } from 'rxjs';
 
 
 @Injectable({
@@ -32,9 +33,9 @@ export class MessagesService {
     let messages: Message[] = [];
     this.accountService
       .getCurrentLoggedPerson()
-      .then((res: PersonViewModel | undefined) => {
-        if (res) {
-          params = new HttpParams().set(personIdMapper, res.id)
+      .then((response: PersonViewModel | undefined) => {
+        if (response) {
+          params = new HttpParams().set(personIdMapper, response.id)
           this.httpClient
           .get<Message[]>(
             this.api + 'Messages',
@@ -59,5 +60,29 @@ export class MessagesService {
         return messages
       });
     return messages;
+  }
+
+  public sendMsg(toPersons: PersonViewModel[], title: string, content: string){
+    this.httpClient.post(this.api + 'MessageContents', {title: title, content: content})
+    .pipe(
+      map((response: any) => response['messageContentId'])
+    )
+    .subscribe(
+      messageContentId => this._sendMsgForPersons(toPersons, messageContentId)
+    )
+  }
+
+  private _sendMsgForPersons(toPersons: PersonViewModel[], messageContentId: number){
+    this.accountService
+      .getCurrentLoggedPerson()
+      .then((response: PersonViewModel | undefined) => {
+        if (response) {
+          toPersons.forEach(element => {
+            this.httpClient.post(this.api + 'Messages',
+            {messageContentId: messageContentId, fromPersonId: response.id, toPersonId: element.id})
+            .subscribe()
+          })
+        }
+      });
   }
 }

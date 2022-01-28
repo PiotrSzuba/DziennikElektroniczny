@@ -12,7 +12,7 @@ namespace DziennikElektroniczny.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime SendDate { get; set; }
+        public DateTime SendDate { get; set; } = DateTime.Now;
 
         [DataType(DataType.Date)]
         public DateTime? SeenDate { get; set; }

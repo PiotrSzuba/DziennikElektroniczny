@@ -37,8 +37,35 @@ export class AccountService {
   }
 
   public getCurrentLoggedPerson() {
-
     return this.httpClient.options<PersonViewModel>(this.api + 'People').toPromise();
   }
+
+  public getAllPersons(): PersonViewModel[]{
+    let persons: PersonViewModel[] = []
+      this.httpClient
+      .get<PersonViewModel[]>(
+        this.api + 'People'
+      )
+      .subscribe(
+      (response) => {
+        response.forEach((element) => {
+          persons.push(new PersonViewModel(
+            element['id'],
+            element['role'],
+            element['login'],
+            element['personalInfoId'],
+            element['name'],
+            element['secondName'],
+            element['surname'],
+            element['dateOfBirth'],
+            element['phoneNumber'],
+            element['address'],
+            element['pesel']
+          ))
+        })
+        return response;
+      });
+      return persons;  
+  }            
 }
 // todo logowanie, powitalna strona, navbar

@@ -1,0 +1,34 @@
+.send-message-main{
+    .send-message-receiver{
+        mat-form-field {
+            width: 20%;
+            float:left;
+        }
+        mat-chip-list{
+            float:left;
+            width: 60%;
+            margin-top: 10px;
+        }
+        p{
+            float:left;
+            width: 60%;
+            margin-left: 10px;
+        }
+    }
+    .send-message-topic{
+        mat-form-field {
+            width: 100%;
+        }
+    }
+    .send-message-content{
+        mat-form-field {
+            width: 100%;
+        }
+    }
+}
+
+.invalid-input{
+    font-size: small;
+    color: red;
+}
+

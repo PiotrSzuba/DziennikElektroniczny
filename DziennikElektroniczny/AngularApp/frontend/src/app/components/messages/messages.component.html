@@ -1,13 +1,19 @@
 <div class="message-view">
     <mat-tab-group>
         <mat-tab label="Odebrane">
+            <button mat-button (click)="refreshReceivedMsg()">
+                <mat-icon>refresh</mat-icon>
+            </button>
             <app-messages-display [messages]="receivedMsg" [received]="true"></app-messages-display>
         </mat-tab>
         <mat-tab label="Wysłane">
+            <button mat-button (click)="refreshSentMsg()">
+                <mat-icon>refresh</mat-icon>
+            </button>
             <app-messages-display [messages]="sendMsg" [received]="false"></app-messages-display>
         </mat-tab>
         <mat-tab label="Wyślij wiadomość">
-            TBD
+            <app-send-message [persons]="persons"></app-send-message>
         </mat-tab>
     </mat-tab-group>
 </div> 

@@ -17,9 +17,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GradesComponent } from './components/grades/grades.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { MessagesComponent } from './components/messages/messages.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MessagesDisplayComponent } from './components/messages/messages-display/messages-display.component';
+import { SendMessageComponent } from './components/messages/send-message/send-message.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 import { EventsComponent } from './components/events/events.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -38,6 +41,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     AttendanceComponent,
     MessagesComponent,
     MessagesDisplayComponent,
+    SendMessageComponent,
     EventsComponent,
   ],
   imports: [
@@ -53,6 +57,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     FormsModule,
     MatTabsModule,
     MatExpansionModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatChipsModule,
     MatCardModule,
     MatGridListModule,
     MatDatepickerModule,
