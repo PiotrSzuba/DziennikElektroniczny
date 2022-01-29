@@ -32,6 +32,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { CreatePersonDialogComponent } from './components/admin-panel/create-person-dialog/create-person-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +47,8 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
     MessagesDisplayComponent,
     SendMessageComponent,
     EventsComponent,
+    AdminPanelComponent,
+    CreatePersonDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +73,7 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,

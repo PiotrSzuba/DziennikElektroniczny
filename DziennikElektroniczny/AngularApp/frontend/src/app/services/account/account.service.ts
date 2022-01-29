@@ -4,7 +4,6 @@ import { ApiRouteService } from '../../globals/api-route.service';
 import { Router } from '@angular/router';
 import { PersonViewModel } from 'src/app/models/Person';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,42 +29,51 @@ export class AccountService {
         if (res && res.status === 200) {
           localStorage.setItem('JWT', res.body.token);
           this.router.navigate(['']);
+          this.getCurrentLoggedPerson().then((res) => {
+            if (res) {
+              localStorage.setItem('person', JSON.stringify(res));
+            }
+          });
         }
 
         return res;
       });
   }
-
-  public getCurrentLoggedPerson() {
-    return this.httpClient.options<PersonViewModel>(this.api + 'People').toPromise();
+ public getCurrentPersonFromLocalStorage(): PersonViewModel {
+    const stringifiedPerson: string = localStorage.getItem('person') as string;
+    return JSON.parse(stringifiedPerson);
   }
 
-  public getAllPersons(): PersonViewModel[]{
-    let persons: PersonViewModel[] = []
-      this.httpClient
-      .get<PersonViewModel[]>(
-        this.api + 'People'
-      )
-      .subscribe(
-      (response) => {
+  public getCurrentLoggedPerson() {
+    return this.httpClient
+      .options<PersonViewModel>(this.api + 'People')
+      .toPromise();
+  }
+
+  public getAllPersons(): PersonViewModel[] {
+    let persons: PersonViewModel[] = [];
+    this.httpClient
+      .get<PersonViewModel[]>(this.api + 'People')
+      .subscribe((response) => {
         response.forEach((element) => {
-          persons.push(new PersonViewModel(
-            element['id'],
-            element['role'],
-            element['login'],
-            element['personalInfoId'],
-            element['name'],
-            element['secondName'],
-            element['surname'],
-            element['dateOfBirth'],
-            element['phoneNumber'],
-            element['address'],
-            element['pesel']
-          ))
-        })
+          persons.push(
+            new PersonViewModel(
+              element['id'],
+              element['role'],
+              element['login'],
+              element['personalInfoId'],
+              element['name'],
+              element['secondName'],
+              element['surname'],
+              element['dateOfBirth'],
+              element['phoneNumber'],
+              element['address'],
+              element['pesel']
+            )
+          );
+        });
         return response;
       });
-      return persons;  
-  }            
+    return persons;
+  }
 }
-// todo logowanie, powitalna strona, navbar
