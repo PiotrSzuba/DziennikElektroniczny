@@ -30,7 +30,9 @@ import {MatCardModule} from '@angular/material/card';
 import { DatePipe } from '@angular/common'
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { CreatePersonDialogComponent } from './components/admin-panel/create-person-dialog/create-person-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +45,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MessagesDisplayComponent,
     SendMessageComponent,
     EventsComponent,
+    AdminPanelComponent,
+    CreatePersonDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatNativeDateModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,

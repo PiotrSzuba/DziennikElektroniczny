@@ -35,6 +35,22 @@ namespace DziennikElektroniczny.Controllers
             return new SubjectView(subject, subjectInfo, classRoom, studentsGroup, teacherInfo);
         }
 
+        [HttpGet]
+        [Route("~/api/Subjects/GetStudentSubjects/{studentId}")]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
+        public async Task<ActionResult<IEnumerable<SubjectView>>> GetStudentSubjects(int studentId)
+        {  
+           var studentGroupMember =  _context.StudentsGroupMember.Where(groupMember => groupMember.StudentPersonId == studentId).FirstOrDefault();
+            var subjects = _context.Subject.Where(subject => subject.StudentsGroupId == studentGroupMember.StudentsGroupId).ToList();
+            List<SubjectView> list = new();
+            foreach (var subject in subjects)
+            {
+                list.Add(await CreateSubjectView(subject));
+            }
+
+            return list;
+        }
+
         //// GET: api/Subjects
         [HttpGet]
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]

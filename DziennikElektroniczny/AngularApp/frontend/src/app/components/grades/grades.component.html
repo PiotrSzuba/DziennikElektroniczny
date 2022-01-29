@@ -1,1 +1,40 @@
-<p>grades works!</p>
+<div class="event-container">
+  <mat-card
+    class="event-element"
+    *ngFor="let subject of subjects; let i = index"
+  >
+    <mat-card-title> {{ subject.subjectName }} </mat-card-title>
+    <mat-grid-list cols="2" rowHeight="50px">
+      <mat-grid-tile>
+        <div class="left-align-forced">
+          <button class="flex-row" mat-button (click)="expandSubject(subject)">
+            <mat-icon
+              *ngIf="!subject.isExpanded"
+              aria-hidden="false"
+              aria-label="Examdivle home icon"
+              >keyboard_arrow_down</mat-icon
+            >
+            <mat-icon
+              *ngIf="subject.isExpanded"
+              aria-hidden="false"
+              aria-label="Examdivle home icon"
+              >keyboard_arrow_up</mat-icon
+            >
+            Wyświetl oceny
+          </button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div class="flex-wrap" *ngIf="subject.isExpanded">
+      <button
+        class="grade-button"
+        *ngFor="let grade of subject.grades"
+        mat-mini-fab
+        color="accent"
+        aria-label="Example icon button with a plus one icon"
+      >
+        {{ grade.value }}
+      </button>
+    </div>
+  </mat-card>
+</div>

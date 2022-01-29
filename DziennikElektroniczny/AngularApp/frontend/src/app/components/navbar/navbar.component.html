@@ -1,5 +1,6 @@
 <div class="navbar-container">
-    <mat-toolbar>
+    <mat-toolbar class="toolbar">
+      <div class="">
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
           <mat-icon>menu</mat-icon>
         </button>
@@ -16,5 +17,13 @@
         <button mat-button [routerLink]="['events']"  aria-label="Example icon-button with share icon">
           Wydarzenia
         </button>
+        <button mat-button [routerLink]="['admin']" *ngIf="loggedAsAdmin()"  aria-label="Example icon-button with share icon">
+          Panel Admina
+        </button>
+      </div>
+        <button (click)="logout()" class="logout-button" mat-button aria-label="Example icon-button with share icon">
+          Wyloguj
+        </button>
       </mat-toolbar>
+
 </div>
