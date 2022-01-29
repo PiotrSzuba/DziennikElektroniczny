@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApiRouteService } from '../../globals/api-route.service';
 import { Router } from '@angular/router';
 import { EventParticipatorViewModel } from 'src/app/models/EventParticipator';
+
 @Injectable({
     providedIn: 'root'
   })

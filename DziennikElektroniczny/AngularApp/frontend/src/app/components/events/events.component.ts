@@ -1,22 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { EventViewModel } from 'src/app/models/Event';
 import { EventParticipatorViewModel } from 'src/app/models/EventParticipator';
+import { StudentsGroupViewModel } from 'src/app/models/StudentsGroup';
 import { EventService } from 'src/app/services/event/event.service';
 import { EventParticipatorService } from 'src/app/services/event/eventParticipator.service';
+import {StudentsGroupService} from 'src/app/services/studentsGroup/studentsGroup.service';
 import { DatePipe } from '@angular/common';
-import { DateAdapter } from '@angular/material/core';
+import { DateAdapter, ThemePalette } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
+
+export interface Task {
+  name: string;
+  completed: boolean;
+  color: ThemePalette;
+  subtasks?: Task[];
+}
 
 @Component({
     selector: 'app-events',
     templateUrl: './events.component.html',
     styleUrls: ['./events.component.scss']
   })
+
   export class EventsComponent implements OnInit {
     eventsList: EventViewModel[];
+    classCheckBoxes: Task[];
     filteredEventsList: EventViewModel[];
     participatorsEvents: EventParticipatorViewModel[];
+    studentsGroups: StudentsGroupViewModel[];
     eventTitleSearch: String;
     eventDescriptionSearch: String;
     userId: Number;
@@ -54,16 +66,33 @@ import * as moment from 'moment';
     startTime: Date;
     endTime: Date;
     participationFilterValue: boolean;
+    managingParticipants: boolean[];
+    manageButtonName: String[];
+    manageButtonManageName: String;
+    manageButtonAcceptName: String;
+    task: Task = {
+      name: 'Cala klasa',
+      completed: false,
+      color: 'warn',
+      subtasks: [
+        {name: 'Uczen 1', completed: false, color: 'warn'},
+        {name: 'Uczen 2', completed: false, color: 'warn'},
+        {name: 'Uczen 3', completed: false, color: 'warn'},
+      ],
+    };
+    allComplete: boolean = false;
 
   constructor(
     private eventService: EventService,
     private eventParticipatorService: EventParticipatorService,
+    private studentsGroupService: StudentsGroupService, //
     public datepipe: DatePipe, 
     private dateAdapter: DateAdapter<Date>) {
       this.dateAdapter.setLocale('pl-PL'); 
       this.eventsList = [];
       this.filteredEventsList = [];
       this.participatorsEvents = [];
+      this.studentsGroups = [];
       this.eventTitleSearch = "";
       this.eventDescriptionSearch = "";
       this.userId = 0;
@@ -93,6 +122,11 @@ import * as moment from 'moment';
       this.startTime = new Date();
       this.endTime = new Date();
       this.participationFilterValue = false;
+      this.managingParticipants = [];
+      this.manageButtonName = [];
+      this.manageButtonManageName = "Zarządzaj uczestnikami";
+      this.manageButtonAcceptName = "Akceptuj";
+      this.classCheckBoxes = [];
   }
 
   //wpisywanie ludzi i wypisywanie
@@ -110,6 +144,7 @@ import * as moment from 'moment';
     this.userRole = 4;
     this.eventsList = await this.eventService.getEventsList();
     this.participatorsEvents = this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString()));
+    this.studentsGroups = this.studentsGroupService.getStudentsGroups();
     await this.resolveFixer();
     if(this.userRole < this.minRole){
       var tempList: EventViewModel[] = [];
@@ -134,6 +169,8 @@ import * as moment from 'moment';
       this.showEditFormId[this.eventsList[i].id] = false;
       this.editButtonName[this.eventsList[i].id] = this.editEventButtonEditName;
       this.deleteCancelButtonName[this.eventsList[i].id] = this.deleteButtonName;
+      this.manageButtonName[this.eventsList[i].id] = this.manageButtonManageName;
+      this.managingParticipants[this.eventsList[i].id] = false;
     }
     this.editingEvent = false;
     this.editingDivOpen = -1;
@@ -254,12 +291,19 @@ import * as moment from 'moment';
     this.endDate = date;
   }
 
-  signIn(eventId: Number){
-    alert("signIn" + eventId.toString());  
+  manageParticipants(eventId: Number){
+    if(this.managingParticipants){
+
+    }
+    this.setShowEditFormId();
+    this.cancelCreateEvent();
+    this.managingParticipants[parseInt(eventId.toString())] = true;
+    this.manageButtonName[parseInt(eventId.toString())] = this.manageButtonAcceptName;
   }
 
-  signOut(eventId: Number){
-    alert("signOut" + eventId.toString());  
+  cancelManageParticipants(eventId: Number){
+    this.manageButtonName[parseInt(eventId.toString())] = this.manageButtonManageName;
+    this.managingParticipants[parseInt(eventId.toString())] = false;
   }
 
   editEvent(eventId: Number,index: number){
@@ -295,6 +339,7 @@ import * as moment from 'moment';
       this.editedDescription = this.eventsList[index].description;
       return;
     }
+    this.setDefaultManageButtonName();
     this.cancelCreateEvent();
     if(this.editingEvent){
       if(this.editedTitle.length == 0){
@@ -341,6 +386,14 @@ import * as moment from 'moment';
     this.deleteCancelButtonName[parseInt(eventId.toString())] = "Na pewno ?"; 
   }
 
+  setDefaultManageButtonName(){
+    for(let i = 0; i < this.eventsList.length; i++)
+    {
+      this.manageButtonName[this.eventsList[i].id] = this.manageButtonManageName;
+      this.managingParticipants[this.eventsList[i].id] = false;
+    }
+  }
+
   participationFilter(){
     this.participationFilterValue = !this.participationFilterValue;
     this.search();
@@ -356,4 +409,24 @@ import * as moment from 'moment';
     } 
     return false;
   }
+  
+  updateAllComplete() {
+    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
+  }
+
+  someComplete(): boolean {
+    if (this.task.subtasks == null) {
+      return false;
+    }
+    return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
+  }
+
+  setAll(completed: boolean) {
+    this.allComplete = completed;
+    if (this.task.subtasks == null) {
+      return;
+    }
+    this.task.subtasks.forEach(t => (t.completed = completed));
+  }
+
 }

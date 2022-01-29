@@ -30,6 +30,7 @@ import {MatCardModule} from '@angular/material/card';
 import { DatePipe } from '@angular/common'
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatNativeDateModule,
     ReactiveFormsModule,
     MatButtonToggleModule,
+    MatCheckboxModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,
