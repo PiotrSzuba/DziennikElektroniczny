@@ -145,24 +145,22 @@
             </p>  
         </div>
         <div *ngIf = "managingParticipants[event.id]" >
-            <div *ngFor="let studentGroup of studentsGroups; let i = index">
-                {{studentGroup.title}}
+            <div *ngFor="let classCheckBox of classCheckBoxes; let i = index">
+                <mat-checkbox class="example-margin" 
+                    [checked]="allStudentGroup[i]" 
+                    [color]="classCheckBox.color"
+                    [indeterminate]="someComplete(i)"
+                    (change)="setAll($event.checked,i)">
+                    {{classCheckBox.name}}
+                </mat-checkbox>
                 <span class="example-list-section">
-                    <mat-checkbox class="example-margin"
-                                  [checked]="allComplete"
-                                  [color]="classCheckBoxes[i].color"
-                                  [indeterminate]="someComplete()"
-                                  (change)="setAll($event.checked)">
-                      {{classCheckBoxes[i].name}}
-                    </mat-checkbox>
-                  </span>
-                  <span class="example-list-section">
                     <ul>
-                      <li *ngFor="let subtask of classCheckBoxes[i].subtasks">
-                        <mat-checkbox [(ngModel)]="subtask.completed"
-                                      [color]="subtask.color"
-                                      (ngModelChange)="updateAllComplete()">
-                          {{subtask.name}}
+                      <li *ngFor="let subtask of classCheckBox.subtasks; let j = index"> 
+                        <mat-checkbox class="example-margin" 
+                            [(ngModel)]="subtask.completed" 
+                            [color]="subtask.color"
+                            (ngModelChange)="updateAllComplete(i)">
+                            {{subtask.name}}
                         </mat-checkbox>
                       </li>
                     </ul>

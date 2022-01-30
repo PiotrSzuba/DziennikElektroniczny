@@ -2,19 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { EventViewModel } from 'src/app/models/Event';
 import { EventParticipatorViewModel } from 'src/app/models/EventParticipator';
 import { StudentsGroupViewModel } from 'src/app/models/StudentsGroup';
+import { StudentsGroupMemberViewModel } from 'src/app/models/StudentsGroupMember';
 import { EventService } from 'src/app/services/event/event.service';
 import { EventParticipatorService } from 'src/app/services/event/eventParticipator.service';
 import {StudentsGroupService} from 'src/app/services/studentsGroup/studentsGroup.service';
+import {StudentsGroupMemberService} from 'src/app/services/studentsGroupMember/studentsGroupMember.service';
 import { DatePipe } from '@angular/common';
 import { DateAdapter, ThemePalette } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 
-export interface Task {
+export interface CheckBoxes {
   name: string;
   completed: boolean;
   color: ThemePalette;
-  subtasks?: Task[];
+  subtasks?: CheckBoxes[];
 }
 
 @Component({
@@ -25,10 +27,13 @@ export interface Task {
 
   export class EventsComponent implements OnInit {
     eventsList: EventViewModel[];
-    classCheckBoxes: Task[];
+    classCheckBoxes: CheckBoxes[];
     filteredEventsList: EventViewModel[];
     participatorsEvents: EventParticipatorViewModel[];
+    eventsParticipators: EventParticipatorViewModel[];
+    filteredEventsParticipators: EventParticipatorViewModel[] = [];
     studentsGroups: StudentsGroupViewModel[];
+    studentsGroupMembers: StudentsGroupMemberViewModel[];
     eventTitleSearch: String;
     eventDescriptionSearch: String;
     userId: Number;
@@ -70,7 +75,7 @@ export interface Task {
     manageButtonName: String[];
     manageButtonManageName: String;
     manageButtonAcceptName: String;
-    task: Task = {
+    task: CheckBoxes = {
       name: 'Cala klasa',
       completed: false,
       color: 'warn',
@@ -81,18 +86,22 @@ export interface Task {
       ],
     };
     allComplete: boolean = false;
+    allStudentGroup: boolean[] = [];
 
   constructor(
     private eventService: EventService,
     private eventParticipatorService: EventParticipatorService,
-    private studentsGroupService: StudentsGroupService, //
+    private studentsGroupService: StudentsGroupService,
+    private StudentsGroupMemberService: StudentsGroupMemberService,
     public datepipe: DatePipe, 
     private dateAdapter: DateAdapter<Date>) {
       this.dateAdapter.setLocale('pl-PL'); 
       this.eventsList = [];
       this.filteredEventsList = [];
       this.participatorsEvents = [];
+      this.eventsParticipators = [];
       this.studentsGroups = [];
+      this.studentsGroupMembers = [];
       this.eventTitleSearch = "";
       this.eventDescriptionSearch = "";
       this.userId = 0;
@@ -129,8 +138,6 @@ export interface Task {
       this.classCheckBoxes = [];
   }
 
-  //wpisywanie ludzi i wypisywanie
-
   resolveFixer() {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -145,6 +152,8 @@ export interface Task {
     this.eventsList = await this.eventService.getEventsList();
     this.participatorsEvents = this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString()));
     this.studentsGroups = this.studentsGroupService.getStudentsGroups();
+    this.studentsGroupMembers = this.StudentsGroupMemberService.getStudentsGroupMembers();
+    this.eventsParticipators = this.eventParticipatorService.getEventsParticipators();
     await this.resolveFixer();
     if(this.userRole < this.minRole){
       var tempList: EventViewModel[] = [];
@@ -174,6 +183,8 @@ export interface Task {
     }
     this.editingEvent = false;
     this.editingDivOpen = -1;
+    this.classCheckBoxes = [];
+    this.allStudentGroup = [];
   }
 
   checkRole(): boolean {
@@ -292,18 +303,64 @@ export interface Task {
   }
 
   manageParticipants(eventId: Number){
-    if(this.managingParticipants){
-
+    if(this.managingParticipants[parseInt(eventId.toString())]){
+      for(let i = 0; i < this.classCheckBoxes.length; i++){
+        if(this.classCheckBoxes[i].subtasks!.length > 0){
+          for(let j = 0; j < this.classCheckBoxes[i].subtasks!.length; j++){
+            var statusBefore = this.setParticipationStatus(this.classCheckBoxes[i].subtasks![j].name);
+            if(this.classCheckBoxes[i].subtasks![j].completed != statusBefore){
+              if(this.classCheckBoxes[i].subtasks![j].completed){
+                var personId = this.getPersonId(this.classCheckBoxes[i].subtasks![j].name);
+                if(personId > 0){
+                  console.log(this.eventParticipatorService.postEventsParticipator(parseInt(eventId.toString()),parseInt(personId.toString())));
+                  //sendMessage to PersonId
+                }
+              }
+              else{
+                var participatorId = this.getParticipatorId( this.classCheckBoxes[i].subtasks![j].name)
+                if( participatorId > 0){
+                  console.log(this.eventParticipatorService.deleteEventsParticipator(parseInt(participatorId.toString())));
+                }
+              }
+            }
+          }
+        }
+      }
+      this.cancelManageParticipants(eventId);
+      window.location.reload();
+      return;
     }
     this.setShowEditFormId();
     this.cancelCreateEvent();
     this.managingParticipants[parseInt(eventId.toString())] = true;
     this.manageButtonName[parseInt(eventId.toString())] = this.manageButtonAcceptName;
+    this.filteredEventsParticipators = this.eventsParticipators.filter(s => s.eventId == eventId);
+    this.checkBoxesCreator();
+  }
+
+  getPersonId(personName: String): Number{
+    for(let i = 0; i < this.studentsGroupMembers.length; i++){
+      if(this.studentsGroupMembers[i].studentDisplayName.toLowerCase().includes(personName.toLowerCase())){
+        return this.studentsGroupMembers[i].studentPersonId;
+      }
+    }
+    return 0;
+  }
+
+  getParticipatorId(personName: String): Number{
+    for(let i = 0; i < this.filteredEventsParticipators.length; i++){
+      if(this.filteredEventsParticipators[i].personName.toLowerCase().includes(personName.toLowerCase())){
+        return this.filteredEventsParticipators[i].id;
+      }
+    }
+    return 0;
   }
 
   cancelManageParticipants(eventId: Number){
     this.manageButtonName[parseInt(eventId.toString())] = this.manageButtonManageName;
     this.managingParticipants[parseInt(eventId.toString())] = false;
+    this.classCheckBoxes = [];
+    this.allStudentGroup = [];
   }
 
   editEvent(eventId: Number,index: number){
@@ -409,24 +466,56 @@ export interface Task {
     } 
     return false;
   }
+
+  setParticipationStatus(personName: String): boolean{
+    for(let i = 0; i < this.filteredEventsParticipators.length; i++){
+      if(this.filteredEventsParticipators[i].personName.toLowerCase().includes(personName.toLowerCase())){
+        return true;
+      }
+    }
   
-  updateAllComplete() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
+    return false;
   }
 
-  someComplete(): boolean {
-    if (this.task.subtasks == null) {
+  checkBoxesCreator(){
+    for(let i = 0; i < this.studentsGroups.length; i++)
+    {
+      var subCheckBoxes: CheckBoxes[] = [];
+      for(let j = 0; j < this.studentsGroups[i].studentsDisplayNames.length;j++){
+        var newStudent: CheckBoxes = {
+          name: this.studentsGroups[i].studentsDisplayNames[j],
+          completed: this.setParticipationStatus(this.studentsGroups[i].studentsDisplayNames[j]), 
+          color: 'warn'
+        };
+        subCheckBoxes.push(newStudent);
+      }
+      var newClass: CheckBoxes = {
+        name: this.studentsGroups[i].title,
+        completed: false,
+        color: 'warn',
+        subtasks: subCheckBoxes
+      };
+      this.classCheckBoxes.push(newClass);
+      this.allStudentGroup[i] = false;
+    }  
+  }
+
+  updateAllComplete(index: number) {
+    this.allStudentGroup[index] = this.classCheckBoxes[index].subtasks != null && this.classCheckBoxes[index].subtasks!.every(t => t.completed);
+  }
+
+  someComplete(index: number): boolean {
+    if (this.classCheckBoxes[index].subtasks == null) {
       return false;
     }
-    return this.task.subtasks.filter(t => t.completed).length > 0 && !this.allComplete;
+    return this.classCheckBoxes[index].subtasks!.filter(t => t.completed).length > 0 && !this.allComplete;
   }
 
-  setAll(completed: boolean) {
-    this.allComplete = completed;
-    if (this.task.subtasks == null) {
+  setAll(completed: boolean,index: number){
+    this.allStudentGroup[index] = completed;
+    if (this.classCheckBoxes[index].subtasks == null) {
       return;
     }
-    this.task.subtasks.forEach(t => (t.completed = completed));
+    this.classCheckBoxes[index].subtasks!.forEach(t => (t.completed = completed));
   }
-
 }
