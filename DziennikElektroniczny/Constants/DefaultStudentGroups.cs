@@ -61,7 +61,7 @@ namespace DziennikElektroniczny.Constants
                     new StudentsGroup
                     {
                         TeacherPersonId = 8,
-                        Title = "3A",
+                        Title = "3B",
                         Description = "Old meat",
                         YearOfStudy = 2018
                     }
