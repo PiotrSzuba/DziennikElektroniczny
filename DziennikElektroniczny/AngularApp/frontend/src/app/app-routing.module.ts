@@ -7,6 +7,7 @@ import { EventsComponent } from './components/events/events.component';
 import { GradesComponent } from './components/grades/grades.component';
 import { LoginComponent } from './components/login/login.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { NotesComponent } from './components/notes/notes.component';
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'messages', component: MessagesComponent},
   {path: 'events', component: EventsComponent},
   {path: 'admin', component: AdminPanelComponent},
+  {path: 'notes', component: NotesComponent},
 ];
 
 @NgModule({

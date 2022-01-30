@@ -31,7 +31,6 @@ import { DatePipe } from '@angular/common'
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatCheckboxModule} from '@angular/material/checkbox';
-
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { CreatePersonDialogComponent } from './components/admin-panel/create-person-dialog/create-person-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -45,6 +44,7 @@ import { DeleteModifyGradeModalComponent } from './components/grades/grades-subj
 import { CreateSubjectDialogComponent } from './components/admin-panel/create-subject-dialog/create-subject-dialog.component';
 import { CreateClassroomDialogComponent } from './components/admin-panel/create-classroom-dialog/create-classroom-dialog.component';
 import { CreateStudentGroupDialogComponent } from './components/admin-panel/create-student-group-dialog/create-student-group-dialog.component';
+import { NotesComponent } from './components/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +66,7 @@ import { CreateStudentGroupDialogComponent } from './components/admin-panel/crea
     GradesSubjectViewComponent,
     AddGradeModalComponent,
     DeleteModifyGradeModalComponent,
+    NotesComponent,
     CreateSubjectDialogComponent,
     CreateClassroomDialogComponent,
     CreateStudentGroupDialogComponent,

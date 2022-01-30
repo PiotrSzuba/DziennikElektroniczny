@@ -11,6 +11,10 @@ import { DatePipe } from '@angular/common';
 import { DateAdapter, ThemePalette } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { PersonViewModel } from 'src/app/models/Person';
+import { AccountService } from 'src/app/services/account/account.service';
+import { MessagesService } from 'src/app/services/messages/messages.service';
+import {PeopleService} from 'src/app/services/people/people.service';
 
 export interface CheckBoxes {
   name: string;
@@ -87,12 +91,16 @@ export interface CheckBoxes {
     };
     allComplete: boolean = false;
     allStudentGroup: boolean[] = [];
+    selectedReceivers: PersonViewModel[] = [];
 
   constructor(
     private eventService: EventService,
     private eventParticipatorService: EventParticipatorService,
     private studentsGroupService: StudentsGroupService,
     private StudentsGroupMemberService: StudentsGroupMemberService,
+    private peopleService: PeopleService,
+    private accountService: AccountService,
+    private messagesService: MessagesService,
     public datepipe: DatePipe, 
     private dateAdapter: DateAdapter<Date>) {
       this.dateAdapter.setLocale('pl-PL'); 
@@ -147,8 +155,16 @@ export interface CheckBoxes {
   }
 
   async ngOnInit(){
-    this.userId = 5;
-    this.userRole = 4;
+    this.accountService
+    .getCurrentLoggedPerson()
+    .then((res: PersonViewModel | undefined) => {
+      if (res) {
+        this.userId = res.id;
+        this.userRole = res.role;
+        //this.userId = 5; //testy
+        //this.userRole = 4; //testy
+      }
+    });
     this.eventsList = await this.eventService.getEventsList();
     this.participatorsEvents = this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString()));
     this.studentsGroups = this.studentsGroupService.getStudentsGroups();
@@ -302,24 +318,39 @@ export interface CheckBoxes {
     this.endDate = date;
   }
 
-  manageParticipants(eventId: Number){
+  async manageParticipants(eventId: Number){
     if(this.managingParticipants[parseInt(eventId.toString())]){
       for(let i = 0; i < this.classCheckBoxes.length; i++){
         if(this.classCheckBoxes[i].subtasks!.length > 0){
           for(let j = 0; j < this.classCheckBoxes[i].subtasks!.length; j++){
             var statusBefore = this.setParticipationStatus(this.classCheckBoxes[i].subtasks![j].name);
             if(this.classCheckBoxes[i].subtasks![j].completed != statusBefore){
+              var personId = this.getPersonId(this.classCheckBoxes[i].subtasks![j].name);
               if(this.classCheckBoxes[i].subtasks![j].completed){
-                var personId = this.getPersonId(this.classCheckBoxes[i].subtasks![j].name);
                 if(personId > 0){
+                  this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
                   console.log(this.eventParticipatorService.postEventsParticipator(parseInt(eventId.toString()),parseInt(personId.toString())));
-                  //sendMessage to PersonId
+                  await this.resolveFixer();
+                  if(this.selectedReceivers.length == 1){
+                    this.messagesService.sendMsg(this.selectedReceivers, "Zapisany do wydarzenia", "Zostałeś zapisany do wydarzenia: " + this.getEventName(eventId));
+                  }
+                  else{
+                    console.log("Blad w wysylaniu wiadomosci:  rozmiar" + this.selectedReceivers.length );
+                  }
                 }
               }
               else{
                 var participatorId = this.getParticipatorId( this.classCheckBoxes[i].subtasks![j].name)
                 if( participatorId > 0){
+                  this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
                   console.log(this.eventParticipatorService.deleteEventsParticipator(parseInt(participatorId.toString())));
+                  await this.resolveFixer();
+                  if(this.selectedReceivers.length == 1){
+                    this.messagesService.sendMsg(this.selectedReceivers, "Wypisany z wydarzenia", "Zostałeś wypisany z wydarzenia: " + this.getEventName(eventId));
+                  }
+                  else{
+                    console.log("Blad w wysylaniu wiadomosci");
+                  }
                 }
               }
             }
@@ -345,6 +376,15 @@ export interface CheckBoxes {
       }
     }
     return 0;
+  }
+
+  getEventName(eventId: Number): String{
+    for(let i = 0; i < this.eventsList.length; i++){
+      if(this.eventsList[i].id == eventId){
+        return this.eventsList[i].title;
+      }
+    }
+    return "error";  
   }
 
   getParticipatorId(personName: String): Number{

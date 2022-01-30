@@ -1,0 +1,58 @@
+<div class = "event-container">
+    <div class = "wrap white-letters">
+
+        <div *ngIf="checkRole()" class = "align-contents-center wrap-element" >
+            <button mat-stroked-button (click) = "createNote()">{{createNewButtonName}}</button>
+        </div>
+
+        <div *ngIf="checkRole() && creatingNewNote" class = "align-contents-center wrap-element" >
+            <button mat-stroked-button (click) = "cancelCreateNote()">Anuluj</button>
+        </div>
+    </div>
+    <div class = "wrap white-letters" *ngIf = "creatingNewNote">
+
+        <mat-form-field class = "wrap-element wide-text-input" appearance="outline" (submit)="onSubmitNewNote()">
+            <mat-label>Nowa uwaga</mat-label>
+            <textarea matInput [(ngModel)]="newDescription"></textarea>
+        </mat-form-field>
+        <div *ngFor="let classCheckBox of classCheckBoxes; let i = index">
+            <mat-checkbox *ngIf = "classCheckBox.subtasks!.length > 0"  class="example-margin" 
+                [checked]="allStudentGroup[i]" 
+                [color]="classCheckBox.color"
+                [indeterminate]="someComplete(i)"
+                (change)="setAll($event.checked,i)">
+                {{classCheckBox.name}}
+            </mat-checkbox>
+            <span class="example-list-section">
+                <ul>
+                  <li *ngFor="let subtask of classCheckBox.subtasks; let j = index"> 
+                    <mat-checkbox class="example-margin" 
+                        [(ngModel)]="subtask.completed" 
+                        [color]="subtask.color"
+                        (ngModelChange)="updateAllComplete(i)">
+                        {{subtask.name}}
+                    </mat-checkbox>
+                  </li>
+                </ul>
+              </span>
+        </div>
+    </div>
+    <mat-card class = "event-element" *ngFor="let note of allNotes; let i = index">
+        <mat-card-title> Uwaga dla {{note.studentDisplayName}}</mat-card-title>
+        <mat-grid-list cols="2" rowHeight="100px">
+            <mat-grid-tile>
+                <div class="left-align-forced" >
+                    <p class = "text-area" >{{note.description}}</p>          
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-card-content align="end" class = "right-align-forced">
+                    <p>Dnia {{formatDate(note.date)}}</p>
+                </mat-card-content>
+            </mat-grid-tile>
+        </mat-grid-list>
+        Wystawiona przez: {{note.teacherDisplayName}}
+        <button mat-stroked-button (click) = "deleteNote(note.id)" class = "align-contents-center wrap-element"> Usuń </button>
+    </mat-card>
+</div> 
