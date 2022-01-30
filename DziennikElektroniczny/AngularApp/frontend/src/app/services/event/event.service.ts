@@ -35,7 +35,7 @@ export class EventService {
         });
         return events;
       }, (err) => {
-      setTimeout(() => {},1000)
+      setTimeout(() => {},100)
       }
     )
     return events;
