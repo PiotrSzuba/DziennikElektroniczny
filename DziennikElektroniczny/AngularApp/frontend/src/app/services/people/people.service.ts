@@ -5,7 +5,6 @@ import { ApiRouteService } from 'src/app/globals/api-route.service';
 import { PersonViewModel } from 'src/app/models/Person';
 import { AccountService } from '../account/account.service';
 import { PersonalDataService } from '../personalData/personal-data.service';
-import {PersonViewModel} from 'src/app/models/Person'
 
 
 @Injectable({
