@@ -74,8 +74,7 @@ import { EventParticipatorViewModel } from 'src/app/models/EventParticipator';
   }
   public deleteEventsParticipator(id: number){
     this.httpClient
-    .delete(
-      this.api + 'EventParticipators/' + id)
+    .delete(this.api + 'EventParticipators/' + id)
     .subscribe();
   }
 }
