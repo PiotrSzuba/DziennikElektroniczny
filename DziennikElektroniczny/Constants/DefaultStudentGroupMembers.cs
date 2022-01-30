@@ -26,11 +26,6 @@ namespace DziennikElektroniczny.Constants
                     new StudentsGroupMember
                     {
                         StudentsGroupId = 1,
-                        StudentPersonId = 1,
-                    },
-                    new StudentsGroupMember
-                    {
-                        StudentsGroupId = 1,
                         StudentPersonId = 2,
                     },
                     new StudentsGroupMember

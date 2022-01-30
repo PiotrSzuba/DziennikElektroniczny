@@ -24,8 +24,6 @@ namespace DziennikElektroniczny.Constants
                 }
                 context.Person.AddRange
                 (
-                    //be advised of changing this data
-                    //the same values are needed in events and student groups !!!!!
                     new Person
                     {
                         PersonalInfoId = 1,
