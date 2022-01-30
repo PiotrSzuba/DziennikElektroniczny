@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>{{ pageTitle }}</h1>
+<div mat-dialog-content class="person-form-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Nazwa przedmiotu</mat-label>
+    <input matInput [(ngModel)]="subject.subjectName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Nauczyciel</mat-label>
+    <mat-select [(ngModel)]="subject.teacherPersonId">
+      <mat-select-trigger>
+        {{
+          currentSelectedTeacher().name + " " + currentSelectedTeacher().surname
+        }}
+      </mat-select-trigger>
+      <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{
+        teacher.name + " " + teacher.surname
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Sala</mat-label>
+    <mat-select [(ngModel)]="subject.classRoomId">
+      <mat-select-trigger>
+        {{ currentSelectedClassroom().destination }}
+      </mat-select-trigger>
+      <mat-option *ngFor="let classroom of classrooms" [value]="classroom.id">{{
+        classroom.destination
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Anuluj</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Zapisz</button>
+</div>

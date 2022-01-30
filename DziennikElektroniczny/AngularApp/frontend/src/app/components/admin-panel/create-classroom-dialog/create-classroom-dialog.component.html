@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{ pageTitle }}</h1>
+<div mat-dialog-content class="person-form-container">
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Numer sali</mat-label>
+    <input matInput [(ngModel)]="classroom.destination" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Budynek</mat-label>
+    <input matInput [(ngModel)]="classroom.building" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Piętro</mat-label>
+    <input matInput [(ngModel)]="classroom.floor" />
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Anuluj</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Zapisz</button>
+</div>
