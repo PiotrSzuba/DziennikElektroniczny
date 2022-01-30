@@ -146,7 +146,7 @@
         </div>
         <div *ngIf = "managingParticipants[event.id]" >
             <div *ngFor="let classCheckBox of classCheckBoxes; let i = index">
-                <mat-checkbox class="example-margin" 
+                <mat-checkbox *ngIf = "classCheckBox.subtasks!.length > 0"  class="example-margin" 
                     [checked]="allStudentGroup[i]" 
                     [color]="classCheckBox.color"
                     [indeterminate]="someComplete(i)"
