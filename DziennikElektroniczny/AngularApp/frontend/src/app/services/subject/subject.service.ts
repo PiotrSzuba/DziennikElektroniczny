@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiRouteService } from 'src/app/globals/api-route.service';
 import { SubjectViewModel } from 'src/app/models/Subject';
@@ -17,11 +17,16 @@ export class SubjectService {
     this.api = this.apiRoute.backendRoute();
   }
 
-  public getAllMySubjects() {
+  public getAllMySubjects(studentId: number) {
     return this.httpClient.get<SubjectViewModel[]>(
       this.api +
         'Subjects/GetStudentSubjects/' +
-        this.accountService.getCurrentPersonFromLocalStorage()?.id
+        studentId
     );
+  }
+
+  public getAllTeacherSubjects(techerId: number) {
+    let params = new HttpParams().set('teacherId', techerId)
+    return this.httpClient.get<SubjectViewModel[]>(this.api + 'Subjects', { params: params })
   }
 }

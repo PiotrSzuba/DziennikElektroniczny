@@ -1,0 +1,5 @@
+<mat-tab-group>
+    <mat-tab *ngFor="let subject of subjects" label="{{subject.subjectName}} - {{subject.studentsGroupName}}">
+        <app-grades-subject-view [teacherId]="teacherId" [subjectId]="subject.id" [subjectDisplayName]="subject.subjectName+' - '+subject.studentsGroupName"></app-grades-subject-view>
+    </mat-tab>
+</mat-tab-group>
