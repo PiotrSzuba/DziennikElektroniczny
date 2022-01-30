@@ -1,7 +1,7 @@
 export class PersonViewModel {
   constructor(
     public id: number = 0,
-    public role: number = 0,
+    public role: number = 1,
     public login: string = '',
     public personalInfoId: number = 1,
     public name: string = '',
@@ -10,10 +10,12 @@ export class PersonViewModel {
     public dateOfBirth: Date = new Date(),
     public phoneNumber: string = '',
     public address: string = '',
-    public pesel: string = ''
-  ){}
+    public pesel: string = '',
+    public hashedPassword: string | null = null,
+    public personId: number | null = null
+  ) {}
 
   equals(other: PersonViewModel): boolean {
-    return this.id == other.id
+    return this.id == other.id;
   }
 }

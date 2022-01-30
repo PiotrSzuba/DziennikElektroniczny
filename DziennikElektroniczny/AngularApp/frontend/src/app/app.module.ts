@@ -40,6 +40,9 @@ import { GradesSubjectViewComponent } from './components/grades/grades-subject-v
 import { AddGradeModalComponent } from './components/grades/grades-subject-view/add-grade-modal/add-grade-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { DeleteModifyGradeModalComponent } from './components/grades/grades-subject-view/delete-modify-grade-modal/delete-modify-grade-modal.component';
+import { CreateSubjectDialogComponent } from './components/admin-panel/create-subject-dialog/create-subject-dialog.component';
+import { CreateClassroomDialogComponent } from './components/admin-panel/create-classroom-dialog/create-classroom-dialog.component';
+import { CreateStudentGroupDialogComponent } from './components/admin-panel/create-student-group-dialog/create-student-group-dialog.component';
 import { AttendanceParentViewComponent } from './components/attendance/attendance-parent-view/attendance-parent-view.component';
 import { AttendanceStudentViewComponent } from './components/attendance/attendance-student-view/attendance-student-view.component';
 import { AttendanceTeacherViewComponent } from './components/attendance/attendance-teacher-view/attendance-teacher-view.component';
@@ -71,6 +74,9 @@ import { AddNoteComponent } from './components/notes/add-note/add-note.component
     GradesSubjectViewComponent,
     AddGradeModalComponent,
     DeleteModifyGradeModalComponent,
+    CreateSubjectDialogComponent,
+    CreateClassroomDialogComponent,
+    CreateStudentGroupDialogComponent,
     AttendanceParentViewComponent,
     AttendanceStudentViewComponent,
     AttendanceTeacherViewComponent,

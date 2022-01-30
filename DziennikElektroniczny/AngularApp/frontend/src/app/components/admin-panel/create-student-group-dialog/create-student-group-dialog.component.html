@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>{{ pageTitle }}</h1>
+<div mat-dialog-content class="person-form-container">
+
+    <mat-form-field appearance="fill" >
+        <mat-label>Nazwa</mat-label>
+        <input matInput id="pass" [(ngModel)]="studentGroup.title" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" >
+        <mat-label>Opis</mat-label>
+        <input matInput id="pass" [(ngModel)]="studentGroup.description" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Wychowawca</mat-label>
+        <mat-select [(ngModel)]="studentGroup.teacherPersonId">
+          <mat-select-trigger>
+            {{
+              currentSelectedTeacher().name + " " + currentSelectedTeacher().surname
+            }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{
+            teacher.name + " " + teacher.surname
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Rok rozpoczęcia nauki</mat-label>
+        <input matInput id="pass" [(ngModel)]="studentGroup.yearOfStudy" />
+      </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="editMode">    
+    <mat-label>Uczniowie</mat-label>
+    <mat-select [(ngModel)]="alreadyEnrolledStudents" multiple>
+        <mat-select-trigger>
+            {{ alreadyEnrolledStudents.length + " Uczniów"}}
+          </mat-select-trigger>
+      <mat-option #matOption *ngFor="let student of allStudents" (click)="changeSelection(matOption)" [value]="student">{{
+        student.name + " " + student.surname
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Anuluj</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Zapisz</button>
+</div>

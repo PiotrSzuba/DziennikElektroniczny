@@ -29,7 +29,7 @@ namespace DziennikElektroniczny.Controllers
             _authService = authService;
         }
 
-        public async Task<PersonView> CreateView(Person person)
+        private async Task<PersonView> CreateView(Person person)
         {
 
             return new PersonView(person,await GetPersonalInfo(person));
