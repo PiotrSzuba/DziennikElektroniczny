@@ -33,6 +33,14 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { CreatePersonDialogComponent } from './components/admin-panel/create-person-dialog/create-person-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { GradesParentViewComponent } from './components/grades/grades-parent-view/grades-parent-view.component';
+import { GradesStudentViewComponent } from './components/grades/grades-student-view/grades-student-view.component';
+import { GradesTeacherViewComponent } from './components/grades/grades-teacher-view/grades-teacher-view.component';
+import { GradesSubjectViewComponent } from './components/grades/grades-subject-view/grades-subject-view.component';
+import { AddGradeModalComponent } from './components/grades/grades-subject-view/add-grade-modal/add-grade-modal.component';
+import { MatSelectModule } from '@angular/material/select';
+import { DeleteModifyGradeModalComponent } from './components/grades/grades-subject-view/delete-modify-grade-modal/delete-modify-grade-modal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +55,12 @@ import {MatDialogModule} from '@angular/material/dialog';
     EventsComponent,
     AdminPanelComponent,
     CreatePersonDialogComponent,
+    GradesParentViewComponent,
+    GradesStudentViewComponent,
+    GradesTeacherViewComponent,
+    GradesSubjectViewComponent,
+    AddGradeModalComponent,
+    DeleteModifyGradeModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +85,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatDialogModule,
+    MatSelectModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,

@@ -39,7 +39,7 @@ namespace DziennikElektroniczny.Controllers
 
         // GET: api/Parents
         [HttpGet]
-        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 3 })]
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 2 })]
         public async Task<ActionResult<IEnumerable<ParentView>>> GetParent(
             int? id,int? parentId,int? studentId,string parentName, string studentName)
         {

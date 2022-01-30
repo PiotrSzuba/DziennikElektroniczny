@@ -1,0 +1,30 @@
+<div class="event-container">
+    <mat-card
+      class="event-element"
+      *ngFor="let subjectGrade of subjectGrades | keyvalue"
+    >
+      <mat-card-title> {{ subjectGrade.value[0].studentDisplayName }} </mat-card-title>
+      <div class="flex-wrap">
+        <button
+          class="grade-button"
+          *ngFor="let grade of subjectGrade.value"
+          mat-mini-fab
+          color="accent"
+          aria-label="Example icon button with a plus one icon"
+          (click)="openDeleteModifyModal(grade.id, grade.value, subjectGrade.key, grade.studentDisplayName)"
+        >
+          {{ grade.value }}
+        </button>
+        <button
+            class="grade-button"
+            mat-mini-fab
+            color="primary"
+            aria-label="Example icon button with a plus one icon"
+            (click)="openAddModal(subjectGrade.key, subjectGrade.value[0].studentDisplayName)"
+        >
+            Dodaj
+        </button>
+      </div>
+
+    </mat-card>
+  </div>

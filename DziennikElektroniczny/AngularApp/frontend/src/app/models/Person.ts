@@ -12,4 +12,8 @@ export class PersonViewModel {
     public address: string = '',
     public pesel: string = ''
   ){}
+
+  equals(other: PersonViewModel): boolean {
+    return this.id == other.id
+  }
 }

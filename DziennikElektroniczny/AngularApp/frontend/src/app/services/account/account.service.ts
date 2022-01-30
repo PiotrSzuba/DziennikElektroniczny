@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApiRouteService } from '../../globals/api-route.service';
 import { Router } from '@angular/router';
 import { PersonViewModel } from 'src/app/models/Person';
@@ -48,6 +48,11 @@ export class AccountService {
     return this.httpClient
       .options<PersonViewModel>(this.api + 'People')
       .toPromise();
+  }
+
+  public getPerson(personId: number){
+    const params = new HttpParams().set('id', personId)
+    return this.httpClient.get<PersonViewModel[]>(this.api + 'People', { params: params })
   }
 
   public getAllPersons(): PersonViewModel[] {

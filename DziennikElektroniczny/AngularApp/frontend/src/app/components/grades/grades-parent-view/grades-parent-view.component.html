@@ -1,0 +1,5 @@
+<mat-tab-group>
+    <mat-tab *ngFor="let parent of parents" label={{parent.studentDisplayName}}>
+        <app-grades-student-view [studentId]="parent.studentPersonId"></app-grades-student-view>
+    </mat-tab>
+</mat-tab-group>

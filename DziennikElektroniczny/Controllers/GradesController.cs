@@ -60,7 +60,28 @@ namespace DziennikElektroniczny.Controllers
                 gradeViews.Add(await CreateGradeView(grade));
                 return gradeViews;
             }
-            if(studentId != null)
+            if (studentId != null && subjectId != null)
+            {
+                if (gradesList.Count == 0)
+                {
+                    gradesList = await _context.Grade
+                        .Where(x => x.StudentPersonId == studentId && x.SubjectId == subjectId)
+                        .ToListAsync();
+                }
+                else
+                {
+                    gradesList = await Task.FromResult(gradesList
+                        .Where(x => x.StudentPersonId == studentId && x.SubjectId == subjectId)
+                        .ToList());
+                }
+                foreach (var grade in gradesList)
+                {
+                    gradeViews.Add(await CreateGradeView(grade));
+                }
+
+                return gradeViews;
+            }
+            if (studentId != null)
             {
                 if(gradesList.Count == 0)
                 {

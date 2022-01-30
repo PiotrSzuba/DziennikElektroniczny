@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Zmień lub usuń ocene</h2>
+<mat-dialog-content class="mat-typography">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Zajęcia</mat-label>
+            <input matInput value={{data.subjectDisplayName}} disabled>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Uczeń</mat-label>
+            <input matInput value={{data.studentDisplayName}} disabled>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Select</mat-label>
+            <mat-select (selectionChange)="gradeChanged($event)" [(value)]="selectedValue">
+            <mat-option *ngFor="let gradeValue of gradeValues" value={{gradeValue}}>{{gradeValue}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anuluj</button>
+    <button mat-button mat-dialog-close="delete" color="warn">Usuń</button>
+    <button mat-button [mat-dialog-close]="selectedValue" [disabled]="updateDisabled">Zmień</button>
+</mat-dialog-actions>
+
