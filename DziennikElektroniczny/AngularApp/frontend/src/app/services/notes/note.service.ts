@@ -35,7 +35,7 @@ export class NoteService {
 
     public deleteNote(id: number){
         this.httpClient
-        .delete(this.api + 'Notes/' + id)
+        .delete(this.api + 'notes/' + id)
         .subscribe();
       }
 }

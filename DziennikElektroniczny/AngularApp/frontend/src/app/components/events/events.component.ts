@@ -329,8 +329,8 @@ export interface CheckBoxes {
               if(this.classCheckBoxes[i].subtasks![j].completed){
                 if(personId > 0){
                   this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                  await this.resolveFixer();
                   console.log(this.eventParticipatorService.postEventsParticipator(parseInt(eventId.toString()),parseInt(personId.toString())));
+                  await this.resolveFixer();
                   if(this.selectedReceivers.length == 1){
                     this.messagesService.sendMsg(this.selectedReceivers, "Zapisany do wydarzenia", "Zostałeś zapisany do wydarzenia: " + this.getEventName(eventId));
                   }
@@ -343,10 +343,10 @@ export interface CheckBoxes {
                 var participatorId = this.getParticipatorId( this.classCheckBoxes[i].subtasks![j].name)
                 if( participatorId > 0){
                   this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                  await this.resolveFixer();
                   console.log(this.eventParticipatorService.deleteEventsParticipator(parseInt(participatorId.toString())));
+                  await this.resolveFixer();
                   if(this.selectedReceivers.length == 1){
-                    this.messagesService.sendMsg(this.selectedReceivers, "Wypisany do wydarzenia", "Zostałeś wypisany z wydarzenia: " + this.getEventName(eventId));
+                    this.messagesService.sendMsg(this.selectedReceivers, "Wypisany z wydarzenia", "Zostałeś wypisany z wydarzenia: " + this.getEventName(eventId));
                   }
                   else{
                     console.log("Blad w wysylaniu wiadomosci");

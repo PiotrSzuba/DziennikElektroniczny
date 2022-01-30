@@ -159,8 +159,8 @@ export class NotesComponent implements OnInit {
                             if(personId > 0){
                                 this.getParents(parseInt(personId.toString()));
                                 this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                                this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[0].parentPersonId.toString()))[0]);
-                                this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[1].parentPersonId.toString()))[0]);
+                                //this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[0].parentPersonId.toString()))[0]);
+                                //this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[1].parentPersonId.toString()))[0]);
                                 await this.resolveFixer(500);
                                 console.log(this.noteService.postNote(this.newDescription,new Date(),parseInt(this.userId.toString()),parseInt(personId.toString())));
                                 if(this.selectedReceivers.length >= 1){
@@ -200,6 +200,11 @@ export class NotesComponent implements OnInit {
 
     onSubmitNewNote(){
         return this.newDescription;
+    }
+
+    deleteNote(id: Number){
+      this.noteService.deleteNote(parseInt(id.toString()));
+      window.location.reload();
     }
 
     checkBoxesCreator(){
