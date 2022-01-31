@@ -19,7 +19,7 @@ namespace DziennikElektroniczny.Models
         public Lesson Lesson { get; set; }
 
         [Required]
-        [Range(1, 1000000000)]
+        [Range(0, 1000000000)]
         public int WasPresent { get; set; }
 
         [MaxLength(2000)]

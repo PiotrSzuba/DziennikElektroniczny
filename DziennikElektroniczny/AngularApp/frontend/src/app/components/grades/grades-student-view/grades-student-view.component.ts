@@ -28,6 +28,7 @@ export class GradesStudentViewComponent implements OnInit {
       this.gradesService
         .getStudentGradesFromSubject(subject.id, this.studentId)
         .subscribe((grades) => {
+          grades.sort((g1, g2) => g1.id - g2.id);
           subject.grades = grades;
         });
     }

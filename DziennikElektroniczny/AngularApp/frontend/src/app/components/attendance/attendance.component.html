@@ -1,1 +1,3 @@
-<p>attendance works!</p>
+<app-attendance-student-view *ngIf="person.role==1" [studentId]="person.id"></app-attendance-student-view>
+<app-attendance-parent-view *ngIf="person.role==2" [parentId]="person.id">Rodzic</app-attendance-parent-view>
+<app-attendance-teacher-view *ngIf="person.role==3"[teacherId]="person.id">Nauczyciel</app-attendance-teacher-view>

@@ -1,0 +1,8 @@
+<mat-tab-group>
+    <mat-tab label="Dodaj lekcję" >
+        <app-add-lesson [teacherId]="teacherId" [subject]="subject" (lessonAdded)="loadLessons()"></app-add-lesson>
+    </mat-tab>
+    <mat-tab *ngFor="let lesson of lessons; let i = index" [label]="getHeader(lesson.topic, lesson.date)">
+        <app-attendance-lesson-view [teacherId]="teacherId" [subject]="subject" [lesson]="lesson" (lessonDeleted)="loadLessons()" (lessonModified)="loadLessons()"></app-attendance-lesson-view>
+    </mat-tab>
+</mat-tab-group>

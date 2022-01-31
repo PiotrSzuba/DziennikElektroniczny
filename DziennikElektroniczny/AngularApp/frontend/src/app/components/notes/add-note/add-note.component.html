@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Usprawiedliwienie</h2>
+<mat-dialog-content class="mat-typography">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Powód</mat-label>
+            <input matInput [formControl]="contentControl">
+        </mat-form-field>
+        <p class="invalid-input" *ngIf="!contentValid">Powód nie może być pusty</p>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anuluj</button>
+    <button mat-button color="primary" [mat-dialog-close]="content" [disabled]="buttonDisbled">OK</button>
+</mat-dialog-actions>

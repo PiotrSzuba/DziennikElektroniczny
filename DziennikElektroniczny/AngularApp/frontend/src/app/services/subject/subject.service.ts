@@ -12,7 +12,6 @@ export class SubjectService {
   constructor(
     private httpClient: HttpClient,
     private apiRoute: ApiRouteService,
-    private accountService: AccountService
   ) {
     this.api = this.apiRoute.backendRoute();
   }

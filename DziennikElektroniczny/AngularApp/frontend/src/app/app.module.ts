@@ -40,6 +40,16 @@ import { GradesSubjectViewComponent } from './components/grades/grades-subject-v
 import { AddGradeModalComponent } from './components/grades/grades-subject-view/add-grade-modal/add-grade-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { DeleteModifyGradeModalComponent } from './components/grades/grades-subject-view/delete-modify-grade-modal/delete-modify-grade-modal.component';
+import { AttendanceParentViewComponent } from './components/attendance/attendance-parent-view/attendance-parent-view.component';
+import { AttendanceStudentViewComponent } from './components/attendance/attendance-student-view/attendance-student-view.component';
+import { AttendanceTeacherViewComponent } from './components/attendance/attendance-teacher-view/attendance-teacher-view.component';
+import { AttendanceSubjectViewComponent } from './components/attendance/attendance-subject-view/attendance-subject-view.component';
+import { AttendanceLessonViewComponent } from './components/attendance/attendance-lesson-view/attendance-lesson-view.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTableModule} from '@angular/material/table';
+import { AddLessonComponent } from './components/lesson/add-lesson/add-lesson.component';
+import { ModifyDeleteLessonComponent } from './components/lesson/modify-delete-lesson/modify-delete-lesson.component';
+import { AddNoteComponent } from './components/notes/add-note/add-note.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +71,14 @@ import { DeleteModifyGradeModalComponent } from './components/grades/grades-subj
     GradesSubjectViewComponent,
     AddGradeModalComponent,
     DeleteModifyGradeModalComponent,
+    AttendanceParentViewComponent,
+    AttendanceStudentViewComponent,
+    AttendanceTeacherViewComponent,
+    AttendanceSubjectViewComponent,
+    AttendanceLessonViewComponent,
+    AddLessonComponent,
+    ModifyDeleteLessonComponent,
+    AddNoteComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +104,8 @@ import { DeleteModifyGradeModalComponent } from './components/grades/grades-subj
     MatButtonToggleModule,
     MatDialogModule,
     MatSelectModule,
+    MatCheckboxModule,
+    MatTableModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },DatePipe,
