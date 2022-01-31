@@ -13,7 +13,7 @@ export class ParentService {
   }
 
   public getParents(parentId: number) {
-    let params = new HttpParams().set('id', parentId)
+    let params = new HttpParams().set('parentId', parentId)
     return this.httpClient.get<Parent[]>(this.api + 'Parents', { params: params })
   }
 

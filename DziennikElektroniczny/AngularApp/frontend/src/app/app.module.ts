@@ -50,7 +50,6 @@ import { AttendanceStudentViewComponent } from './components/attendance/attendan
 import { AttendanceTeacherViewComponent } from './components/attendance/attendance-teacher-view/attendance-teacher-view.component';
 import { AttendanceSubjectViewComponent } from './components/attendance/attendance-subject-view/attendance-subject-view.component';
 import { AttendanceLessonViewComponent } from './components/attendance/attendance-lesson-view/attendance-lesson-view.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTableModule} from '@angular/material/table';
 import { AddLessonComponent } from './components/lesson/add-lesson/add-lesson.component';
 import { ModifyDeleteLessonComponent } from './components/lesson/modify-delete-lesson/modify-delete-lesson.component';
