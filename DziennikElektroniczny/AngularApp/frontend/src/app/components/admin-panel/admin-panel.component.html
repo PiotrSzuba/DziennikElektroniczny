@@ -1,117 +1,173 @@
 <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Zarządzanie kontami">
-        <button (click)="addPerson()" mat-raised-button color="primary">Utwórz nową osobę</button>
-        <table mat-table class="users-table">
-           <thead>
-               <tr>
-                   <th>Imię</th>
-                   <th>Nazwisko</th>
-                   <th>Rola</th>
-                   <th>Login</th>
-                   <th>Data urodzenia</th>
-                   <th>Numer telefonu</th>
-                   <th>Adres</th>
-                   <th>PESEL</th>
-                   <th></th>
-               </tr>
-           </thead>
-           <tbody>
-               <tr *ngFor="let person of persons">
-                  <td>{{person.name}}</td>
-                  <td>{{person.surname}}</td>
-                  <td>{{roleList[person.role-1]}}</td>
-                  <td>{{person.login}}</td>
-                  <td>{{person.dateOfBirth | date:"dd.MM.yyyy"}}</td>
-                  <td>{{person.phoneNumber}}</td>
-                  <td>{{person.address}}</td>
-                  <td>{{person.pesel}}</td>
-                  <td>
-                    <button (click)="editPerson(person)" mat-raised-button color="primary">Edytuj</button>
-                    <button (click)="deletePerson(person)" mat-raised-button color="accent">Usuń</button>
-                  </td>
-               </tr>
-           </tbody>
-          </table>
-    </mat-tab>
-    <mat-tab label="Przedmioty">
-        <button (click)="addSubject()" mat-raised-button color="primary">Utwórz nowy przedmiot</button>
-        <table mat-table class="users-table">
-           <thead>
-               <tr>
-                   <th>Nazwa przedmiotu</th>
-                   <th>Nauczyciel</th>
-                   <th>Klasa</th>
-                   <th>Sala</th>
-                   <th>Budynek</th>
-                   <th></th>
-               </tr>
-           </thead>
-           <tbody>
-               <tr *ngFor="let subject of subjects">
-                  <td>{{subject.subjectName}}</td>
-                  <td>{{subject.teacherName}}</td>
-                  <td>{{subject.studentsGroupName}}</td>
-                  <td>{{subject.classRoomName}}</td>
-                  <td>{{subject.classRoomBuilding}}</td>
-                  <td>
-                    <button (click)="editSubject(subject)" mat-raised-button color="primary">Edytuj</button>
-                    <button (click)="deleteSubject(subject)" mat-raised-button color="accent">Usuń</button>
-                  </td>
-               </tr>
-           </tbody>
-          </table>
-    </mat-tab>
-    <mat-tab label="Klasy">
-        <button (click)="addStudentGroup()" mat-raised-button color="primary">Utwórz nową klasę</button>
-        <table mat-table class="users-table">
-           <thead>
-               <tr>
-                   <th>Nazwa klasy</th>
-                   <th>Opis</th>
-                   <th>Rok rozpoczęcia nauki</th>
-                   <th>Wychowawca</th>
-                   <th>Liczba uczniów</th>
-                   <th></th>
-               </tr>
-           </thead>
-           <tbody>
-               <tr *ngFor="let studentGroup of studentGroups">
-                  <td>{{studentGroup.title}}</td>
-                  <td>{{studentGroup.description}}</td>
-                  <td>{{studentGroup.yearOfStudy}}</td>
-                  <td>{{studentGroup.teacherDisplayName}}</td>
-                  <td>{{studentGroup.studentsDisplayNames.length}}</td>
-                  <td>
-                    <button (click)="editStudentGroup(studentGroup)" mat-raised-button color="primary">Edytuj</button>
-                    <button (click)="deleteStudentGroup(studentGroup)" mat-raised-button color="accent">Usuń</button>
-                  </td>
-               </tr>
-           </tbody>
-          </table>
-    </mat-tab>
-    <mat-tab label="Pomieszczenia">
-        <button (click)="addClassroom()" mat-raised-button color="primary">Utwórz nową salę</button>
-        <table mat-table class="users-table">
-           <thead>
-               <tr>
-                   <th>Numer klasy</th>
-                   <th>Budynek</th>
-                   <th>Piętro</th>
-                   <th></th>
-               </tr>
-           </thead>
-           <tbody>
-               <tr *ngFor="let classroom of classrooms">
-                <td>{{classroom.destination}}</td>
-                  <td>{{classroom.building}}</td>
-                  <td>{{classroom.floor}}</td>
+  <mat-tab label="Zarządzanie kontami">
+    <button (click)="addPerson()" mat-raised-button color="primary">
+      Utwórz nową osobę
+    </button>
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Imię</th>
+          <th>Nazwisko</th>
+          <th>Rola</th>
+          <th>Login</th>
+          <th>Data urodzenia</th>
+          <th>Numer telefonu</th>
+          <th>Adres</th>
+          <th>PESEL</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of persons">
+          <td>{{ person.name }}</td>
+          <td>{{ person.surname }}</td>
+          <td>{{ roleList[person.role - 1] }}</td>
+          <td>{{ person.login }}</td>
+          <td>{{ person.dateOfBirth | date: "dd.MM.yyyy" }}</td>
+          <td>{{ person.phoneNumber }}</td>
+          <td>{{ person.address }}</td>
+          <td>{{ person.pesel }}</td>
+          <td>
+            <button
+              (click)="editPerson(person)"
+              mat-raised-button
+              color="primary"
+            >
+              Edytuj
+            </button>
+            <button
+              (click)="deletePerson(person)"
+              mat-raised-button
+              color="accent"
+            >
+              Usuń
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-tab>
+  <mat-tab label="Przedmioty">
+    <button (click)="addSubject()" mat-raised-button color="primary">
+      Utwórz nowy przedmiot
+    </button>
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Nazwa przedmiotu</th>
+          <th>Nauczyciel</th>
+          <th>Klasa</th>
+          <th>Sala</th>
+          <th>Budynek</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subject of subjects">
+          <td>{{ subject.subjectName }}</td>
+          <td>{{ subject.teacherName }}</td>
+          <td>{{ subject.studentsGroupName }}</td>
+          <td>{{ subject.classRoomName }}</td>
+          <td>{{ subject.classRoomBuilding }}</td>
+          <td>
+            <button
+              (click)="editSubject(subject)"
+              mat-raised-button
+              color="primary"
+            >
+              Edytuj
+            </button>
+            <button
+              (click)="deleteSubject(subject)"
+              mat-raised-button
+              color="accent"
+            >
+              Usuń
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-tab>
+  <mat-tab label="Klasy">
+    <button (click)="addStudentGroup()" mat-raised-button color="primary">
+      Utwórz nową klasę
+    </button>
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Nazwa klasy</th>
+          <th>Opis</th>
+          <th>Rok rozpoczęcia nauki</th>
+          <th>Wychowawca</th>
+          <th>Liczba uczniów</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let studentGroup of studentGroups">
+          <td>{{ studentGroup.title }}</td>
+          <td>{{ studentGroup.description }}</td>
+          <td>{{ studentGroup.yearOfStudy }}</td>
+          <td>{{ studentGroup.teacherDisplayName }}</td>
+          <td>{{ studentGroup.studentsDisplayNames.length }}</td>
+          <td>
+            <button
+              (click)="editStudentGroup(studentGroup)"
+              mat-raised-button
+              color="primary"
+            >
+              Edytuj
+            </button>
+            <button
+              (click)="deleteStudentGroup(studentGroup)"
+              mat-raised-button
+              color="accent"
+            >
+              Usuń
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-tab>
+  <mat-tab label="Pomieszczenia">
+    <button (click)="addClassroom()" mat-raised-button color="primary">
+      Utwórz nową salę
+    </button>
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Numer klasy</th>
+          <th>Budynek</th>
+          <th>Piętro</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let classroom of classrooms">
+          <td>{{ classroom.destination }}</td>
+          <td>{{ classroom.building }}</td>
+          <td>{{ classroom.floor }}</td>
 
-                  <td>
-                    <button (click)="editClassroom(classroom)" mat-raised-button color="primary">Edytuj</button>
-                    <button (click)="deleteClassroom(classroom)" mat-raised-button color="accent">Usuń</button>
-                  </td>
-               </tr>
-           </tbody>
-          </table>
-    </mat-tab>
-  </mat-tab-group>
+          <td>
+            <button
+              (click)="editClassroom(classroom)"
+              mat-raised-button
+              color="primary"
+            >
+              Edytuj
+            </button>
+            <button
+              (click)="deleteClassroom(classroom)"
+              mat-raised-button
+              color="accent"
+            >
+              Usuń
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table> </mat-tab
+  >-->
+</mat-tab-group>
