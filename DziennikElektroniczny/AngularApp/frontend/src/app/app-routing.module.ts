@@ -7,21 +7,23 @@ import { EventsComponent } from './components/events/events.component';
 import { GradesComponent } from './components/grades/grades.component';
 import { LoginComponent } from './components/login/login.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { MyAccountComponent } from './components/my-account/my-account/my-account.component';
 import { NotesComponent } from './components/notes/notes.component';
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'grades', component: GradesComponent},
-  {path: 'attendance', component: AttendanceComponent},
-  {path: 'messages', component: MessagesComponent},
-  {path: 'events', component: EventsComponent},
-  {path: 'admin', component: AdminPanelComponent},
-  {path: 'notes', component: NotesComponent},
+  { path: '', component: DashboardComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'grades', component: GradesComponent },
+  { path: 'attendance', component: AttendanceComponent },
+  { path: 'messages', component: MessagesComponent },
+  { path: 'events', component: EventsComponent },
+  { path: 'admin', component: AdminPanelComponent },
+  { path: 'notes', component: NotesComponent },
+  { path: 'my-account', component: MyAccountComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,1 +1,4 @@
-<p>{{message}}</p>
+<div class="dashboard-wrapper">
+  <h1>Witaj {{ account.name + " " + account.surname }}</h1>
+  <h2>Jesteś zalogowany jako: {{ roleList[account.role - 1] }}</h2>
+</div>

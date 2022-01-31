@@ -32,11 +32,29 @@ namespace DziennikElektroniczny.Controllers
         private async Task<PersonView> CreateView(Person person)
         {
 
-            return new PersonView(person,await GetPersonalInfo(person));
+            return new PersonView(person, await GetPersonalInfo(person));
         }
         public async Task<PersonalInfo> GetPersonalInfo(Person person)
         {
             return await _context.PersonalInfo.FindAsync(person.PersonalInfoId);
+        }
+
+        [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
+        [HttpPost("ChangePassword")]
+        public ActionResult<bool> ChangePassword(ChangePasswordRequest req)
+        {
+            StringValues token;
+            Request.Headers.TryGetValue("JWT", out token);
+            Person p = _authService.GetPersonFromJWT(token);
+            if (p != null)
+            {
+                p.HashedPassword = Hasher.hashEncoder(req.newPassword);
+                this._context.Person.Update(p);
+                this._context.SaveChanges();
+                
+                return true;
+            }
+            return false;
         }
 
         [TypeFilter(typeof(AuthFilter), Arguments = new object[] { 1 })]
@@ -54,11 +72,11 @@ namespace DziennikElektroniczny.Controllers
         // GET: api/People
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonView>>> GetPerson(
-            int? id, int? role,string login,string name, string secondname, string surname, string phonenumber,string address,string pesel)
+            int? id, int? role, string login, string name, string secondname, string surname, string phonenumber, string address, string pesel)
         {
             List<Person> personsList = new();
             List<PersonView> personViews = new();
-            if(id != null)
+            if (id != null)
             {
                 var person = await _context.Person.FindAsync(id);
 
@@ -70,9 +88,9 @@ namespace DziennikElektroniczny.Controllers
                 personViews.Add(await CreateView(person));
                 return personViews;
             }
-            if(role != null)
+            if (role != null)
             {
-                if(personsList.Count == 0)
+                if (personsList.Count == 0)
                 {
                     personsList = await _context.Person.Where(x => x.Role == role).ToListAsync();
                 }
@@ -81,7 +99,7 @@ namespace DziennikElektroniczny.Controllers
                     personsList = await Task.FromResult(personsList.Where(x => x.Role == role).ToList());
                 }
             }
-            if(login != null)
+            if (login != null)
             {
                 if (personsList.Count == 0)
                 {
@@ -96,7 +114,7 @@ namespace DziennikElektroniczny.Controllers
                         .ToList());
                 }
             }
-            if(name != null)
+            if (name != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -113,7 +131,7 @@ namespace DziennikElektroniczny.Controllers
                 }
                 personsList = persons;
             }
-            if(secondname != null)
+            if (secondname != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -130,7 +148,7 @@ namespace DziennikElektroniczny.Controllers
                 }
                 personsList = persons;
             }
-            if(surname != null)
+            if (surname != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -147,7 +165,7 @@ namespace DziennikElektroniczny.Controllers
                 }
                 personsList = persons;
             }
-            if(phonenumber != null)
+            if (phonenumber != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -164,7 +182,7 @@ namespace DziennikElektroniczny.Controllers
                 }
                 personsList = persons;
             }
-            if(address != null)
+            if (address != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -180,8 +198,8 @@ namespace DziennikElektroniczny.Controllers
                     }
                 }
                 personsList = persons;
-            }    
-            if(pesel != null)
+            }
+            if (pesel != null)
             {
                 List<Person> persons = new();
                 if (personsList.Count == 0)
@@ -198,18 +216,18 @@ namespace DziennikElektroniczny.Controllers
                 }
                 personsList = persons;
             }
-            if(id == null && role == null && login == null && name == null 
-                && secondname == null && surname == null && phonenumber == null 
+            if (id == null && role == null && login == null && name == null
+                && secondname == null && surname == null && phonenumber == null
                 && address == null && pesel == null)
             {
                 personsList = await _context.Person.ToListAsync();
             }
-            if(personsList.Count == 0)
+            if (personsList.Count == 0)
             {
                 return NotFound();
             }
 
-            foreach(var person in personsList)
+            foreach (var person in personsList)
             {
                 personViews.Add(await CreateView(person));
             }
@@ -276,13 +294,13 @@ namespace DziennikElektroniczny.Controllers
             var toMsgs = await _context.Message.Where(x => x.ToPersonId == id).ToListAsync();
             var fromMsgs = await _context.Message.Where(x => x.FromPersonId == id).ToListAsync();
 
-            foreach(var msg in toMsgs)
+            foreach (var msg in toMsgs)
             {
                 msg.ToPersonId = null;
-                if(msg.FromPersonId == null)
+                if (msg.FromPersonId == null)
                 {
                     _context.Remove(msg);
-                }        
+                }
             }
 
             foreach (var msg in fromMsgs)
@@ -297,12 +315,12 @@ namespace DziennikElektroniczny.Controllers
             var studGrades = await _context.Grade.Where(x => x.StudentPersonId == id).ToListAsync();
             var teacherGrades = await _context.Grade.Where(x => x.TeacherPersonId == id).ToListAsync();
 
-            foreach(var grade in studGrades)
+            foreach (var grade in studGrades)
             {
                 _context.Grade.Remove(grade);
             }
 
-            foreach(var grade in  teacherGrades)
+            foreach (var grade in teacherGrades)
             {
                 grade.TeacherPersonId = null;
             }
@@ -310,26 +328,26 @@ namespace DziennikElektroniczny.Controllers
             await _context.StudentsGroup.Where(x => x.TeacherPersonId == id).ForEachAsync(x => x.TeacherPersonId = null);
 
             var attendanceStudent = await _context.Attendance.Where(x => x.StudentPersonId == id).ToListAsync();
-            foreach(var attendance in attendanceStudent)
+            foreach (var attendance in attendanceStudent)
             {
                 _context.Attendance.Remove(attendance);
             }
 
             var studNotes = await _context.Note.Where(x => x.StudentPersonId == id).ToListAsync();
-            var teacherNotes = await _context.Note.Where(x => x.TeacherPersonId==id).ToListAsync();
+            var teacherNotes = await _context.Note.Where(x => x.TeacherPersonId == id).ToListAsync();
 
-            foreach(var note in studNotes)
+            foreach (var note in studNotes)
             {
                 _context.Note.Remove(note);
             }
-            foreach(var note in teacherNotes)
+            foreach (var note in teacherNotes)
             {
                 note.TeacherPersonId = null;
             }
 
             var parents = await _context.Parent.Where(x => x.ParentPersonId == id).ToArrayAsync();
             var parentsStud = await _context.Parent.Where(x => x.StudentPersonId == id).ToListAsync();
-            foreach(var parent in parents)
+            foreach (var parent in parents)
             {
                 _context.Parent.Remove(parent);
             }
@@ -349,4 +367,9 @@ namespace DziennikElektroniczny.Controllers
             return _context.Person.Any(e => e.PersonId == id);
         }
     }
+    public class ChangePasswordRequest
+    {
+        public string newPassword { get; set; }
+    }
 }
+

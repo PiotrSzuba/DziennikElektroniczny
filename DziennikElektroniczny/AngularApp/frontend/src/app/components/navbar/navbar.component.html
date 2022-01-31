@@ -1,29 +1,69 @@
 <div class="navbar-container">
-    <mat-toolbar class="toolbar">
-      <div class="">
-        <span [routerLink]="['']" style="margin-right:20px;">Patodziennik elektroniczny</span>
-        <button [routerLink]="['attendance']" mat-button aria-label="Example icon-button with heart icon">
-          Obecności
-        </button>
-        <button mat-button [routerLink]="['grades']"  aria-label="Example icon-button with share icon">
-          Oceny
-        </button>
-        <button mat-button [routerLink]="['messages']"  aria-label="Example icon-button with share icon">
-          Wiadomości
-        </button>
-        <button mat-button [routerLink]="['events']"  aria-label="Example icon-button with share icon">
-          Wydarzenia
-        </button>
-        <button mat-button [routerLink]="['notes']"  aria-label="Example icon-button with share icon">
-          Uwagi
-        </button>
-        <button mat-button [routerLink]="['admin']" *ngIf="loggedAsAdmin()"  aria-label="Example icon-button with share icon">
-          Panel Admina
-        </button>
-      </div>
-        <button (click)="logout()" class="logout-button" mat-button aria-label="Example icon-button with share icon">
-          Wyloguj
-        </button>
-      </mat-toolbar>
-
+  <mat-toolbar class="toolbar">
+    <div class="">
+      <span [routerLink]="['']" style="margin-right: 20px"
+        >Patodziennik elektroniczny</span
+      >
+      <button
+        [routerLink]="['attendance']"
+        mat-button
+        aria-label="Example icon-button with heart icon"
+      >
+        Obecności
+      </button>
+      <button
+        mat-button
+        [routerLink]="['grades']"
+        aria-label="Example icon-button with share icon"
+      >
+        Oceny
+      </button>
+      <button
+        mat-button
+        [routerLink]="['messages']"
+        aria-label="Example icon-button with share icon"
+      >
+        Wiadomości
+      </button>
+      <button
+        mat-button
+        [routerLink]="['events']"
+        aria-label="Example icon-button with share icon"
+      >
+        Wydarzenia
+      </button>
+      <button
+        mat-button
+        [routerLink]="['notes']"
+        aria-label="Example icon-button with share icon"
+      >
+        Uwagi
+      </button>
+      <button
+        mat-button
+        [routerLink]="['admin']"
+        *ngIf="loggedAsAdmin()"
+        aria-label="Example icon-button with share icon"
+      >
+        Panel Admina
+      </button>
+    </div>
+    <div>
+      <button
+        mat-button
+        [routerLink]="['my-account']"
+        aria-label="Example icon-button with share icon"
+      >
+        Ustawienia konta
+      </button>
+      <button
+        (click)="logout()"
+        class="logout-button"
+        mat-button
+        aria-label="Example icon-button with share icon"
+      >
+        Wyloguj
+      </button>
+    </div>
+  </mat-toolbar>
 </div>

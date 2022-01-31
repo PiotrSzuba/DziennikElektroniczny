@@ -54,6 +54,7 @@ import {MatTableModule} from '@angular/material/table';
 import { AddLessonComponent } from './components/lesson/add-lesson/add-lesson.component';
 import { ModifyDeleteLessonComponent } from './components/lesson/modify-delete-lesson/modify-delete-lesson.component';
 import { AddNoteComponent } from './components/notes/add-note/add-note.component';
+import { MyAccountComponent } from './components/my-account/my-account/my-account.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { AddNoteComponent } from './components/notes/add-note/add-note.component
     ModifyDeleteLessonComponent,
     AddNoteComponent,
     NotesComponent,
+    MyAccountComponent,
   ],
   imports: [
     BrowserModule,
