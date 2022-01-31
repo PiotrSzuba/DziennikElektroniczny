@@ -4,6 +4,10 @@
     <mat-label>Nazwa przedmiotu</mat-label>
     <input matInput [(ngModel)]="subject.subjectName" />
   </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Opis przedmiotu</mat-label>
+    <input matInput [(ngModel)]="subject.subjectDescription" />
+  </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Nauczyciel</mat-label>
@@ -16,6 +20,20 @@
       <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{
         teacher.name + " " + teacher.surname
       }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Klasa</mat-label>
+    <mat-select [(ngModel)]="subject.studentsGroupId">
+      <mat-select-trigger>
+        {{ currentSelectedStudentGroup().title }}
+      </mat-select-trigger>
+      <mat-option
+        *ngFor="let studentGroup of studentGroups"
+        [value]="studentGroup.id"
+        >{{ studentGroup.title }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
 

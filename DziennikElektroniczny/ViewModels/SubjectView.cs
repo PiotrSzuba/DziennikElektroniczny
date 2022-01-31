@@ -16,6 +16,7 @@ namespace DziennikElektroniczny.ViewModels
         public string ClassRoomName { get; set; }
         public string ClassRoomFloor { get; set; }
         public string ClassRoomBuilding { get; set; }
+        public string SubjectDescription { get; set; }
 
         public SubjectView(Subject subject,SubjectInfo subjectInfo,ClassRoom classRoom,StudentsGroup studentsGroup,PersonalInfo teacherInfo)
         {
@@ -30,6 +31,7 @@ namespace DziennikElektroniczny.ViewModels
             ClassRoomName = classRoom.Destination;
             ClassRoomFloor = classRoom.Floor;
             ClassRoomBuilding = classRoom.Building;
+            SubjectDescription = subjectInfo.Description;
 
 
         }

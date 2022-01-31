@@ -108,7 +108,7 @@ export class AdminPanelComponent implements OnInit {
       data: params,
     });
     dialogRef.afterClosed().subscribe(() => {
-      this.reloadPersons();
+      this.reloadSubjects();
     });
   }
 

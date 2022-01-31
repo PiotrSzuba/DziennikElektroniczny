@@ -12,7 +12,7 @@ export class SubjectService {
   private api: string;
   constructor(
     private httpClient: HttpClient,
-    private apiRoute: ApiRouteService,
+    private apiRoute: ApiRouteService
   ) {
     this.api = this.apiRoute.backendRoute();
   }
@@ -36,10 +36,15 @@ export class SubjectService {
 
   public addSubject(subject: SubjectViewModel) {
     return this.httpClient
-      .post<SubjectViewModel>(this.api + 'SubjectInfos', subject)
+      .post<SubjectViewModel>(this.api + 'SubjectInfos', {
+        ...subject,
+        title: subject.subjectName,
+        description: subject.subjectDescription,
+      })
       .pipe(
         map((res) => {
-          subject.subjectInfoId = res.id;
+          debugger
+          subject.subjectInfoId = res.subjectInfoId;
           return this.httpClient.post<SubjectViewModel>(
             this.api + 'Subjects',
             subject
@@ -48,7 +53,28 @@ export class SubjectService {
       );
   }
 
+  public updateSubject(subject: SubjectViewModel) {
+    return this.httpClient
+      .put<SubjectViewModel>(
+        this.api + 'SubjectInfos/' + subject.subjectInfoId,
+        {
+          ...subject,
+          title: subject.subjectName,
+          description: subject.subjectDescription,
+        }
+      )
+      .pipe(
+        map((res) => {
+          subject.subjectId = subject.id;
+          return this.httpClient.put<SubjectViewModel>(
+            this.api + 'Subjects/' + subject.id,
+            subject
+          );
+        })
+      );
+  }
+
   public deleteSubject(id: number) {
-    return this.httpClient.delete(this.api + 'Subject/' + id);
+    return this.httpClient.delete(this.api + 'Subjects/' + id);
   }
 }

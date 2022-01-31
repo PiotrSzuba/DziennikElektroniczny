@@ -2,10 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClassroomViewModel } from 'src/app/models/Classroom';
 import { PersonViewModel } from 'src/app/models/Person';
+import { StudentsGroupViewModel } from 'src/app/models/StudentsGroup';
 import { SubjectViewModel } from 'src/app/models/Subject';
 import { ClassroomService } from 'src/app/services/classroom/classroom.service';
 import { PeopleService } from 'src/app/services/people/people.service';
 import { PersonalDataService } from 'src/app/services/personalData/personal-data.service';
+import { StudentsGroupService } from 'src/app/services/studentsGroup/studentsGroup.service';
 import { SubjectService } from 'src/app/services/subject/subject.service';
 import { CreatePersonDialogComponent } from '../create-person-dialog/create-person-dialog.component';
 
@@ -20,11 +22,13 @@ export class CreateSubjectDialogComponent implements OnInit {
   public pageTitle: string;
   public teachers: PersonViewModel[] = Array();
   public classrooms: ClassroomViewModel[] = Array();
+  public studentGroups: StudentsGroupViewModel[] = [];
   constructor(
     public dialogRef: MatDialogRef<CreateSubjectDialogComponent>,
     private peopleService: PeopleService,
     private classroomService: ClassroomService,
     private subjectService: SubjectService,
+    private studentGroupService: StudentsGroupService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       editMode: boolean;
@@ -44,6 +48,9 @@ export class CreateSubjectDialogComponent implements OnInit {
     this.classroomService
       .getClassrooms()
       .subscribe((classrooms) => (this.classrooms = classrooms));
+    this.studentGroupService
+      .getAllStudentGroups()
+      .subscribe((res) => (this.studentGroups = res));
   }
 
   onCancel() {
@@ -51,10 +58,14 @@ export class CreateSubjectDialogComponent implements OnInit {
   }
   onSave() {
     if (this.editMode) {
-      //this.subjectService.updateSubject().
+      this.subjectService.updateSubject(this.subject).subscribe((res) => {
+        res.subscribe(() => this.dialogRef.close());
+      });
     } else {
+      this.subjectService.addSubject(this.subject).subscribe((res) => {
+        res.subscribe(() => this.dialogRef.close());
+      });
     }
-    this.dialogRef.close();
   }
   currentSelectedTeacher() {
     const selectedTeacher = this.teachers.filter(
@@ -69,5 +80,12 @@ export class CreateSubjectDialogComponent implements OnInit {
     );
     if (selectedClassroom.length) return selectedClassroom[0];
     else return new ClassroomViewModel();
+  }
+  currentSelectedStudentGroup() {
+    const selectedStudentGroup = this.studentGroups.filter(
+      (c) => c.id == this.subject.studentsGroupId
+    );
+    if (selectedStudentGroup.length) return selectedStudentGroup[0];
+    else return new StudentsGroupViewModel();
   }
 }
