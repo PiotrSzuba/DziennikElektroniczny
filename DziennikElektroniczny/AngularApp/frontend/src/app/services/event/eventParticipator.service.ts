@@ -18,63 +18,20 @@ import { EventParticipatorViewModel } from 'src/app/models/EventParticipator';
       this.api = apiRoute.backendRoute();
     }
 
-    public getEventParticipator(personId: number): EventParticipatorViewModel[]{
-        let participatorEvents: EventParticipatorViewModel[] = [];
+    public getEventParticipator(personId: number){
         let params = new HttpParams();
         params = params.append("personId",personId);
-        this.httpClient
-        .get<EventParticipatorViewModel[]>(
-          this.api + 'EventParticipators',
-          {params:params}
-        )
-        .subscribe(
-          (response) => {
-            response.forEach(element => {
-                participatorEvents.push(new EventParticipatorViewModel(
-                element["id"],
-                element["eventId"],
-                element["eventName"],
-                element["personId"],
-                element["personName"]
-              ))
-            });
-          }
-        )
-        return participatorEvents;
+        return this.httpClient.get<EventParticipatorViewModel[]>(this.api + 'EventParticipators',{params:params});
     }
 
-    public getEventsParticipators(): EventParticipatorViewModel[]{
-      let participatorEvents: EventParticipatorViewModel[] = [];
-      let params = new HttpParams();
-      this.httpClient
-      .get<EventParticipatorViewModel[]>(
-        this.api + 'EventParticipators',
-        {params:params}
-      )
-      .subscribe(
-        (response) => {
-          response.forEach(element => {
-              participatorEvents.push(new EventParticipatorViewModel(
-              element["id"],
-              element["eventId"],
-              element["eventName"],
-              element["personId"],
-              element["personName"]
-            ))
-          });
-        }
-      )
-      return participatorEvents;
+    public getEventsParticipators(){
+      return this.httpClient.get<EventParticipatorViewModel[]>(this.api + 'EventParticipators')
   }
   public postEventsParticipator(eventId: number,personId: number){
-    this.httpClient
-    .post(this.api + 'EventParticipators',
-    {EventId: eventId, PersonId: personId})
-    .subscribe();
+    return this.httpClient.post(this.api + 'EventParticipators',{EventId: eventId, PersonId: personId});
   }
   public deleteEventsParticipator(id: number){
-    this.httpClient
-    .delete(this.api + 'EventParticipators/' + id)
-    .subscribe();
+    return this.httpClient
+    .delete(this.api + 'EventParticipators/' + id);
   }
 }

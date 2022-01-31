@@ -30,16 +30,16 @@ export interface CheckBoxes {
   })
 
   export class EventsComponent implements OnInit {
-    eventsList: EventViewModel[];
-    classCheckBoxes: CheckBoxes[];
-    filteredEventsList: EventViewModel[];
-    participatorsEvents: EventParticipatorViewModel[];
-    eventsParticipators: EventParticipatorViewModel[];
+    eventsList: EventViewModel[] = [];
+    classCheckBoxes: CheckBoxes[] = [];
+    filteredEventsList: EventViewModel[] = [];
+    participatorsEvents: EventParticipatorViewModel[] = [];
+    eventsParticipators: EventParticipatorViewModel[] = [];
     filteredEventsParticipators: EventParticipatorViewModel[] = [];
-    studentsGroups: StudentsGroupViewModel[];
-    studentsGroupMembers: StudentsGroupMemberViewModel[];
-    eventTitleSearch: String;
-    eventDescriptionSearch: String;
+    studentsGroups: StudentsGroupViewModel[] = [];
+    studentsGroupMembers: StudentsGroupMemberViewModel[] = [];
+    eventTitleSearch: String = "";
+    eventDescriptionSearch: String = "";
     userId: Number;
     userRole: Number;
     minRole: Number;
@@ -79,16 +79,6 @@ export interface CheckBoxes {
     manageButtonName: String[];
     manageButtonManageName: String;
     manageButtonAcceptName: String;
-    task: CheckBoxes = {
-      name: 'Cala klasa',
-      completed: false,
-      color: 'warn',
-      subtasks: [
-        {name: 'Uczen 1', completed: false, color: 'warn'},
-        {name: 'Uczen 2', completed: false, color: 'warn'},
-        {name: 'Uczen 3', completed: false, color: 'warn'},
-      ],
-    };
     allComplete: boolean = false;
     allStudentGroup: boolean[] = [];
     selectedReceivers: PersonViewModel[] = [];
@@ -103,9 +93,7 @@ export interface CheckBoxes {
     private messagesService: MessagesService,
     public datepipe: DatePipe, 
     private dateAdapter: DateAdapter<Date>) {
-      this.dateAdapter.setLocale('pl-PL'); 
-      this.eventsList = [];
-      this.filteredEventsList = [];
+      this.dateAdapter.setLocale('pl-PL');
       this.participatorsEvents = [];
       this.eventsParticipators = [];
       this.studentsGroups = [];
@@ -146,46 +134,41 @@ export interface CheckBoxes {
       this.classCheckBoxes = [];
   }
 
-  resolveFixer() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('Jak to dziala');
-      }, 1000);
-    });
-  }
-
-  async ngOnInit(){
+  ngOnInit(){
     this.accountService
     .getCurrentLoggedPerson()
     .then((res: PersonViewModel | undefined) => {
       if (res) {
         this.userId = res.id;
         this.userRole = res.role;
-        //this.userId = 5; //testy
-        //this.userRole = 4; //testy
       }
     });
-    this.eventsList = await this.eventService.getEventsList();
-    this.participatorsEvents = this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString()));
+    //this.userId = 4; //testy
+    //this.userRole = 1; //testy
+    this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString())).subscribe(res => this.participatorsEvents = res);
     this.studentsGroups = this.studentsGroupService.getStudentsGroups();
     this.studentsGroupMembers = this.StudentsGroupMemberService.getStudentsGroupMembers();
-    this.eventsParticipators = this.eventParticipatorService.getEventsParticipators();
-    await this.resolveFixer();
-    if(this.userRole < this.minRole){
-      var tempList: EventViewModel[] = [];
-      for(let i = 0; i < this.participatorsEvents.length; i++){
-        for(let j = 0; j < this.eventsList.length; j++){
-          if(this.eventsList[j].id == this.participatorsEvents[i].eventId){
-            tempList.push(this.eventsList[j]);
-            break;
+    this.eventParticipatorService.getEventsParticipators().subscribe(res => this.eventsParticipators = res);
+
+    this.eventService.getEventsList().subscribe(res => 
+      {
+        this.eventsList = res;
+        if(this.userRole < this.minRole){
+          var tempList: EventViewModel[] = [];
+          for(let i = 0; i < this.participatorsEvents.length; i++){
+            for(let j = 0; j < this.eventsList.length; j++){
+              if(this.eventsList[j].id == this.participatorsEvents[i].eventId){
+                tempList.push(this.eventsList[j]);
+                break;
+              }
+            }
           }
+          this.eventsList = tempList;
         }
-      }
-      this.eventsList = tempList;
-    }
-    this.filteredEventsList = this.eventsList;
-    this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate));
-    this.setShowEditFormId();
+        this.filteredEventsList = this.eventsList;
+        this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate));
+        this.setShowEditFormId();
+      });
   }
 
   setShowEditFormId(){
@@ -212,8 +195,8 @@ export interface CheckBoxes {
     }
   }
 
-  formatDate(date: Date): any {
-    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');
+  formatDate(date: Date) {
+    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm','UTC +1');
   }
 
   onSubmitTitle(){
@@ -268,9 +251,8 @@ export interface CheckBoxes {
         alert(" Data startowa powinna być wcześniej niż końcowa");
         return; 
       }
-      this.eventService.postEvent(this.newTitle,this.newDescription, this.endDate,this.startDate);
       this.cancelCreateEvent();
-      window.location.reload();
+      this.eventService.postEvent(this.newTitle,this.newDescription, this.endDate,this.startDate).subscribe(res => window.location.reload());
       return;
     }
     this.showRestricted = true;
@@ -318,7 +300,7 @@ export interface CheckBoxes {
     this.endDate = date;
   }
 
-  async manageParticipants(eventId: Number){
+  manageParticipants(eventId: Number){
     if(this.managingParticipants[parseInt(eventId.toString())]){
       for(let i = 0; i < this.classCheckBoxes.length; i++){
         if(this.classCheckBoxes[i].subtasks!.length > 0){
@@ -328,29 +310,23 @@ export interface CheckBoxes {
               var personId = this.getPersonId(this.classCheckBoxes[i].subtasks![j].name);
               if(this.classCheckBoxes[i].subtasks![j].completed){
                 if(personId > 0){
-                  this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                  console.log(this.eventParticipatorService.postEventsParticipator(parseInt(eventId.toString()),parseInt(personId.toString())));
-                  await this.resolveFixer();
-                  if(this.selectedReceivers.length == 1){
+                  this.peopleService.getPerson(parseInt(personId.toString())).subscribe((res) =>{
+                    this.selectedReceivers = res;
                     this.messagesService.sendMsg(this.selectedReceivers, "Zapisany do wydarzenia", "Zostałeś zapisany do wydarzenia: " + this.getEventName(eventId));
-                  }
-                  else{
-                    console.log("Blad w wysylaniu wiadomosci:  rozmiar" + this.selectedReceivers.length );
-                  }
+                    this.eventParticipatorService.postEventsParticipator(parseInt(eventId.toString()),parseInt(personId.toString()))
+                    .subscribe(res => { });
+                });
                 }
               }
               else{
                 var participatorId = this.getParticipatorId( this.classCheckBoxes[i].subtasks![j].name)
                 if( participatorId > 0){
-                  this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                  console.log(this.eventParticipatorService.deleteEventsParticipator(parseInt(participatorId.toString())));
-                  await this.resolveFixer();
-                  if(this.selectedReceivers.length == 1){
+                  this.peopleService.getPerson(parseInt(personId.toString())).subscribe((res) =>{
+                    this.selectedReceivers = res;
                     this.messagesService.sendMsg(this.selectedReceivers, "Wypisany z wydarzenia", "Zostałeś wypisany z wydarzenia: " + this.getEventName(eventId));
-                  }
-                  else{
-                    console.log("Blad w wysylaniu wiadomosci");
-                  }
+                });
+                this.eventParticipatorService.deleteEventsParticipator(parseInt(participatorId.toString()))
+                .subscribe((res) => { window.location.reload()});
                 }
               }
             }
@@ -457,10 +433,10 @@ export interface CheckBoxes {
         alert(" Data startowa powinna być wcześniej niż końcowa");
         return; 
       }
-      this.eventService.putEvent(parseInt(eventId.toString()),this.editedTitle,this.editedDescription, this.endDate,this.startDate );
+      this.eventService.putEvent(parseInt(eventId.toString()),this.editedTitle,this.editedDescription, this.endDate,this.startDate )
+      .subscribe(res => window.location.reload());
       this.editingDivOpen = eventId;
       this.editButtonName[parseInt(eventId.toString())] = this.editEventButtonEditName;
-      window.location.reload();
     }
     this.editingEvent = true;
     this.editingDivOpen = eventId;
@@ -475,8 +451,7 @@ export interface CheckBoxes {
         return;
     }
     if(this.deletingEvent){
-      this.eventService.deleteEvent(parseInt(eventId.toString()));
-      window.location.reload();
+      this.eventService.deleteEvent(parseInt(eventId.toString())).subscribe((res) => window.location.reload());
       this.setShowEditFormId(); 
     }
     this.deletingEvent = true;
