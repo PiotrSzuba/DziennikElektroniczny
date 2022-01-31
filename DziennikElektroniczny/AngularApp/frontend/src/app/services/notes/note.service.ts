@@ -29,13 +29,11 @@ export class NoteService {
     public postNote(description: String,date: Date,teacherPersonId: number,studentPersonId: number){
         return this.httpClient
         .post(this.api + 'Notes',
-        {description: description, date: date, teacherPersonId: teacherPersonId, studentPersonId: studentPersonId})
-        .subscribe();
+        {description: description, date: date, teacherPersonId: teacherPersonId, studentPersonId: studentPersonId});
     }
 
     public deleteNote(id: number){
-        this.httpClient
-        .delete(this.api + 'notes/' + id)
-        .subscribe();
+        return this.httpClient
+        .delete(this.api + 'notes/' + id);
       }
 }

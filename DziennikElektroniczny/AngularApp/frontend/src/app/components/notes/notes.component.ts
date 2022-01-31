@@ -35,13 +35,13 @@ export class NotesComponent implements OnInit {
     userRole: Number = 0;
     minRole: Number = 3;
     newDescription: String = "";
-    classCheckBoxes: CheckBoxes[] = []; 
-    allStudentGroup: boolean[] = [];
+    classCheckBoxes: CheckBoxes[] = Array();
+    allStudentGroup: boolean[] = Array();
     studentsGroups: StudentsGroupViewModel[] = this.studentsGroupService.getStudentsGroups();
     studentsGroupMembers: StudentsGroupMemberViewModel[] = this.StudentsGroupMemberService.getStudentsGroupMembers();
-    allNotes: NoteViewModel[] = [];
-    parents: Parent[] = [];
-    selectedReceivers: PersonViewModel[] = [];
+    allNotes: NoteViewModel[] = Array();
+    parents: Parent[] = Array();
+    selectedReceivers: PersonViewModel[] = Array();
     allComplete: boolean = false;
     
     constructor(
@@ -52,92 +52,41 @@ export class NotesComponent implements OnInit {
         private messagesService: MessagesService, 
         private noteService: NoteService,
         private parentService: ParentService,
-        public datepipe: DatePipe,
-    ){
-        this.accountService
-        .getCurrentLoggedPerson()
-        .then((res: PersonViewModel | undefined) => {
-          if (res) {
-            this.userId = res.id;
-            this.userRole = res.role;
-            //this.userId = 3; //testy
-            //this.userRole = 4; //testy
-            this.getNoteSList();
-          }
-        });
+        public datepipe: DatePipe,){
+
     };
 
 
 
     ngOnInit(){
-
+      this.accountService
+      .getCurrentLoggedPerson()
+      .then((res: PersonViewModel | undefined) => {
+        if (res) {
+          this.userId = res.id;
+          this.userRole = res.role;
+          //this.userId = 2; //testy
+          //this.userRole = 1; //testy
+          this.getNoteSList();
+        }
+      });
     }
 
     getNoteSList(){
         if(this.userRole <= 2){
-            this.noteService.getNotesStudent(parseInt(this.userId.toString())).subscribe(
-                response => {
-                  response.forEach(
-                    element => this.allNotes.push(
-                        new NoteViewModel(
-                            element.id,
-                            element.description,
-                            element.date,
-                            element.teacherPersonId,
-                            element.teacherDisplayName,
-                            element.studentPersonId,
-                            element.studentDisplayName
-                            ))
-                  )
-                }
-              );
+              this.noteService.getNotesStudent(parseInt(this.userId.toString())).subscribe((res) => (this.allNotes = res));
         }
         if(this.userRole == 3){
-            this.noteService.getNotesTeacher(parseInt(this.userId.toString())).subscribe(
-                response => {
-                  response.forEach(
-                    element => this.allNotes.push(
-                        new NoteViewModel(
-                            element.id,
-                            element.description,
-                            element.date,
-                            element.teacherPersonId,
-                            element.teacherDisplayName,
-                            element.studentPersonId,
-                            element.studentDisplayName
-                            ))
-                  )
-                }
-              );
+          this.noteService.getNotesTeacher(parseInt(this.userId.toString())).subscribe((res) => (this.allNotes = res));
         }
+
         if(this.userRole == 4){
-            this.noteService.getNotes().subscribe(
-                response => {
-                  response.forEach(
-                    element => this.allNotes.push(
-                        new NoteViewModel(
-                            element.id,
-                            element.description,
-                            element.date,
-                            element.teacherPersonId,
-                            element.teacherDisplayName,
-                            element.studentPersonId,
-                            element.studentDisplayName
-                            ))
-                  )
-                }
-              );
+            this.noteService.getNotes().subscribe((res) => (this.allNotes = res));
         }
     }
 
     getParents(studentId: number){
-        this.parentService.getParentsStudId(studentId).subscribe(
-            response => {
-              response.forEach(
-                element => this.parents.push(new Parent(element.parentPersonId, element.studentPersonId, element.studentDisplayName))
-              )
-            }
-          );
+        this.parentService.getParentsStudId(studentId).subscribe((res) => (this.parents = res));
     }
 
     checkRole(): boolean {
@@ -157,24 +106,17 @@ export class NotesComponent implements OnInit {
                         if(this.classCheckBoxes[i].subtasks![j].completed){
                             var personId = this.getPersonId(this.classCheckBoxes[i].subtasks![j].name);
                             if(personId > 0){
-                                this.getParents(parseInt(personId.toString()));
-                                this.selectedReceivers = this.peopleService.getPerson(parseInt(personId.toString()));
-                                //this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[0].parentPersonId.toString()))[0]);
-                                //this.selectedReceivers.push(this.peopleService.getPerson(parseInt(this.parents[1].parentPersonId.toString()))[0]);
-                                await this.resolveFixer(500);
-                                console.log(this.noteService.postNote(this.newDescription,new Date(),parseInt(this.userId.toString()),parseInt(personId.toString())));
-                                if(this.selectedReceivers.length >= 1){
-                                    this.messagesService.sendMsg(this.selectedReceivers, "Uwaga", "Nowa uwaga na koncie ucznia");
-                                }
-                                else{
-                                  console.log("Blad w wysylaniu wiadomosci:  rozmiar" + this.selectedReceivers.length );
-                                }
+                               this.peopleService.getPerson(parseInt(personId.toString())).subscribe((res) =>{
+                                (this.selectedReceivers = res);
+                                this.messagesService.sendMsg(this.selectedReceivers, "Uwaga", "Nowa uwaga na koncie ucznia");
+                                this.noteService.postNote(this.newDescription,new Date(),parseInt(this.userId.toString()),parseInt(personId.toString()))
+                                .subscribe((res) => window.location.reload());
+                                });
                             }
                         }
                     }
                 }
             }
-            window.location.reload();
             this.cancelCreateNote();
             return;
         }
@@ -203,8 +145,7 @@ export class NotesComponent implements OnInit {
     }
 
     deleteNote(id: Number){
-      this.noteService.deleteNote(parseInt(id.toString()));
-      window.location.reload();
+      this.noteService.deleteNote(parseInt(id.toString())).subscribe((res) =>  window.location.reload());
     }
 
     checkBoxesCreator(){
@@ -249,15 +190,7 @@ export class NotesComponent implements OnInit {
     this.classCheckBoxes[index].subtasks!.forEach(t => (t.completed = completed));
     }
 
-    resolveFixer(arg: number) {
-        return new Promise(resolve => {
-        setTimeout(() => {
-        resolve('Jak to dziala');
-        }, arg);
-    });
-    }
-
     formatDate(date: Date): any {
-        return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');
+        return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm','UTC +1');
       }
 }

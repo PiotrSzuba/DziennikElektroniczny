@@ -66,34 +66,10 @@ export class PeopleService {
     return this.httpClient.get<PersonViewModel[]>(this.api + 'People');
   }
 
-  public getPerson(id:number){
-    let person: PersonViewModel[] = [];
-    let params = new HttpParams();
-    params = params.append("id",id);
-    this.httpClient
-    .get<PersonViewModel[]>(
-      this.api + 'People',
-      {params:params}
-    )
-    .subscribe(
-      (response) => {
-        response.forEach(element => {
-            person.push(new PersonViewModel(
-            element["id"],
-            element["role"],
-            element["login"],
-            element["personalInfoId"],
-            element["name"],
-            element["secondName"],
-            element["surname"],
-            element["dateOfBirth"],
-            element["phoneNumber"],
-            element["address"],
-            element["pesel"]
-          ))
-        });
-      }
-    )
-    return person;
+
+  public getPerson(id: number) {
+    let params = new HttpParams().set('id', id)
+    return this.httpClient.get<PersonViewModel[]>(this.api + 'People', { params: params })
   }
+
 }
