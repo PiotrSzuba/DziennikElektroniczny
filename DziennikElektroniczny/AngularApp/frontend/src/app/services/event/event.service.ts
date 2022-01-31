@@ -15,54 +15,26 @@ export class EventService {
   ) {
     this.api = apiRoute.backendRoute();
   }
-  public async getEventsList(){
-    let events: EventViewModel[] = [];
-    this.httpClient
-    .get<EventViewModel[]>(
-      this.api + 'events'
-    )
-    .subscribe(
-      (response) => {
-        response.forEach(element => {
-          events.push(new EventViewModel(
-            element["id"],
-            element["title"],
-            element["description"],
-            element["endDate"],
-            element["startDate"],
-            element["participators"]
-          ))
-        });
-        return events;
-      }, (err) => {
-      setTimeout(() => {},100)
-      }
-    )
-    
-    return events;
+  public getEventsList(){
+    return this.httpClient.get<EventViewModel[]>(this.api + 'events');
   }
 
   public deleteEvent(id: number){
-    this.httpClient
+    return this.httpClient
     .delete(
-      this.api + 'events/' + id)
-      .subscribe();
+      this.api + 'events/' + id);
   }
 
   public postEvent(title: String, description: String, endDate: Date, startDate: Date){
-    this.httpClient
+    return this.httpClient
     .post(this.api + 'events'
-    ,{Title: title, Description: description, EndDate: endDate, StartDate: startDate})
-    .subscribe();
+    ,{Title: title, Description: description, EndDate: endDate, StartDate: startDate});
   }
 
   public putEvent(id: number, title: String, description: String, endDate: Date, startDate: Date){
-    this.httpClient
-    .put(
-      this.api + 'events/' + id
-      ,{EventId: id,Title: title, Description: description,EndDate: endDate,StartDate: startDate}
-    )
-    .subscribe();
+    return this.httpClient
+    .put(this.api + 'events/' + id,
+    {EventId: id,Title: title, Description: description,EndDate: endDate,StartDate: startDate});
   }
 
 }
