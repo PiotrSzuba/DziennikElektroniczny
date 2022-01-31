@@ -30,9 +30,9 @@ export interface CheckBoxes {
   })
 
   export class EventsComponent implements OnInit {
-    eventsList: EventViewModel[];
-    classCheckBoxes: CheckBoxes[];
-    filteredEventsList: EventViewModel[];
+    eventsList: EventViewModel[] = [];
+    classCheckBoxes: CheckBoxes[] = [];
+    filteredEventsList: EventViewModel[] = [];
     participatorsEvents: EventParticipatorViewModel[];
     eventsParticipators: EventParticipatorViewModel[];
     filteredEventsParticipators: EventParticipatorViewModel[] = [];
@@ -104,8 +104,8 @@ export interface CheckBoxes {
     public datepipe: DatePipe, 
     private dateAdapter: DateAdapter<Date>) {
       this.dateAdapter.setLocale('pl-PL'); 
-      this.eventsList = [];
-      this.filteredEventsList = [];
+      //this.eventsList = [];
+      //this.filteredEventsList = [];
       this.participatorsEvents = [];
       this.eventsParticipators = [];
       this.studentsGroups = [];
@@ -213,7 +213,7 @@ export interface CheckBoxes {
   }
 
   formatDate(date: Date): any {
-    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm');
+    return this.datepipe.transform(date, 'dd.MM.yyyy HH:mm','UTC +1');
   }
 
   onSubmitTitle(){
@@ -269,8 +269,9 @@ export interface CheckBoxes {
         return; 
       }
       this.eventService.postEvent(this.newTitle,this.newDescription, this.endDate,this.startDate);
+
       this.cancelCreateEvent();
-      window.location.reload();
+      //window.location.reload();
       return;
     }
     this.showRestricted = true;
