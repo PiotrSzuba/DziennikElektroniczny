@@ -60,6 +60,6 @@ export class StudentsGroupService {
   }
 
   public deleteStudentGroup(id: number) {
-    return this.httpClient.delete(this.api + 'StudentsGroups');
+    return this.httpClient.delete(this.api + 'StudentsGroups/' + id);
   }
 }

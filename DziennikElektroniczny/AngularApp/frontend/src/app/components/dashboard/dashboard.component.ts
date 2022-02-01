@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonViewModel } from 'src/app/models/Person';
 import { AccountService } from 'src/app/services/account/account.service';
+import { ChoosePersonToAnswerService } from 'src/app/services/choosePersonToAnswer/choose-person-to-answer.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,15 +9,19 @@ import { AccountService } from 'src/app/services/account/account.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  public message: string = '';
-  constructor(private accountService: AccountService) {}
+  public roleList = ['Uczeń', 'Rodzic', 'Nauczyciel', 'Admin'];
+  public luckyNumberVal;
+  public account: PersonViewModel = new PersonViewModel();
+  constructor(private accountService: AccountService, private luckyNumber: ChoosePersonToAnswerService) {
+    this.luckyNumberVal = this.luckyNumber.getLuckyNumber();
+  }
 
   ngOnInit(): void {
     this.accountService
       .getCurrentLoggedPerson()
       .then((res: PersonViewModel | undefined) => {
         if (res) {
-          this.message = 'Witaj ' + res.name + ' ' + res.surname + '!';
+          this.account = res;
         }
       });
   }

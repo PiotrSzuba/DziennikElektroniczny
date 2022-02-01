@@ -3,7 +3,6 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApiRouteService } from '../../globals/api-route.service';
 import { Router } from '@angular/router';
 import { PersonViewModel } from 'src/app/models/Person';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -39,7 +38,7 @@ export class AccountService {
         return res;
       });
   }
- public getCurrentPersonFromLocalStorage(): PersonViewModel {
+  public getCurrentPersonFromLocalStorage(): PersonViewModel {
     const stringifiedPerson: string = localStorage.getItem('person') as string;
     return JSON.parse(stringifiedPerson);
   }
@@ -49,10 +48,17 @@ export class AccountService {
       .options<PersonViewModel>(this.api + 'People')
       .toPromise();
   }
+  public changePassword(newPassword: string) {
+    return this.httpClient.post(this.api + 'People/ChangePassword', {
+      newPassword: newPassword,
+    });
+  }
 
-  public getPerson(personId: number){
-    const params = new HttpParams().set('id', personId)
-    return this.httpClient.get<PersonViewModel[]>(this.api + 'People', { params: params })
+  public getPerson(personId: number) {
+    const params = new HttpParams().set('id', personId);
+    return this.httpClient.get<PersonViewModel[]>(this.api + 'People', {
+      params: params,
+    });
   }
 
   public getAllPersons(): PersonViewModel[] {

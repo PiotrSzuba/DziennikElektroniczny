@@ -1,0 +1,10 @@
+<div class="my-account-container">
+  <h2>Zmień hasło</h2>
+  <mat-form-field appearance="fill">
+    <mat-label>Nowe hasło</mat-label>
+    <input matInput type="password" [(ngModel)]="newPassword" />
+  </mat-form-field>
+  <button class="change-pas-btn" (click)="changePassword()" mat-raised-button color="accent">
+    Zapisz zmienione hasło
+  </button>
+</div>

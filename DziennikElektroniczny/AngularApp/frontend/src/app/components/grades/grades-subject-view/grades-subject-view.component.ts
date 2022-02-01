@@ -5,6 +5,7 @@ import { GradeViewModel } from 'src/app/models/Grade';
 import { PersonViewModel } from 'src/app/models/Person';
 import { AccountService } from 'src/app/services/account/account.service';
 import { GradesService } from 'src/app/services/grades/grades.service';
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
 import { AddGradeModalComponent } from './add-grade-modal/add-grade-modal.component';
 import { DeleteModifyGradeModalComponent } from './delete-modify-grade-modal/delete-modify-grade-modal.component';
 
@@ -21,6 +22,7 @@ export class GradesSubjectViewComponent implements OnInit {
   
   constructor(private gradesService: GradesService,
               private accountService: AccountService,
+              private statisticService: StatisticsService,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -55,6 +57,10 @@ export class GradesSubjectViewComponent implements OnInit {
       }
     )
   }
+
+  public getAvg(gardes: GradeViewModel[]){
+    return this.statisticService.calculateGradeAverage(gardes)
+  } 
 
   public openAddModal(studentId: number, studentDisplayName: string){
     const dialogRef = this.dialog.open(AddGradeModalComponent, {

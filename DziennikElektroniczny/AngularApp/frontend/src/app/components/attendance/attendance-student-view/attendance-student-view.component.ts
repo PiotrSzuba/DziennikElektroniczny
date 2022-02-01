@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, Observable } from 'rxjs';
 import { AttendanceViewModel } from 'src/app/models/Attendance';
 import { AttendanceService } from 'src/app/services/attendance/attendance.service';
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
 import { AddNoteComponent } from '../../notes/add-note/add-note.component';
 
 export interface AttendanceElement {
@@ -38,7 +39,9 @@ export class AttendanceStudentViewComponent implements OnInit {
   makeNoteAll: boolean = false
   buttonDisabled: boolean = true
 
-  constructor(private attendanceService: AttendanceService, private dialog: MatDialog) {}
+  constructor(private attendanceService: AttendanceService,
+              private statisticService: StatisticsService,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     if(this.parentView) this.displayedColumns = ['subjectName', 'date', 'attendance', 'absentNote', 'makeNote']
@@ -102,6 +105,12 @@ export class AttendanceStudentViewComponent implements OnInit {
         this.dataSource.data = data
       }
     )
+  }
+
+  public getFreq(){
+    let atts: AttendanceViewModel[] = []
+    for(let value of this.attendancesInfo.values()) atts.push(value)
+    return this.statisticService.calculateFrequency(atts)
   }
 
   public isMakeNoteDisabled(attendanceId: number): boolean{
