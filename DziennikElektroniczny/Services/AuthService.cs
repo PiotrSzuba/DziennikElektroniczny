@@ -40,7 +40,6 @@ namespace DziennikElektroniczny.Services
             var token = JwtBuilder.Create()
                       .WithAlgorithm(new HMACSHA256Algorithm()) // symmetric
                       .WithSecret(secret)
-                      //.AddClaim("exp", DateTimeOffset.UtcNow.AddHours(24).ToUnixTimeSeconds())
                       .AddClaim("personId", person.PersonId)
                       .Encode();
             

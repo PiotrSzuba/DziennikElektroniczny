@@ -17,7 +17,7 @@ export class ChoosePersonToAnswerService {
     let pickedNumber =
       Math.round(Math.random() * Number.MAX_SAFE_INTEGER) %
       studentsInClassCount;
-    while (pickedNumber == this.luckyNumber && presenceList[pickedNumber] == 0) {
+    while (pickedNumber == this.luckyNumber || presenceList[pickedNumber] == 0) {
       pickedNumber =
         Math.round(Math.random() * Number.MAX_SAFE_INTEGER) %
         studentsInClassCount;
