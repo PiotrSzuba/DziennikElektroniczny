@@ -141,34 +141,34 @@ export interface CheckBoxes {
       if (res) {
         this.userId = res.id;
         this.userRole = res.role;
+        this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString())).subscribe(res => this.participatorsEvents = res);
+        this.studentsGroups = this.studentsGroupService.getStudentsGroups();
+        this.studentsGroupMembers = this.StudentsGroupMemberService.getStudentsGroupMembers();
+        this.eventParticipatorService.getEventsParticipators().subscribe(res => this.eventsParticipators = res);
+    
+        this.eventService.getEventsList().subscribe(res => 
+          {
+            this.eventsList = res;
+            if(this.userRole < this.minRole){
+              var tempList: EventViewModel[] = [];
+              for(let i = 0; i < this.participatorsEvents.length; i++){
+                for(let j = 0; j < this.eventsList.length; j++){
+                  if(this.eventsList[j].id == this.participatorsEvents[i].eventId){
+                    tempList.push(this.eventsList[j]);
+                    break;
+                  }
+                }
+              }
+              this.eventsList = tempList;
+            }
+            this.filteredEventsList = this.eventsList;
+            this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate));
+            this.setShowEditFormId();
+          });
       }
     });
     //this.userId = 4; //testy
     //this.userRole = 1; //testy
-    this.eventParticipatorService.getEventParticipator(parseInt(this.userId.toString())).subscribe(res => this.participatorsEvents = res);
-    this.studentsGroups = this.studentsGroupService.getStudentsGroups();
-    this.studentsGroupMembers = this.StudentsGroupMemberService.getStudentsGroupMembers();
-    this.eventParticipatorService.getEventsParticipators().subscribe(res => this.eventsParticipators = res);
-
-    this.eventService.getEventsList().subscribe(res => 
-      {
-        this.eventsList = res;
-        if(this.userRole < this.minRole){
-          var tempList: EventViewModel[] = [];
-          for(let i = 0; i < this.participatorsEvents.length; i++){
-            for(let j = 0; j < this.eventsList.length; j++){
-              if(this.eventsList[j].id == this.participatorsEvents[i].eventId){
-                tempList.push(this.eventsList[j]);
-                break;
-              }
-            }
-          }
-          this.eventsList = tempList;
-        }
-        this.filteredEventsList = this.eventsList;
-        this.filteredEventsList = this.filteredEventsList.sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate));
-        this.setShowEditFormId();
-      });
   }
 
   setShowEditFormId(){
