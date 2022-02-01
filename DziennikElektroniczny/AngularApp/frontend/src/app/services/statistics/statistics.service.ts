@@ -31,8 +31,8 @@ export class StatisticsService {
     const allCount = attendances.length;
     let presentCount = 0;
     attendances.forEach((at) => {
-      if (at.wasPresent) presentCount++;
+      if (at.wasPresent || at.absenceNote) presentCount++;
     });
-    return presentCount / allCount;
+    return presentCount / allCount * 100;
   }
 }

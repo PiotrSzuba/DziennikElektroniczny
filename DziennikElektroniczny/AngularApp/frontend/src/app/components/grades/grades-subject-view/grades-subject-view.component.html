@@ -4,6 +4,7 @@
       *ngFor="let subjectGrade of subjectGrades | keyvalue"
     >
       <mat-card-title> {{ subjectGrade.value[0].studentDisplayName }} </mat-card-title>
+      <p>Średnia: {{getAvg(subjectGrade.value)}}</p>
       <div class="flex-wrap">
         <button
           class="grade-button"

@@ -26,6 +26,7 @@
         </mat-grid-tile>
       </mat-grid-list>
       <div class="flex-wrap" *ngIf="subject.isExpanded">
+        <p>Średnia: {{getAvg(subject.id)}}</p>
         <button
           class="grade-button"
           *ngFor="let grade of subject.grades"
