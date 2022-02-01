@@ -8,6 +8,7 @@
         [routerLink]="['attendance']"
         mat-button
         aria-label="Example icon-button with heart icon"
+        *ngIf="!loggedAsAdmin()"
       >
         Obecności
       </button>
@@ -15,6 +16,7 @@
         mat-button
         [routerLink]="['grades']"
         aria-label="Example icon-button with share icon"
+        *ngIf="!loggedAsAdmin()"
       >
         Oceny
       </button>
@@ -22,6 +24,7 @@
         mat-button
         [routerLink]="['messages']"
         aria-label="Example icon-button with share icon"
+        
       >
         Wiadomości
       </button>
@@ -36,6 +39,7 @@
         mat-button
         [routerLink]="['notes']"
         aria-label="Example icon-button with share icon"
+        *ngIf="!loggedAsAdmin()"
       >
         Uwagi
       </button>
