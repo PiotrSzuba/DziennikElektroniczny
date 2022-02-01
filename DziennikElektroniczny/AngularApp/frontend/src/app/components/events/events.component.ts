@@ -242,10 +242,6 @@ export interface CheckBoxes {
         return;
       }
       this.onSubmitNewEvent();
-      if(this.startDate < new Date()){
-        alert(" Data startowa powinna być minimalnie aktualna");
-        return; 
-      }
       if(this.startDate > this.endDate){     
 
         alert(" Data startowa powinna być wcześniej niż końcowa");
@@ -424,10 +420,6 @@ export interface CheckBoxes {
         return;
       }
       this.onSubmitEditEvent();
-      if(this.startDate < new Date()){
-        alert(" Data startowa powinna być minimalnie aktualna");
-        return; 
-      }
       if(this.startDate > this.endDate){     
 
         alert(" Data startowa powinna być wcześniej niż końcowa");
