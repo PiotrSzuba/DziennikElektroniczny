@@ -76,7 +76,7 @@ namespace DziennikElektroniczny.Constants
                         StudentPersonId = 3,
                         TeacherPersonId = 1,
                         SubjectId = 3,
-                        Value = "5--",
+                        Value = "5-",
                         Date = DateTime.Now
                     },
                     new Grade
