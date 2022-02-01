@@ -43,6 +43,7 @@ export class NotesComponent implements OnInit {
     parents: Parent[] = Array();
     selectedReceivers: PersonViewModel[] = Array();
     allComplete: boolean = false;
+    editingNote: boolean = false;
     
     constructor(
         private studentsGroupService: StudentsGroupService,
@@ -146,6 +147,13 @@ export class NotesComponent implements OnInit {
 
     deleteNote(id: Number){
       this.noteService.deleteNote(parseInt(id.toString())).subscribe((res) =>  window.location.reload());
+    }
+
+    editNote(id: Number){
+      if(this.editingNote){
+        this.editingNote = false;
+      }
+      this.editingNote = true;
     }
 
     checkBoxesCreator(){

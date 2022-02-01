@@ -24,6 +24,11 @@
     background-color: rgb(39, 39, 39);
     border-radius: 5px;
   }
+.wrapNoColor {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+  }
 
 .white-letters{
     color: white;

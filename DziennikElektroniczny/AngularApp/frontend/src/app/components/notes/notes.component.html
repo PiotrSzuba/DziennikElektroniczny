@@ -53,6 +53,12 @@
             </mat-grid-tile>
         </mat-grid-list>
         Wystawiona przez: {{note.teacherDisplayName}}
-        <button mat-stroked-button *ngIf="checkRole()" (click) = "deleteNote(note.id)" class = "align-contents-center wrap-element"> Usuń </button>
+        <div *ngIf="checkRole()"  class = "wrapNoColor white-letters">
+            <button mat-stroked-button (click) = "deleteNote(note.id)" class = "align-contents-center wrap-element"> Usuń </button>
+            <button mat-stroked-button (click) = "editNote(note.id)"  class = "align-contents-center wrap-element"> Edytuj </button>
+        </div>
+        <div *ngIf="editingNote">
+            <textarea matInput [(ngModel)]="newDescription"></textarea>
+        </div>
     </mat-card>
 </div> 
