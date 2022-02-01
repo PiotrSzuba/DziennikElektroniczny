@@ -198,6 +198,43 @@ namespace DziennikElektroniczny.Controllers
             _context.Attendance.Add(attendance);
             await _context.SaveChangesAsync();
 
+            if (attendance.WasPresent == 0)
+            {
+                var student = await _context.Person.FindAsync(attendance.StudentPersonId);
+                var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+                var lesson = await _context.Lesson.FindAsync(attendance.LessonId);
+                var teacher = await _context.Person.FindAsync(lesson.TeacherPersonId);
+                var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+                var subject = await _context.Subject.FindAsync(lesson.SubjectId);
+                var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+                var messageContent = new MessageContent
+                {
+                    Title = "Nieobecność",
+                    Content = $"Uczeń {studentInfo.Name} {studentInfo.Surname} nieobecność na lekcji {subjectInfo.Title} w dniu {lesson.Date}"
+                };
+                _context.MessageContent.Add(messageContent);
+                await _context.SaveChangesAsync();
+
+                var msgContentList = await _context.MessageContent
+                        .Where(x => x.Content.ToLower().Contains($"Uczeń {studentInfo.Name} {studentInfo.Surname} nieobecność na lekcji {subjectInfo.Title} w dniu {lesson.Date}"
+                        .ToLower()))
+                        .ToListAsync();
+
+                int msgContentID = msgContentList.Max(x => x.MessageContentId);
+
+                var message = new Message
+                {
+                    MessageContentId = msgContentID,
+                    FromPersonId = lesson.TeacherPersonId,
+                    ToPersonId = attendance.StudentPersonId,
+                    SendDate = DateTime.Now,
+                    SeenDate = DateTime.Now
+                };
+                _context.Message.Add(message);
+                await _context.SaveChangesAsync();
+            }
+
             return CreatedAtAction("GetAttendance", new { id = attendance.AttendanceId }, await CreateAttendanceView(attendance));
         }
 

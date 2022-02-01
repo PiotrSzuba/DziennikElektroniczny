@@ -55,10 +55,13 @@
         Wystawiona przez: {{note.teacherDisplayName}}
         <div *ngIf="checkRole()"  class = "wrapNoColor white-letters">
             <button mat-stroked-button (click) = "deleteNote(note.id)" class = "align-contents-center wrap-element"> Usuń </button>
-            <button mat-stroked-button (click) = "editNote(note.id)"  class = "align-contents-center wrap-element"> Edytuj </button>
+            <button mat-stroked-button (click) = "editNote(note.id,i)"  class = "align-contents-center wrap-element"> Edytuj </button>
         </div>
-        <div *ngIf="editingNote">
-            <textarea matInput [(ngModel)]="newDescription"></textarea>
+        <div *ngIf="editingNote[i]">
+            <mat-form-field class = "wrap-element-small wide-text-input" appearance="outline" (submit)="onSubmitEditDesc()">
+            <mat-label>Edytuj opis</mat-label>
+                <textarea matInput [(ngModel)]="editedDescription"></textarea>
+            </mat-form-field>
         </div>
     </mat-card>
 </div> 

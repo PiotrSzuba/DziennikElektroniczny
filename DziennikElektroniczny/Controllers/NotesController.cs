@@ -195,6 +195,39 @@ namespace DziennikElektroniczny.Controllers
             _context.Note.Add(note);
             await _context.SaveChangesAsync();
 
+            var student = await _context.Person.FindAsync(note.StudentPersonId);
+            var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+            var teacher = await _context.Person.FindAsync(note.TeacherPersonId);
+            var teacherInfo = await _context.PersonalInfo.FindAsync(teacher.PersonalInfoId);
+
+            var messageContent = new MessageContent
+            {
+                Title = "Uwaga",
+                Content = $"Nowa uwaga na koncie ucznia {studentInfo.Name} {studentInfo.Surname} o treści {note.Description} w dniu {note.Date.ToString("MM.dd.yyyy HH:mm")}"
+            };
+
+            _context.MessageContent.Add(messageContent);
+            await _context.SaveChangesAsync();
+
+            var msgContentList = await _context.MessageContent
+                    .Where(x => x.Content.ToLower().Contains($"Nowa uwaga na koncie ucznia {studentInfo.Name} {studentInfo.Surname} o treści {note.Description} w dniu {note.Date.ToString("MM.dd.yyyy HH:mm")}"
+                    .ToLower()))
+                    .ToListAsync();
+
+            int msgContentID = msgContentList.Max(x => x.MessageContentId);
+
+            var message = new Message
+            {
+                MessageContentId = msgContentID,
+                FromPersonId = note.TeacherPersonId,
+                ToPersonId = note.StudentPersonId,
+                SendDate = DateTime.Now,
+                SeenDate = DateTime.Now
+            };
+            _context.Message.Add(message);
+            await _context.SaveChangesAsync();
+
+
             return CreatedAtAction("GetNote", new { id = note.NoteId }, await CreateView(note));
         }
 

@@ -32,6 +32,11 @@ export class NoteService {
         {description: description, date: date, teacherPersonId: teacherPersonId, studentPersonId: studentPersonId});
     }
 
+    public editNote(id: number,description: String,date: Date,teacherPersonId: number,studentPersonId: number){
+        return this.httpClient.put(this.api + 'Notes/' + id,
+        {NoteId: id, description: description, date: date, teacherPersonId: teacherPersonId, studentPersonId});
+    }
+
     public deleteNote(id: number){
         return this.httpClient
         .delete(this.api + 'notes/' + id);

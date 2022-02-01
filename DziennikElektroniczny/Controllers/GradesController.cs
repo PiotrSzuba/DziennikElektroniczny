@@ -305,6 +305,37 @@ namespace DziennikElektroniczny.Controllers
             _context.Grade.Add(grade);
             await _context.SaveChangesAsync();
 
+            var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
+            var subject = await _context.Subject.FindAsync(grade.SubjectId);
+            var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
+
+            var messageContent = new MessageContent
+            {
+                Title = "Nowa ocena",
+                Content = $"Uczeń {studentInfo.Name} {studentInfo.Surname} otrzymał {grade.Value} z przedmiotu {subjectInfo.Title}"
+            };
+
+            _context.MessageContent.Add(messageContent);
+            await _context.SaveChangesAsync();
+
+            var msgContentList = await _context.MessageContent
+                    .Where(x => x.Content.ToLower().Contains($"Uczeń {studentInfo.Name} {studentInfo.Surname} zagrożony z przedmiotu {subjectInfo.Title}".ToLower()))
+                    .ToListAsync();
+
+            int msgContentID = msgContentList.Max(x => x.MessageContentId);
+
+            var message = new Message
+            {
+                MessageContentId = msgContentID,
+                FromPersonId = grade.TeacherPersonId,
+                ToPersonId = grade.StudentPersonId,
+                SendDate = DateTime.Now,
+                SeenDate = DateTime.Now
+            };
+            _context.Message.Add(message);
+            await _context.SaveChangesAsync();
+
+
             var gradesList = await _context.Grade
                         .Where(x => x.StudentPersonId == grade.StudentPersonId)
                         .ToListAsync();
@@ -323,34 +354,26 @@ namespace DziennikElektroniczny.Controllers
                     gradesValue =+ parsedVal;
                 }
             }
+
             double average = gradesValue / gradesAmount;
             if (average <= 2.0)
             {
-                var studentInfo = await _context.PersonalInfo.FindAsync(student.PersonalInfoId);
-                var subject = await _context.Subject.FindAsync(grade.SubjectId);
-                var subjectInfo = await _context.SubjectInfo.FindAsync(subject.SubjectInfoId);
-
-                var messageContent = new MessageContent
+                var messageContentV2 = new MessageContent
                 {
                     Title = "Zagrożenie",
                     Content = $"Uczeń {studentInfo.Name} {studentInfo.Surname} zagrożony z przedmiotu {subjectInfo.Title}"
                 };
 
-                _context.MessageContent.Add(messageContent);
+                _context.MessageContent.Add(messageContentV2);
                 await _context.SaveChangesAsync();
 
-                var msgContentList = await _context.MessageContent
+                var msgContentListV2 = await _context.MessageContent
                         .Where(x => x.Content.ToLower().Contains($"Uczeń {studentInfo.Name} {studentInfo.Surname} zagrożony z przedmiotu {subjectInfo.Title}".ToLower()))
                         .ToListAsync();
 
-                int msgContentID = 0;
+                int msgContentIDV2 = msgContentListV2.Max(x => x.MessageContentId);
 
-                if(msgContentList.Count > 1)
-                {
-                    msgContentID = msgContentList.Max(x => x.MessageContentId);
-                }
-
-                var message = new Message
+                var messageV2 = new Message
                 {
                     MessageContentId = msgContentID,
                     FromPersonId = grade.TeacherPersonId,
@@ -358,7 +381,7 @@ namespace DziennikElektroniczny.Controllers
                     SendDate = DateTime.Now,
                     SeenDate = DateTime.Now
                 };
-                _context.Message.Add(message);
+                _context.Message.Add(messageV2);
                 await _context.SaveChangesAsync();
             }
 

@@ -43,7 +43,10 @@ export class NotesComponent implements OnInit {
     parents: Parent[] = Array();
     selectedReceivers: PersonViewModel[] = Array();
     allComplete: boolean = false;
-    editingNote: boolean = false;
+    editingNote: boolean[] = [];
+    editedDescription: String = "";
+    editingDivOpen: Number = -1;
+    
     
     constructor(
         private studentsGroupService: StudentsGroupService,
@@ -60,6 +63,7 @@ export class NotesComponent implements OnInit {
 
 
     ngOnInit(){
+      this.editingDivOpen = -1;
       this.accountService
       .getCurrentLoggedPerson()
       .then((res: PersonViewModel | undefined) => {
@@ -109,7 +113,6 @@ export class NotesComponent implements OnInit {
                             if(personId > 0){
                                this.peopleService.getPerson(parseInt(personId.toString())).subscribe((res) =>{
                                 (this.selectedReceivers = res);
-                                this.messagesService.sendMsg(this.selectedReceivers, "Uwaga", "Nowa uwaga na koncie ucznia");
                                 this.noteService.postNote(this.newDescription,new Date(),parseInt(this.userId.toString()),parseInt(personId.toString()))
                                 .subscribe((res) => window.location.reload());
                                 });
@@ -149,13 +152,32 @@ export class NotesComponent implements OnInit {
       this.noteService.deleteNote(parseInt(id.toString())).subscribe((res) =>  window.location.reload());
     }
 
-    editNote(id: Number){
-      if(this.editingNote){
-        this.editingNote = false;
+    editNote(noteId: number,id: Number){
+      if(this.editingDivOpen == -1){
+        this.editingDivOpen = id;
+        this.editedDescription = this.allNotes[parseInt(id.toString())].description;
+        this.editingNote[parseInt(id.toString())] = true;
+        return;
       }
-      this.editingNote = true;
+      if(id != this.editingDivOpen){
+        this.editingNote[parseInt(this.editingDivOpen.toString())] = false;
+        this.editingNote[parseInt(id.toString())] = true;
+        this.editingDivOpen = id;
+        this.editedDescription = this.allNotes[parseInt(id.toString())].description;
+        return;
+      }
+      if(this.editingNote[parseInt(id.toString())]){
+        this.editingNote[parseInt(this.editingDivOpen.toString())] = false;
+        this.editingDivOpen = -1;
+        this.noteService.editNote(parseInt(noteId.toString()),this.editedDescription,this.allNotes[parseInt(id.toString())].date,this.allNotes[parseInt(id.toString())].teacherPersonId,this.allNotes[parseInt(id.toString())].studentPersonId)
+        .subscribe((res) =>window.location.reload());
+        return;
+      }
     }
 
+    onSubmitEditDesc(){
+
+    }
     checkBoxesCreator(){
         for(let i = 0; i < this.studentsGroups.length; i++)
         {
